@@ -40,9 +40,15 @@ export const POST: APIRoute = async ({ request }) => {
     const sectorTag = body.sector || 'General';
     const modules = body.cinematic ? 'Web + Video' : 'Web Only';
 
+    // 👇 AQUÍ ESTABAN LOS CAMBIOS IMPORTANTES 👇
     const { error } = await resend.emails.send({
-      from: 'Acme <onboarding@resend.dev>',
-      to: ['delivered@resend.dev'],
+      // 1. CAMBIO: Usar tu dominio verificado
+      from: 'Lyrix Digital <notifications@lyrixdigital.com>', 
+      
+      // 2. CAMBIO: Poner tu correo personal para recibir las alertas
+      // (Pon aquí tu gmail real, ej: 'juan@gmail.com')
+      to: ['lyrixdigitals@gmail.com'], 
+      
       replyTo: body.email,
       subject: `[LEAD] ${body.name} — ${sectorTag} — ${modules}`,
       html,
