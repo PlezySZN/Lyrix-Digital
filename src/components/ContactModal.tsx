@@ -13,18 +13,14 @@ import CustomSelect from './CustomSelect';
 import {
   $contactModalOpen,
   $contactSubject,
+  $contactPreset,
   closeContactModal,
+  type ContactPreset,
 } from '../stores/modalStore';
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
 
 // ─── DATA ───
-
-const sectors = [
-  { value: '', label: 'Select Sector...' },
-  { value: 'Industry', label: 'Contractors & Trades' },
-  { value: 'Creative', label: 'Artists & Producers' },
-  { value: 'Personal', label: 'Blogs & Portfolios' },
-  { value: 'Business', label: 'Business & Startup' },
-];
 
 const budgetRanges = [
   '$1K–$3K',
@@ -33,17 +29,27 @@ const budgetRanges = [
   '$10K+',
 ];
 
-const maintenanceModes = [
-  { value: 'managed', label: 'Managed Mode', desc: 'We handle everything' },
-  { value: 'handover', label: 'Handover Mode', desc: 'You take the keys' },
-  { value: 'undecided', label: 'Undecided', desc: 'Discuss later' },
-];
-
 // ─── COMPONENT ───
 
-export default function ContactModal() {
+export default function ContactModal({ lang = 'es' }: { lang?: Lang }) {
+  const t = useTranslations(lang);
+
+  const sectors = [
+    { value: '', label: t('contact.sector.placeholder') },
+    { value: 'Industry', label: t('contact.sector.industry') },
+    { value: 'Creative', label: t('contact.sector.creative') },
+    { value: 'Personal', label: t('contact.sector.personal') },
+    { value: 'Business', label: t('contact.sector.business') },
+  ];
+
+  const maintenanceModes = [
+    { value: 'managed', label: t('contact.maintenance.managed'), desc: t('contact.maintenance.managed.desc') },
+    { value: 'handover', label: t('contact.maintenance.handover'), desc: t('contact.maintenance.handover.desc') },
+    { value: 'undecided', label: t('contact.maintenance.undecided'), desc: t('contact.maintenance.undecided.desc') },
+  ];
   const isOpen = useStore($contactModalOpen);
   const prefilledSubject = useStore($contactSubject);
+  const preset = useStore($contactPreset);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -56,12 +62,42 @@ export default function ContactModal() {
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  // Sync pre-filled subject when modal opens
+  // ─── PRESET MAPPING ───
+  const presetToSector: Record<ContactPreset, string> = {
+    INDUSTRY: 'Industry',
+    CREATIVE: 'Creative',
+    PERSONAL: 'Personal',
+    '': '',
+  };
+
+  const presetTitleKey: Record<ContactPreset, string> = {
+    INDUSTRY: 'contact.titlebar.industry',
+    CREATIVE: 'contact.titlebar.creative',
+    PERSONAL: 'contact.titlebar.personal',
+    '': 'contact.titlebar',
+  };
+
+  const presetPlaceholderKey: Record<ContactPreset, string> = {
+    INDUSTRY: 'contact.placeholder.industry',
+    CREATIVE: 'contact.placeholder.creative',
+    PERSONAL: 'contact.placeholder.personal',
+    '': 'contact.message.placeholder',
+  };
+
+  // Resolve dynamic values
+  const modalTitle = t(presetTitleKey[preset || ''] as any);
+  const messagePlaceholder = t(presetPlaceholderKey[preset || ''] as any);
+
+  // Sync pre-filled subject / preset when modal opens
   useEffect(() => {
-    if (isOpen && prefilledSubject) {
-      setSector(prefilledSubject);
+    if (isOpen) {
+      if (preset) {
+        setSector(presetToSector[preset] || '');
+      } else if (prefilledSubject) {
+        setSector(prefilledSubject);
+      }
     }
-  }, [isOpen, prefilledSubject]);
+  }, [isOpen, prefilledSubject, preset]);
 
   // Lock body scroll when open
   useEffect(() => {
@@ -136,7 +172,7 @@ export default function ContactModal() {
               </div>
               <div className="flex-1 text-center">
                 <span className="text-xs font-mono text-white/40 tracking-wide">
-                  System_Config.form
+                  {modalTitle}
                 </span>
               </div>
               <button
@@ -158,10 +194,10 @@ export default function ContactModal() {
                   <Send className="w-7 h-7 text-[#CCFF00]" />
                 </div>
                 <h3 className="text-xl font-semibold text-white mb-2">
-                  Transmission Sent
+                  {t('contact.submitted.title')}
                 </h3>
                 <p className="text-sm text-white/50 font-mono">
-                  {'>'} Response ETA: {'<'}24 hours
+                  {t('contact.submitted.eta')}
                 </p>
               </motion.div>
             ) : (
@@ -170,21 +206,21 @@ export default function ContactModal() {
                 <div className="flex items-center gap-2 mb-1">
                   <div className="w-2 h-2 rounded-full bg-[#CCFF00] animate-pulse" />
                   <span className="text-xs font-mono text-white/40 uppercase tracking-wider">
-                    Initialize Project Request
+                    {t('contact.init')}
                   </span>
                 </div>
 
                 {/* Name */}
                 <div>
                   <label className="block text-xs font-mono text-white/40 mb-1.5 uppercase tracking-wider">
-                    Name *
+                    {t('contact.name')}
                   </label>
                   <input
                     type="text"
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="John Torres"
+                    placeholder={t('contact.name.placeholder')}
                     className="w-full px-4 py-3 rounded-lg bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 font-mono focus:outline-none focus:border-[#CCFF00]/40 focus:ring-1 focus:ring-[#CCFF00]/20 transition-all"
                   />
                 </div>
@@ -192,14 +228,14 @@ export default function ContactModal() {
                 {/* Email */}
                 <div>
                   <label className="block text-xs font-mono text-white/40 mb-1.5 uppercase tracking-wider">
-                    Email *
+                    {t('contact.email')}
                   </label>
                   <input
                     type="email"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="john@company.com"
+                    placeholder={t('contact.email.placeholder')}
                     className="w-full px-4 py-3 rounded-lg bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 font-mono focus:outline-none focus:border-[#CCFF00]/40 focus:ring-1 focus:ring-[#CCFF00]/20 transition-all"
                   />
                 </div>
@@ -207,31 +243,31 @@ export default function ContactModal() {
                 {/* Phone */}
                 <div>
                   <label className="block text-xs font-mono text-white/40 mb-1.5 uppercase tracking-wider">
-                    Phone
+                    {t('contact.phone')}
                   </label>
                   <input
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    placeholder="(787) 555-0100"
+                    placeholder={t('contact.phone.placeholder')}
                     className="w-full px-4 py-3 rounded-lg bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 font-mono focus:outline-none focus:border-[#CCFF00]/40 focus:ring-1 focus:ring-[#CCFF00]/20 transition-all"
                   />
                 </div>
 
                 {/* Sector Dropdown */}
                 <CustomSelect
-                  label="Sector"
+                  label={t('contact.sector')}
                   options={sectors}
                   value={sector}
                   onChange={setSector}
                   required
-                  placeholder="Select Sector..."
+                  placeholder={t('contact.sector.placeholder')}
                 />
 
                 {/* Maintenance Protocol */}
                 <div>
                   <label className="block text-xs font-mono text-white/40 mb-2 uppercase tracking-wider">
-                    Maintenance Protocol
+                    {t('contact.maintenance')}
                   </label>
                   <div className="grid grid-cols-3 gap-2">
                     {maintenanceModes.map((mode) => (
@@ -261,7 +297,7 @@ export default function ContactModal() {
                 {/* Budget Range */}
                 <div>
                   <label className="block text-xs font-mono text-white/40 mb-2 uppercase tracking-wider">
-                    Budget Range
+                    {t('contact.budget')}
                   </label>
                   <div className="flex flex-wrap gap-2">
                     {budgetRanges.map((range) => (
@@ -286,13 +322,13 @@ export default function ContactModal() {
                 {/* Message */}
                 <div>
                   <label className="block text-xs font-mono text-white/40 mb-1.5 uppercase tracking-wider">
-                    Mission Brief
+                    {t('contact.message')}
                   </label>
                   <textarea
                     rows={4}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Describe your project scope, goals, and timeline..."
+                    placeholder={messagePlaceholder}
                     className="w-full px-4 py-3 rounded-lg bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 font-mono focus:outline-none focus:border-[#CCFF00]/40 focus:ring-1 focus:ring-[#CCFF00]/20 transition-all resize-none"
                   />
                 </div>
@@ -304,12 +340,12 @@ export default function ContactModal() {
                   whileTap={{ scale: 0.98 }}
                   className="w-full py-4 rounded-xl bg-[#CCFF00] text-black font-bold text-sm font-mono tracking-wider hover:shadow-lg hover:shadow-[#CCFF00]/20 transition-shadow duration-300"
                 >
-                  {'>'} TRANSMIT_REQUEST
+                  {t('contact.submit')}
                 </motion.button>
 
                 {/* Footer note */}
                 <p className="text-center text-xs font-mono text-white/20">
-                  Encrypted • Response ETA: {'<'}24hrs • No spam
+                  {t('contact.footer')}
                 </p>
               </form>
             )}

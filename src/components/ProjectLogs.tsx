@@ -10,6 +10,8 @@ import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { ExternalLink, ChevronRight } from 'lucide-react';
 import { openProjectModal } from '../stores/modalStore';
 import OsWindow from './OsWindow';
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
 
 // ─── DATA ───
 
@@ -21,7 +23,7 @@ interface Project {
   status: string;
   year: string;
   description: string;
-  previewGradient: [string, string]; // placeholder gradient colors
+  previewGradient: [string, string];
   previews?: Array<{
     type: 'gradient' | 'image';
     background: [string, string] | string;
@@ -29,88 +31,96 @@ interface Project {
   }>;
 }
 
-const projects: Project[] = [
+// Structural data only (non-translatable).
+// Translatable fields (type, status, description, preview labels) are resolved inside the component.
+const projectStructure = [
   {
     id: '#001',
     client: 'Solar Elite PR',
-    type: 'WEB_DEV',
     typeColor: 'text-blue-400',
-    status: 'DEPLOYED',
     year: '2025',
-    description: 'High-conversion landing page with real-time energy calculator and automated lead pipeline.',
-    previewGradient: ['#1a1a2e', '#16213e'],
-    previews: [
-      { type: 'gradient', background: ['#1a1a2e', '#16213e'], label: 'Homepage' },
-      { type: 'gradient', background: ['#0f1419', '#1a2328'], label: 'Calculator' },
-      { type: 'gradient', background: ['#1a1a0e', '#2e2116'], label: 'Contact Form' },
-    ],
+    previewGradient: ['#1a1a2e', '#16213e'] as [string, string],
+    previewGradients: [
+      ['#1a1a2e', '#16213e'],
+      ['#0f1419', '#1a2328'],
+      ['#1a1a0e', '#2e2116'],
+    ] as [string, string][],
   },
   {
     id: '#002',
     client: 'Bad Bunny Trap',
-    type: 'MUSIC_PRODUCTION',
     typeColor: 'text-purple-400',
-    status: 'DEPLOYED',
     year: '2025',
-    description: 'Cinematic visual identity and promotional media for urban music release campaign.',
-    previewGradient: ['#2d1b69', '#11001c'],
-    previews: [
-      { type: 'gradient', background: ['#2d1b69', '#11001c'], label: 'Album Cover' },
-      { type: 'gradient', background: ['#4a1c69', '#2d0a3c'], label: 'Music Video' },
-      { type: 'gradient', background: ['#1b2d69', '#001c11'], label: 'Social Assets' },
-    ],
+    previewGradient: ['#2d1b69', '#11001c'] as [string, string],
+    previewGradients: [
+      ['#2d1b69', '#11001c'],
+      ['#4a1c69', '#2d0a3c'],
+      ['#1b2d69', '#001c11'],
+    ] as [string, string][],
   },
   {
     id: '#003',
     client: 'Cafe Boricua',
-    type: 'BRANDING',
     typeColor: 'text-amber-400',
-    status: 'DEPLOYED',
     year: '2024',
-    description: 'Complete brand overhaul including identity system, packaging, and digital presence.',
-    previewGradient: ['#1a120b', '#2d1f10'],
-    previews: [
-      { type: 'gradient', background: ['#1a120b', '#2d1f10'], label: 'Logo Design' },
-      { type: 'gradient', background: ['#2d1f10', '#1a120b'], label: 'Packaging' },
-      { type: 'gradient', background: ['#2d2010', '#1a1f0b'], label: 'Website' },
-    ],
+    previewGradient: ['#1a120b', '#2d1f10'] as [string, string],
+    previewGradients: [
+      ['#1a120b', '#2d1f10'],
+      ['#2d1f10', '#1a120b'],
+      ['#2d2010', '#1a1f0b'],
+    ] as [string, string][],
   },
   {
     id: '#004',
     client: 'Torres Roofing Co.',
-    type: 'WEB_DEV',
     typeColor: 'text-blue-400',
-    status: 'DEPLOYED',
     year: '2024',
-    description: 'Authority website with before/after gallery, 5-star review integration, and SEO dominance.',
-    previewGradient: ['#0a1a0a', '#0f2b0f'],
-    previews: [
-      { type: 'gradient', background: ['#0a1a0a', '#0f2b0f'], label: 'Homepage' },
-      { type: 'gradient', background: ['#1a0a0a', '#2b0f0f'], label: 'Gallery' },
-      { type: 'gradient', background: ['#0a0a1a', '#0f0f2b'], label: 'Reviews' },
-      { type: 'gradient', background: ['#1a1a0a', '#2b2b0f'], label: 'Contact' },
-    ],
+    previewGradient: ['#0a1a0a', '#0f2b0f'] as [string, string],
+    previewGradients: [
+      ['#0a1a0a', '#0f2b0f'],
+      ['#1a0a0a', '#2b0f0f'],
+      ['#0a0a1a', '#0f0f2b'],
+      ['#1a1a0a', '#2b2b0f'],
+    ] as [string, string][],
   },
   {
     id: '#005',
     client: 'Neon District Studio',
-    type: 'MUSIC_VIDEO',
     typeColor: 'text-pink-400',
-    status: 'DEPLOYED',
     year: '2025',
-    description: 'Editorial product photography and visual campaign for boutique fashion studio.',
-    previewGradient: ['#1a0a1a', '#2b0f2b'],
-    previews: [
-      { type: 'gradient', background: ['#1a0a1a', '#2b0f2b'], label: 'Main Shot' },
-      { type: 'gradient', background: ['#0a1a1a', '#0f2b2b'], label: 'Behind Scenes' },
-      { type: 'gradient', background: ['#1a1a0a', '#2b2b0f'], label: 'Product Grid' },
-    ],
+    previewGradient: ['#1a0a1a', '#2b0f2b'] as [string, string],
+    previewGradients: [
+      ['#1a0a1a', '#2b0f2b'],
+      ['#0a1a1a', '#0f2b2b'],
+      ['#1a1a0a', '#2b2b0f'],
+    ] as [string, string][],
   },
 ];
 
 // ─── COMPONENT ───
 
-export default function ProjectLogs() {
+export default function ProjectLogs({ lang = 'es' }: { lang?: Lang }) {
+  const t = useTranslations(lang);
+
+  // Build translated project entries from structural data + i18n dictionary
+  const projects: Project[] = projectStructure.map((p, i) => {
+    const n = i + 1;
+    const previewLabels = p.previewGradients.map((_, j) =>
+      t(`logs.p${n}.preview${j + 1}` as any)
+    );
+    return {
+      ...p,
+      type: t(`logs.p${n}.type` as any),
+      status: t(`logs.p${n}.status` as any),
+      description: t(`logs.p${n}.description` as any),
+      previews: p.previewGradients.map((grad, j) => ({
+        type: 'gradient' as const,
+        background: grad,
+        label: previewLabels[j],
+      })),
+    };
+  });
+
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
@@ -146,14 +156,17 @@ export default function ProjectLogs() {
             <div className="flex items-center gap-2 mb-2">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
               <span className="text-xs font-mono text-white/40 uppercase tracking-wider">
-                {projects.length} Records Found
+                {t('logs.status').replace('{count}', String(projects.length))}
               </span>
             </div>
             <h2 className="text-2xl md:text-3xl font-semibold text-white tracking-tight">
-              Execution Logs
+              {t('logs.title')}
             </h2>
+            <p className="text-xs font-mono text-[#CCFF00]/60 uppercase tracking-widest mt-1">
+              {t('logs.subtitle')}
+            </p>
             <p className="text-sm text-white/40 mt-2 max-w-xl">
-              Verified deployments. Every record is a live, measurable result.
+              {t('logs.description')}
             </p>
           </motion.div>
 
@@ -164,11 +177,11 @@ export default function ProjectLogs() {
             transition={{ duration: 0.4, delay: 0.25 }}
             className="hidden md:grid grid-cols-[60px_1fr_140px_120px_80px_40px] gap-4 px-4 py-2 border-b border-white/5 text-xs font-mono text-white/30 uppercase tracking-wider"
           >
-            <span>ID</span>
-            <span>Client</span>
-            <span>Type</span>
-            <span>Status</span>
-            <span>Year</span>
+            <span>{t('logs.table.id')}</span>
+            <span>{t('logs.table.client')}</span>
+            <span>{t('logs.table.type')}</span>
+            <span>{t('logs.table.status')}</span>
+            <span>{t('logs.table.year')}</span>
             <span />
           </motion.div>
 
@@ -265,7 +278,7 @@ export default function ProjectLogs() {
                               background: `linear-gradient(135deg, ${project.previewGradient[0]}, ${project.previewGradient[1]})`,
                             }}
                           >
-                            <span className="text-xs font-mono text-white/30">tap to view details</span>
+                            <span className="text-xs font-mono text-white/30">{t('logs.preview.tap')}</span>
                           </button>
                         </div>
                       </motion.div>
@@ -283,8 +296,8 @@ export default function ProjectLogs() {
             transition={{ duration: 0.5, delay: 0.8 }}
             className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-white/30"
           >
-            <span>Showing {projects.length} of {projects.length} records</span>
-            <span>Last updated: 2025.12.01</span>
+            <span>{t('logs.footer.showing').replace('{count}', String(projects.length)).replace('{total}', String(projects.length))}</span>
+            <span>{t('logs.footer.updated')}</span>
           </motion.div>
         </div>
       </motion.div>

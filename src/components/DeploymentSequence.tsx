@@ -10,6 +10,8 @@ import { motion, useScroll, useTransform, useInView, useMotionValueEvent } from 
 import { Radar, Code2, Rocket } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import OsWindow from './OsWindow';
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
 
 // ─── DATA ───
 
@@ -21,28 +23,10 @@ interface StepNode {
   icon: LucideIcon;
 }
 
-const steps: StepNode[] = [
-  {
-    id: '01',
-    label: 'SCAN',
-    title: 'Discovery',
-    description: 'We analyze your current digital footprint and identify growth vectors.',
-    icon: Radar,
-  },
-  {
-    id: '02',
-    label: 'COMPILE',
-    title: 'Development',
-    description: 'We build your custom architecture using Astro & React. No bloatware.',
-    icon: Code2,
-  },
-  {
-    id: '03',
-    label: 'GO_LIVE',
-    title: 'Launch',
-    description: 'System deployment to global CDNs. Instant indexing on Google.',
-    icon: Rocket,
-  },
+const defaultSteps: StepNode[] = [
+  { id: '01', label: 'SCAN', title: 'Discovery', description: '', icon: Radar },
+  { id: '02', label: 'COMPILE', title: 'Development', description: '', icon: Code2 },
+  { id: '03', label: 'GO_LIVE', title: 'Launch', description: '', icon: Rocket },
 ];
 
 // ─── NODE COMPONENT ───
@@ -124,11 +108,19 @@ function ProcessNode({
 
 // ─── MAIN COMPONENT ───
 
-export default function DeploymentSequence() {
+export default function DeploymentSequence({ lang = 'es' }: { lang?: Lang }) {
+  const t = useTranslations(lang);
   const containerRef = useRef<HTMLDivElement>(null);
   const pathSectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: '-80px' });
   const [activeNodes, setActiveNodes] = useState<number>(0);
+
+  // i18n step data
+  const steps: StepNode[] = [
+    { id: '01', label: t('deploy.step1.label'), title: t('deploy.step1.title'), description: t('deploy.step1.description'), icon: Radar },
+    { id: '02', label: t('deploy.step2.label'), title: t('deploy.step2.title'), description: t('deploy.step2.description'), icon: Code2 },
+    { id: '03', label: t('deploy.step3.label'), title: t('deploy.step3.title'), description: t('deploy.step3.description'), icon: Rocket },
+  ];
 
   // Scroll-linked animation for the SVG path
   const { scrollYProgress } = useScroll({
@@ -167,14 +159,17 @@ export default function DeploymentSequence() {
             <div className="flex items-center gap-2 mb-2">
               <div className="w-2 h-2 rounded-full bg-[#CCFF00] animate-pulse" />
               <span className="text-xs font-mono text-white/40 uppercase tracking-wider">
-                3-Phase Protocol
+                {t('deploy.status')}
               </span>
             </div>
             <h2 className="text-2xl md:text-3xl font-semibold text-white tracking-tight">
-              Deployment Sequence
+              {t('deploy.title')}
             </h2>
+            <p className="text-xs font-mono text-[#CCFF00]/60 uppercase tracking-widest mt-1">
+              {t('deploy.subtitle')}
+            </p>
             <p className="text-sm text-white/40 mt-2 max-w-xl">
-              A streamlined initiation process. No meetings that should be emails. No scope creep.
+              {t('deploy.description')}
             </p>
           </motion.div>
 
@@ -327,12 +322,12 @@ export default function DeploymentSequence() {
             transition={{ duration: 0.5, delay: 0.8 }}
             className="mt-10 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-white/30"
           >
-            <span>Protocol: Standard</span>
+            <span>{t('deploy.footer.protocol')}</span>
             <span className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[#CCFF00] animate-pulse" />
-              <span>Timeline: 2-4 Weeks</span>
+              <span>{t('deploy.footer.timeline')}</span>
             </span>
-            <span>Priority: High</span>
+            <span>{t('deploy.footer.priority')}</span>
           </motion.div>
         </div>
       </motion.div>

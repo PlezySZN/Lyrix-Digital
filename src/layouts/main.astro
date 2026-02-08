@@ -1,26 +1,33 @@
 ---
 import '../styles/global.css';
+import { t } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
 
 interface Props {
+  lang?: Lang;
   title?: string;
   description?: string;
 }
 
-const { 
-  title = 'Lyrix Digital — Premier Work. Premier Image.',
-  description = 'High-end digital solutions for contractors, creatives, and professionals.'
+const {
+  lang = 'es',
+  title,
+  description,
 } = Astro.props;
+
+const resolvedTitle = title ?? t(lang, 'meta.title');
+const resolvedDescription = description ?? t(lang, 'meta.description');
 ---
 
-<html lang="en">
+<html lang={lang}>
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="description" content={description} />
+		<meta name="description" content={resolvedDescription} />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
+		<title>{resolvedTitle}</title>
 	</head>
 	<body class="antialiased">
 		<slot />

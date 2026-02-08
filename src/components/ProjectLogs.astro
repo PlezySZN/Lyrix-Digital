@@ -6,7 +6,11 @@
  * ═══════════════════════════════════════════════════════════
  */
 
+import type { Lang } from '../i18n/ui';
 import ProjectLogsComponent from './ProjectLogs';
+
+interface Props { lang?: Lang; }
+const { lang = 'es' } = Astro.props;
 ---
 
-<ProjectLogsComponent client:visible />
+<ProjectLogsComponent lang={lang} client:visible />

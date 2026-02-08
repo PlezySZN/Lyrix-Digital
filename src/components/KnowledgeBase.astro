@@ -6,7 +6,11 @@
  * ═══════════════════════════════════════════════════════════
  */
 
+import type { Lang } from '../i18n/ui';
 import KnowledgeBaseComponent from './KnowledgeBase';
+
+interface Props { lang?: Lang; }
+const { lang = 'es' } = Astro.props;
 ---
 
-<KnowledgeBaseComponent client:visible />
+<KnowledgeBaseComponent lang={lang} client:visible />

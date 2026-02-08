@@ -8,6 +8,8 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import OsWindow from './OsWindow';
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
 
 // ─── DATA ───
 
@@ -28,7 +30,7 @@ const packets: TelemetryPacket[] = [
     source: 'San Juan, PR',
     signal: 100,
     latency: '12ms',
-    payload: 'System deployment was instant. Lyrix architecture increased our leads by 300% in week one.',
+    payload: 'El despliegue fue inmediato. La arquitectura Lyrix aumentó nuestros leads un 300% en la primera semana.',
     user: 'Carlos R.',
     role: 'CEO',
     clientType: 'CONTRACTOR',
@@ -48,7 +50,7 @@ const packets: TelemetryPacket[] = [
     source: 'Ponce, PR',
     signal: 95,
     latency: '15ms',
-    payload: 'Best investment for Q4. ROI was immediate and the system handles peak traffic flawlessly.',
+    payload: 'La mejor inversión del Q4. El ROI fue inmediato y el sistema maneja el tráfico pico sin problemas.',
     user: 'José M.',
     role: 'Owner',
     clientType: 'RETAIL',
@@ -155,7 +157,8 @@ function DataPacket({ packet }: { packet: TelemetryPacket }) {
 
 // ─── MAIN COMPONENT ───
 
-export default function ClientTelemetry() {
+export default function ClientTelemetry({ lang = 'es' }: { lang?: Lang }) {
+  const t = useTranslations(lang);
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: '-80px' });
 
@@ -183,14 +186,14 @@ export default function ClientTelemetry() {
             <div className="flex items-center gap-2 mb-2">
               <div className="w-2 h-2 rounded-full bg-[#CCFF00] animate-pulse" />
               <span className="text-xs font-mono text-white/40 uppercase tracking-wider">
-                Live Data Stream
+                {t('telemetry.status')}
               </span>
             </div>
             <h2 className="text-2xl md:text-3xl font-semibold text-white tracking-tight">
-              Client Telemetry
+              {t('telemetry.title')}
             </h2>
             <p className="text-sm text-white/40 mt-2 max-w-xl">
-              Real-time feedback from deployed systems across Puerto Rico.
+              {t('telemetry.description')}
             </p>
           </motion.div>
 
@@ -228,12 +231,12 @@ export default function ClientTelemetry() {
             transition={{ duration: 0.5, delay: 0.5 }}
             className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-white/30"
           >
-            <span>{packets.length} active connections</span>
+            <span>{t('telemetry.footer.connections').replace('{count}', String(packets.length))}</span>
             <span className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[#CCFF00] animate-pulse" />
-              <span>Stream: LIVE</span>
+              <span>{t('telemetry.footer.stream')}</span>
             </span>
-            <span>Avg latency: 10.2ms</span>
+            <span>{t('telemetry.footer.latency')}</span>
           </motion.div>
         </div>
       </motion.div>

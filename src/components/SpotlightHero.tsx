@@ -9,7 +9,9 @@ import { useState, useRef, useEffect, useCallback, type MouseEvent } from 'react
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { Briefcase, Music, User } from 'lucide-react';
 import FolderCard from './FolderCard';
-import { openContactModal } from '../stores/modalStore';
+import { openContactModal, type ContactPreset } from '../stores/modalStore';
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
 
 interface Particle {
   id: number;
@@ -17,7 +19,8 @@ interface Particle {
   y: number;
 }
 
-export default function SpotlightHero() {
+export default function SpotlightHero({ lang = 'es' }: { lang?: Lang }) {
+  const t = useTranslations(lang);
   const [particles, setParticles] = useState<Particle[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLDivElement>(null);
@@ -77,28 +80,38 @@ export default function SpotlightHero() {
     },
   };
 
-  // Folder data
-  const folders = [
+  // Folder data — i18n + preset mapping
+  const folders: Array<{
+    name: string;
+    extension: string;
+    icon: typeof Briefcase;
+    meta: string;
+    size: string;
+    preset: ContactPreset;
+  }> = [
     {
-      name: 'Industry',
+      name: t('hero.folder.industry'),
       extension: 'folder',
       icon: Briefcase,
-      meta: 'For Contractors & Business',
-      size: 'Unlimited',
+      meta: t('hero.folder.industry.meta'),
+      size: t('hero.folder.size'),
+      preset: 'INDUSTRY',
     },
     {
-      name: 'Creative',
+      name: t('hero.folder.creative'),
       extension: 'folder',
       icon: Music,
-      meta: 'For Artists & Producers',
-      size: 'Unlimited',
+      meta: t('hero.folder.creative.meta'),
+      size: t('hero.folder.size'),
+      preset: 'CREATIVE',
     },
     {
-      name: 'Personal',
+      name: t('hero.folder.personal'),
       extension: 'folder',
       icon: User,
-      meta: 'For Blogs & Portfolios',
-      size: 'Unlimited',
+      meta: t('hero.folder.personal.meta'),
+      size: t('hero.folder.size'),
+      preset: 'PERSONAL',
     },
   ];
 
@@ -122,7 +135,7 @@ export default function SpotlightHero() {
           {/* Window Title */}
           <div className="flex-1 text-center">
             <span className="text-xs font-medium text-white/40 tracking-wide">
-              Lyrix Digital — Finder
+              {t('hero.finder')}
             </span>
           </div>
 
@@ -175,15 +188,15 @@ export default function SpotlightHero() {
           >
             <motion.h1
               variants={wordVariants}
-              className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-white mb-3"
+              className="text-4xl md:text-5xl lg:text-7xl font-semibold tracking-tight text-white mb-3"
             >
-              YOUR DIGITAL
+              {t('hero.headline1')}
             </motion.h1>
             <motion.h1
               variants={wordVariants}
-              className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-white/60"
+              className="text-4xl md:text-5xl lg:text-7xl font-semibold tracking-tight text-white/60"
             >
-              IMAGE
+              {t('hero.headline2')}
             </motion.h1>
           </motion.div>
 
@@ -203,7 +216,7 @@ export default function SpotlightHero() {
                 meta={folder.meta}
                 size={folder.size}
                 delay={index * 0.1}
-                onClick={() => openContactModal(folder.name)}
+                onClick={() => openContactModal(folder.preset)}
               />
             ))}
           </motion.div>

@@ -6,20 +6,24 @@
  * ═══════════════════════════════════════════════════════════
  */
 
+import type { Lang } from '../i18n/ui';
 import SpotlightHero from './SpotlightHero';
 import StatusBar from './StatusBar';
 import ContactModal from './ContactModal';
 import ProjectModal from './ProjectModal';
+
+interface Props { lang?: Lang; }
+const { lang = 'es' } = Astro.props;
 ---
 
 <section class="relative">
   <!-- React Island: Spotlight Hero with Finder Navigation -->
-  <SpotlightHero client:load />
+  <SpotlightHero lang={lang} client:load />
   
   <!-- React Island: Status Bar Footer -->
-  <StatusBar client:load />
+  <StatusBar lang={lang} client:load />
   
   <!-- Global Modals (loaded once, accessible from any component via nanostores) -->
-  <ContactModal client:load />
-  <ProjectModal client:load />
+  <ContactModal lang={lang} client:load />
+  <ProjectModal lang={lang} client:load />
 </section>

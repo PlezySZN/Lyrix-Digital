@@ -6,7 +6,11 @@
  * ═══════════════════════════════════════════════════════════
  */
 
+import type { Lang } from '../i18n/ui';
 import DeploymentSequenceComponent from './DeploymentSequence';
+
+interface Props { lang?: Lang; }
+const { lang = 'es' } = Astro.props;
 ---
 
-<DeploymentSequenceComponent client:visible />
+<DeploymentSequenceComponent lang={lang} client:visible />

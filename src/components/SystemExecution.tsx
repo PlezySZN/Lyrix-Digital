@@ -5,87 +5,89 @@
  * ═══════════════════════════════════════════════════════════
  */
 
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Terminal, ArrowRight } from 'lucide-react';
 import { openContactModal } from '../stores/modalStore';
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
 
-// ─── BLINKING CURSOR HOOK ───
+// ─── ROBUST TYPEWRITER HOOK ───
+// All mutable state lives in refs so setTimeout closures never go stale.
 
-function useBlinkingCursor() {
-  const [show, setShow] = useState(true);
-  
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setShow(prev => !prev);
-    }, 500);
-    
-    return () => clearInterval(interval);
-  }, []);
-  
-  return show;
-}
+function useTypewriter(
+  phrases: string[],
+  { typeSpeed = 80, deleteSpeed = 40, pauseAfterType = 2500, pauseAfterDelete = 400 } = {},
+) {
+  const [display, setDisplay] = useState('');
+  const idx = useRef(0);        // current phrase index
+  const char = useRef(0);       // current character position
+  const deleting = useRef(false);
+  const raf = useRef<ReturnType<typeof setTimeout>>();
 
-// ─── CYCLING TYPEWRITER HOOK ───
+  // Keep phrases in a ref so the effect doesn't restart when
+  // the parent re-renders with the same translated array.
+  const phrasesRef = useRef(phrases);
+  phrasesRef.current = phrases;
 
-const statusMessages = [
-  'SYSTEM STATUS: READY FOR DEPLOYMENT',
-  'AWAITING INPUT...',
-  'SECURE CONNECTION ESTABLISHED',
-  'ALL MODULES OPERATIONAL',
-];
+  const tick = useCallback(() => {
+    const list = phrasesRef.current;
+    if (!list.length) return;
+    const current = list[idx.current % list.length] || '';
 
-function useCyclingTypewriter(messages: string[], typingSpeed = 40, pauseDuration = 2500) {
-  const [text, setText] = useState('');
-  const [messageIndex, setMessageIndex] = useState(0);
+    if (!deleting.current) {
+      // ─── TYPING ───
+      char.current++;
+      setDisplay(current.slice(0, char.current));
 
-  useEffect(() => {
-    const currentMessage = messages[messageIndex];
-    let charIndex = 0;
-    let isDeleting = false;
-    let timeout: ReturnType<typeof setTimeout>;
-
-    const tick = () => {
-      if (!isDeleting) {
-        // Typing forward
-        setText(currentMessage.slice(0, charIndex + 1));
-        charIndex++;
-        if (charIndex >= currentMessage.length) {
-          // Pause at the end before deleting
-          timeout = setTimeout(() => {
-            isDeleting = true;
-            tick();
-          }, pauseDuration);
-          return;
-        }
-        timeout = setTimeout(tick, typingSpeed);
-      } else {
-        // Deleting
-        setText(currentMessage.slice(0, charIndex));
-        charIndex--;
-        if (charIndex < 0) {
-          isDeleting = false;
-          setMessageIndex((prev) => (prev + 1) % messages.length);
-          return;
-        }
-        timeout = setTimeout(tick, typingSpeed / 2);
+      if (char.current >= current.length) {
+        // Finished typing — pause, then start deleting
+        raf.current = setTimeout(() => {
+          deleting.current = true;
+          tick();
+        }, pauseAfterType);
+        return;
       }
-    };
+      raf.current = setTimeout(tick, typeSpeed);
+    } else {
+      // ─── DELETING ───
+      char.current--;
+      setDisplay(current.slice(0, char.current));
 
-    tick();
-    return () => clearTimeout(timeout);
-  }, [messageIndex, messages, typingSpeed, pauseDuration]);
+      if (char.current <= 0) {
+        // Finished deleting — advance phrase, pause, then type next
+        deleting.current = false;
+        idx.current = (idx.current + 1) % list.length;
+        raf.current = setTimeout(tick, pauseAfterDelete);
+        return;
+      }
+      raf.current = setTimeout(tick, deleteSpeed);
+    }
+  }, [typeSpeed, deleteSpeed, pauseAfterType, pauseAfterDelete]);
 
-  return text;
+  useEffect(() => {
+    raf.current = setTimeout(tick, pauseAfterDelete);
+    return () => clearTimeout(raf.current);
+  }, [tick, pauseAfterDelete]);
+
+  return display;
 }
 
 // ─── MAIN COMPONENT ───
 
-export default function SystemExecution() {
+export default function SystemExecution({ lang = 'es' }: { lang?: Lang }) {
+  const t = useTranslations(lang);
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: '-80px' });
-  const showCursor = useBlinkingCursor();
-  const statusText = useCyclingTypewriter(statusMessages);
+
+  const statusMessages = [
+    t('cta.status1'),
+    t('cta.status2'),
+    t('cta.status3'),
+    t('cta.status4'),
+  ];
+
+  const statusText = useTypewriter(statusMessages);
 
   return (
     <section ref={containerRef} className="relative w-full bg-[#111111] py-16 md:py-24">
@@ -124,7 +126,7 @@ export default function SystemExecution() {
               <div className="flex items-center gap-2 flex-1 justify-center">
                 <Terminal className="w-4 h-4 text-[#CCFF00]/60" />
                 <span className="text-sm font-mono text-[#CCFF00]/60 tracking-wide">
-                  Command_Center.terminal
+                  {t('cta.terminal')}
                 </span>
               </div>
               <div className="w-14" />
@@ -144,18 +146,18 @@ export default function SystemExecution() {
                   <span className="text-sm font-mono text-white/60">
                     {statusText}
                   </span>
-                  <span className={`text-sm font-mono text-[#CCFF00] ${showCursor ? 'opacity-100' : 'opacity-0'}`}>
+                  <span className="text-sm font-mono text-[#CCFF00] animate-pulse">
                     █
                   </span>
                 </div>
                 
                 <div className="flex items-center gap-2 text-xs font-mono text-white/40">
                   <div className="w-2 h-2 rounded-full bg-[#CCFF00] animate-pulse" />
-                  <span>All systems operational</span>
+                  <span>{t('cta.systems')}</span>
                   <span className="mx-2">•</span>
-                  <span>Q1 2026 slots available</span>
+                  <span>{t('cta.slots')}</span>
                   <span className="mx-2">•</span>
-                  <span>Response time: &lt;24hrs</span>
+                  <span>{t('cta.response')}</span>
                 </div>
               </motion.div>
 
@@ -167,13 +169,13 @@ export default function SystemExecution() {
                 className="text-center mb-8"
               >
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 tracking-tight leading-tight">
-                  Initialize Your Digital
+                  {t('cta.headline1')}
                   <br />
-                  <span className="text-[#CCFF00]">Transformation</span>
+                  <span className="text-[#CCFF00]">{t('cta.headline2')}</span>
                 </h2>
                 
                 <p className="text-lg md:text-xl text-white/60 max-w-2xl mx-auto leading-relaxed">
-                  Slots for Q1 are limited. Secure your high-performance architecture today.
+                  {t('cta.subheadline')}
                 </p>
               </motion.div>
 
@@ -196,7 +198,7 @@ export default function SystemExecution() {
                   {/* Button content */}
                   <div className="relative flex items-center justify-center gap-3">
                     <span className="font-mono tracking-wider">
-                      {'> EXECUTE_PROJECT'}
+                      {t('cta.button')}
                     </span>
                     <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform duration-300" />
                   </div>
@@ -214,13 +216,13 @@ export default function SystemExecution() {
                 className="text-center"
               >
                 <p className="text-sm text-white/40 font-mono mb-4">
-                  No contracts. No retainers. No bullshit.
+                  {t('cta.trust')}
                 </p>
                 
                 <div className="flex items-center justify-center gap-6 text-xs font-mono text-white/30">
-                  <span>✓ 2-4 week delivery</span>
-                  <span>✓ Source code included</span>
-                  <span>✓ 90-day support</span>
+                  <span>{t('cta.delivery')}</span>
+                  <span>{t('cta.source')}</span>
+                  <span>{t('cta.support')}</span>
                 </div>
               </motion.div>
             </div>
@@ -235,18 +237,18 @@ export default function SystemExecution() {
           className="mt-12 text-center"
         >
           <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 text-xs font-mono text-white/20">
-            <span>Lyrix Digital © 2026</span>
+            <span>{t('cta.copyright')}</span>
             <span className="hidden md:inline">|</span>
             <a href="#" className="hover:text-white/40 transition-colors duration-200">
-              Privacy.txt
+              {t('cta.privacy')}
             </a>
             <span className="hidden md:inline">|</span>
             <a href="#" className="hover:text-white/40 transition-colors duration-200">
-              Terms.md
+              {t('cta.terms')}
             </a>
             <span className="hidden md:inline">|</span>
             <a href="#" className="hover:text-white/40 transition-colors duration-200">
-              IG: @lyrix
+              {t('cta.social')}
             </a>
           </div>
         </motion.footer>

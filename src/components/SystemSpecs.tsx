@@ -10,48 +10,51 @@ import { motion, useInView } from 'framer-motion';
 import { Cpu, Aperture, Activity } from 'lucide-react';
 import SpecModule from './SpecModule';
 import OsWindow from './OsWindow';
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
 
-export default function SystemSpecs() {
+export default function SystemSpecs({ lang = 'es' }: { lang?: Lang }) {
+  const t = useTranslations(lang);
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: '-100px' });
 
-  // Service modules data
+  // Service modules data — i18n
   const modules = [
     {
       icon: Cpu,
-      title: 'DIGITAL HEADQUARTERS',
-      codeName: 'Web_Engine',
+      title: t('specs.module1.title'),
+      codeName: t('specs.module1.codeName'),
       specs: [
-        { label: 'SPEED', value: 'Instant Load Time (0.5s)' },
-        { label: 'DEVICE', value: 'Mobile-First Architecture' },
-        { label: 'SECURITY', value: 'Bank-Grade Encryption' },
-        { label: 'SYSTEM', value: 'Auto-Booking & Lead Capture' },
+        { label: 'SPEED', value: t('specs.module1.speed') },
+        { label: 'DEVICE', value: t('specs.module1.device') },
+        { label: 'SECURITY', value: t('specs.module1.security') },
+        { label: 'SYSTEM', value: t('specs.module1.system') },
       ],
-      description: 'Not just a website. A 24/7 sales employee that captures leads, ranks on Google, and works perfectly on any phone.',
+      description: t('specs.module1.description'),
       isOptional: false,
     },
     {
       icon: Aperture,
-      title: 'CINEMATIC AUTHORITY',
-      codeName: 'Media_Engine',
+      title: t('specs.module2.title'),
+      codeName: t('specs.module2.codeName'),
       specs: [
-        { label: 'QUALITY', value: 'Netflix/Cinema Standard' },
-        { label: 'FORMAT', value: 'Social Media Ready' },
-        { label: 'DRONE', value: '4K Aerial Surveillance' },
+        { label: 'QUALITY', value: t('specs.module2.quality') },
+        { label: 'FORMAT', value: t('specs.module2.format') },
+        { label: 'DRONE', value: t('specs.module2.drone') },
       ],
-      description: 'Your work is premium; your image should match. We deploy film crews to capture your projects, making your competition look amateur.',
+      description: t('specs.module2.description'),
       isOptional: true,
     },
     {
       icon: Activity,
-      title: 'MARKET DOMINATION',
-      codeName: 'Growth_Engine',
+      title: t('specs.module3.title'),
+      codeName: t('specs.module3.codeName'),
       specs: [
-        { label: 'RANKING', value: 'Google Maps Priority' },
-        { label: 'TARGET', value: 'High-Net-Worth Client Filtering' },
-        { label: 'STATUS', value: 'Competitor Displacement' },
+        { label: 'RANKING', value: t('specs.module3.ranking') },
+        { label: 'TARGET', value: t('specs.module3.target') },
+        { label: 'STATUS', value: t('specs.module3.status') },
       ],
-      description: 'Stop chasing clients. We engineer your system to appear exactly when high-value customers are searching for your services.',
+      description: t('specs.module3.description'),
       isOptional: true,
     },
   ];
@@ -77,14 +80,17 @@ export default function SystemSpecs() {
             <div className="flex items-center gap-2 mb-2">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
               <span className="text-xs font-mono text-white/40 uppercase tracking-wider">
-                All Systems Operational
+                {t('specs.status')}
               </span>
             </div>
             <h2 className="text-2xl md:text-3xl font-semibold text-white tracking-tight">
-              Business Capabilities
+              {t('specs.title')}
             </h2>
+            <p className="text-xs font-mono text-[#CCFF00]/60 uppercase tracking-widest mt-1">
+              {t('specs.subtitle')}
+            </p>
             <p className="text-sm text-white/40 mt-2 max-w-xl">
-              Revenue-generating systems engineered for contractors, creatives, and professionals who demand results.
+              {t('specs.description')}
             </p>
           </motion.div>
 
@@ -111,9 +117,9 @@ export default function SystemSpecs() {
             transition={{ duration: 0.5, delay: 0.8 }}
             className="mt-8 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-white/30"
           >
-            <span>3 modules loaded</span>
-            <span>Revenue: Optimized</span>
-            <span>Status: Ready for Deployment</span>
+            <span>{t('specs.footer.modules')}</span>
+            <span>{t('specs.footer.revenue')}</span>
+            <span>{t('specs.footer.status')}</span>
           </motion.div>
         </div>
       </motion.div>

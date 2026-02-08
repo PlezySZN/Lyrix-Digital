@@ -1,0 +1,41 @@
+---
+/**
+ * ═══════════════════════════════════════════════════════════
+ * LYRIX OS — LANDING PAGE (i18n)
+ * Dark Mode Operating System Aesthetic
+ * Route: /es/ or /en/
+ * ═══════════════════════════════════════════════════════════
+ */
+
+import { getLangFromUrl } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
+import Layout from '../../layouts/main.astro';
+import Hero from '../../components/Hero.astro';
+import SystemSpecs from '../../components/SystemSpecs.astro';
+import ProjectLogs from '../../components/ProjectLogs.astro';
+import DeploymentSequence from '../../components/DeploymentSequence.astro';
+import ClientTelemetry from '../../components/ClientTelemetry.astro';
+import KnowledgeBase from '../../components/KnowledgeBase.astro';
+import SystemExecution from '../../components/SystemExecution.astro';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'es' } },
+    { params: { lang: 'en' } },
+  ];
+}
+
+const lang = getLangFromUrl(Astro.url) as Lang;
+---
+
+<Layout lang={lang}>
+	<main>
+		<Hero lang={lang} />
+		<ProjectLogs lang={lang} />
+		<SystemSpecs lang={lang} />
+		<ClientTelemetry lang={lang} />
+		<DeploymentSequence lang={lang} />
+		<KnowledgeBase lang={lang} />
+		<SystemExecution lang={lang} />
+	</main>
+</Layout>

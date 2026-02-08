@@ -14,8 +14,11 @@ import {
   $activeProject,
   closeProjectModal,
 } from '../stores/modalStore';
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
 
-export default function ProjectModal() {
+export default function ProjectModal({ lang = 'es' }: { lang?: Lang }) {
+  const t = useTranslations(lang);
   const isOpen = useStore($projectModalOpen);
   const project = useStore($activeProject);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -63,10 +66,10 @@ export default function ProjectModal() {
 
   // Meta data grid
   const metaFields = [
-    { label: 'Client', value: project.client, icon: Tag },
-    { label: 'Type', value: project.type.replace('_', ' '), icon: Activity },
-    { label: 'Status', value: project.status, icon: Activity },
-    { label: 'Year', value: project.year, icon: Calendar },
+    { label: t('project.meta.client'), value: project.client, icon: Tag },
+    { label: t('project.meta.type'), value: project.type.replace('_', ' '), icon: Activity },
+    { label: t('project.meta.status'), value: project.status, icon: Activity },
+    { label: t('project.meta.year'), value: project.year, icon: Calendar },
   ];
 
   return (
@@ -104,7 +107,7 @@ export default function ProjectModal() {
               </div>
               <div className="flex-1 text-center">
                 <span className="text-xs font-mono text-white/40 tracking-wide">
-                  File_Properties — {project.id}
+                  {t('project.titlebar').replace('{id}', project.id)}
                 </span>
               </div>
               <button
@@ -234,7 +237,7 @@ export default function ProjectModal() {
                 <div className="flex items-center gap-1.5 mb-2">
                   <span className="text-xs font-mono text-[#CCFF00]/60">{'>'}</span>
                   <span className="text-xs font-mono text-white/40 uppercase tracking-wider">
-                    Mission Brief
+                    {t('project.brief')}
                   </span>
                 </div>
                 <p className="text-sm text-white/70 leading-relaxed">
@@ -250,7 +253,7 @@ export default function ProjectModal() {
                   onClick={closeProjectModal}
                   className="flex-1 py-3 rounded-lg border border-white/10 bg-white/[0.03] text-sm font-mono text-white/60 hover:bg-white/[0.06] hover:text-white/80 transition-all"
                 >
-                  Close
+                  {t('project.close')}
                 </motion.button>
                 <motion.button
                   whileHover={{ scale: 1.02 }}
@@ -258,7 +261,7 @@ export default function ProjectModal() {
                   className="flex-1 py-3 rounded-lg bg-[#CCFF00] text-black text-sm font-mono font-bold hover:shadow-lg hover:shadow-[#CCFF00]/20 transition-shadow duration-300 flex items-center justify-center gap-2"
                 >
                   <ExternalLink className="w-4 h-4" />
-                  View Live
+                  {t('project.viewLive')}
                 </motion.button>
               </div>
             </div>

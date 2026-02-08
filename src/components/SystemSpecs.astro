@@ -6,7 +6,11 @@
  * ═══════════════════════════════════════════════════════════
  */
 
+import type { Lang } from '../i18n/ui';
 import SystemSpecsComponent from './SystemSpecs';
+
+interface Props { lang?: Lang; }
+const { lang = 'es' } = Astro.props;
 ---
 
-<SystemSpecsComponent client:visible />
+<SystemSpecsComponent lang={lang} client:visible />

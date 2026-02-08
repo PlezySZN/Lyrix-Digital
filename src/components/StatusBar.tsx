@@ -16,6 +16,7 @@ import {
   Rocket,
   Radio,
   BookOpen,
+  Globe,
 } from 'lucide-react';
 import { useStore } from '@nanostores/react';
 import { openContactModal } from '../stores/modalStore';
@@ -28,6 +29,8 @@ import {
   type WindowId,
   type WindowState,
 } from '../stores/windowStore';
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
 
 // ─── ICON MAP ───
 
@@ -116,8 +119,17 @@ function DockItem({ id, state }: { id: WindowId; state: WindowState }) {
 
 // ─── MAIN STATUS BAR ───
 
-export default function StatusBar() {
+export default function StatusBar({ lang = 'es' }: { lang?: Lang }) {
+  const t = useTranslations(lang);
   const windows = useStore($windows);
+
+  // Language switcher — swaps /es/ <-> /en/ in the URL
+  const otherLang: Lang = lang === 'es' ? 'en' : 'es';
+  const handleLangSwitch = () => {
+    const currentPath = window.location.pathname;
+    const newPath = currentPath.replace(`/${lang}`, `/${otherLang}`);
+    window.location.href = newPath || `/${otherLang}/`;
+  };
 
   return (
     <motion.footer
@@ -141,7 +153,7 @@ export default function StatusBar() {
           </span>
           <div className="h-3 w-px bg-white/10 hidden md:block" />
           <span className="text-xs text-white/30 hidden md:inline">
-            Ready
+            {t('statusbar.ready')}
           </span>
         </div>
 
@@ -167,6 +179,21 @@ export default function StatusBar() {
 
           <div className="h-3 w-px bg-white/10" />
 
+          {/* Language Toggle */}
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleLangSwitch}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-200"
+          >
+            <Globe className="w-3 h-3 text-[#CCFF00]/60" />
+            <span className="text-xs font-mono">
+              <span className={lang === 'es' ? 'text-[#CCFF00]' : 'text-white/40'}>ES</span>
+              <span className="text-white/20 mx-0.5">/</span>
+              <span className={lang === 'en' ? 'text-[#CCFF00]' : 'text-white/40'}>EN</span>
+            </span>
+          </motion.button>
+
           {/* Contact button */}
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -175,7 +202,7 @@ export default function StatusBar() {
             className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-200"
           >
             <MessageCircle className="w-3.5 h-3.5 text-white/60" />
-            <span className="text-xs text-white/60">Contact</span>
+            <span className="text-xs text-white/60">{t('statusbar.contact')}</span>
           </motion.button>
         </div>
       </div>

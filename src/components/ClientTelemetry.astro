@@ -6,7 +6,11 @@
  * ═══════════════════════════════════════════════════════════
  */
 
+import type { Lang } from '../i18n/ui';
 import ClientTelemetryComponent from './ClientTelemetry';
+
+interface Props { lang?: Lang; }
+const { lang = 'es' } = Astro.props;
 ---
 
-<ClientTelemetryComponent client:visible />
+<ClientTelemetryComponent lang={lang} client:visible />

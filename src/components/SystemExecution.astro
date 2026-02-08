@@ -6,9 +6,13 @@
  * ═══════════════════════════════════════════════════════════
  */
 
+import type { Lang } from '../i18n/ui';
 import SystemExecutionComponent from './SystemExecution';
+
+interface Props { lang?: Lang; }
+const { lang = 'es' } = Astro.props;
 ---
 
 <section id="execute">
-  <SystemExecutionComponent client:visible />
+  <SystemExecutionComponent lang={lang} client:visible />
 </section>
