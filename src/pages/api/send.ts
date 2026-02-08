@@ -41,8 +41,8 @@ export const POST: APIRoute = async ({ request }) => {
     const modules = body.cinematic ? 'Web + Video' : 'Web Only';
 
     const { error } = await resend.emails.send({
-      from: 'Lyrix Digital <notifications@lyrixdigital.com>',
-      to: ['hello@lyrixdigital.com'],
+      from: 'Acme <onboarding@resend.dev>',
+      to: ['delivered@resend.dev'],
       replyTo: body.email,
       subject: `[LEAD] ${body.name} — ${sectorTag} — ${modules}`,
       html,
