@@ -8,7 +8,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useStore } from '@nanostores/react';
-import { X, Send } from 'lucide-react';
+import { X, Send, Film, Loader2 } from 'lucide-react';
 import CustomSelect from './CustomSelect';
 import {
   $contactModalOpen,
@@ -57,8 +57,11 @@ export default function ContactModal({ lang = 'es' }: { lang?: Lang }) {
   const [sector, setSector] = useState('');
   const [maintenance, setMaintenance] = useState('undecided');
   const [budget, setBudget] = useState('');
+  const [cinematic, setCinematic] = useState(false);
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState('');
 
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -120,21 +123,49 @@ export default function ContactModal({ lang = 'es' }: { lang?: Lang }) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    // In production, this would POST to an API endpoint
-    setTimeout(() => {
-      setSubmitted(false);
-      setName('');
-      setEmail('');
-      setPhone('');
-      setSector('');
-      setMaintenance('undecided');
-      setBudget('');
-      setMessage('');
-      closeContactModal();
-    }, 2000);
+    setSending(true);
+    setError('');
+
+    try {
+      const res = await fetch('/api/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          sector,
+          maintenance,
+          budget,
+          cinematic,
+          message,
+          lang,
+        }),
+      });
+
+      if (!res.ok) throw new Error('API error');
+
+      setSubmitted(true);
+      setTimeout(() => {
+        setSubmitted(false);
+        setName('');
+        setEmail('');
+        setPhone('');
+        setSector('');
+        setMaintenance('undecided');
+        setBudget('');
+        setCinematic(false);
+        setMessage('');
+        setError('');
+        closeContactModal();
+      }, 2500);
+    } catch {
+      setError(t('contact.error'));
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -333,14 +364,127 @@ export default function ContactModal({ lang = 'es' }: { lang?: Lang }) {
                   />
                 </div>
 
+                {/* ─── CINEMATIC PRODUCTION TOGGLE ─── */}
+                <div>
+                  <label className="block text-xs font-mono text-white/40 mb-2 uppercase tracking-wider">
+                    {t('contact.cinematic')}
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setCinematic(!cinematic)}
+                    className={`
+                      w-full flex items-center gap-3 p-4 rounded-lg border transition-all duration-300
+                      ${cinematic
+                        ? 'border-[#CCFF00]/40 bg-[#CCFF00]/5 shadow-[0_0_20px_rgba(204,255,0,0.08)]'
+                        : 'border-white/5 bg-white/[0.01] hover:border-white/10 hover:bg-white/[0.02]'
+                      }
+                    `}
+                  >
+                    <div className={`
+                      flex items-center justify-center w-10 h-10 rounded-md transition-all duration-300
+                      ${cinematic
+                        ? 'bg-[#CCFF00]/10 border border-[#CCFF00]/30'
+                        : 'bg-white/[0.03] border border-white/10'
+                      }
+                    `}>
+                      <Film className={`w-5 h-5 transition-colors duration-300 ${cinematic ? 'text-[#CCFF00]' : 'text-white/40'}`} />
+                    </div>
+                    <div className="flex-1 text-left">
+                      <span className={`block text-xs font-mono font-semibold tracking-wider transition-colors duration-300 ${cinematic ? 'text-[#CCFF00]' : 'text-white/60'}`}>
+                        {t('contact.cinematic.toggle')}
+                      </span>
+                      <span className="block text-[10px] text-white/30 mt-0.5">
+                        {t('contact.cinematic.desc')}
+                      </span>
+                    </div>
+                    {/* ── Track ── */}
+                    <div className={`
+                      relative w-12 h-6 rounded-md shrink-0 transition-colors duration-300 ease-in-out
+                      ${cinematic ? 'bg-[#CCFF00]' : 'bg-zinc-800'}
+                    `}>
+                      {/* ── Thumb ── */}
+                      <div
+                        className={`
+                          absolute top-1 w-4 h-4 rounded-sm bg-black transition-transform duration-300 ease-in-out
+                          ${cinematic ? 'translate-x-[26px]' : 'translate-x-1'}
+                        `}
+                      />
+                    </div>
+                  </button>
+                </div>
+
+                {/* ─── LIVE MANIFEST SUMMARY ─── */}
+                {sector && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="rounded-lg border border-white/5 bg-white/[0.02] overflow-hidden"
+                  >
+                    <div className="px-4 py-2.5 border-b border-white/5 bg-white/[0.02]">
+                      <span className="text-[10px] font-mono text-white/30 uppercase tracking-widest">
+                        {t('contact.manifest')}
+                      </span>
+                    </div>
+                    <div className="px-4 py-3 space-y-1.5 font-mono text-xs">
+                      <div className="flex gap-2">
+                        <span className="text-[#CCFF00]/60">&gt;</span>
+                        <span className="text-white/30">{t('contact.manifest.target')}:</span>
+                        <span className="text-white/70">{sectors.find(s => s.value === sector)?.label || '—'}</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <span className="text-[#CCFF00]/60">&gt;</span>
+                        <span className="text-white/30">{t('contact.manifest.budget' as any)}:</span>
+                        <span className="text-white/70">{budget || t('contact.manifest.budget.pending' as any)}</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <span className="text-[#CCFF00]/60">&gt;</span>
+                        <span className="text-white/30">{t('contact.manifest.protocol')}:</span>
+                        <span className="text-white/70">
+                          {maintenanceModes.find(m => m.value === maintenance)?.label || '—'}
+                        </span>
+                      </div>
+                      <div className="flex gap-2">
+                        <span className="text-[#CCFF00]/60">&gt;</span>
+                        <span className="text-white/30">{t('contact.manifest.modules')}:</span>
+                        <span className="text-white/70">
+                          {t('contact.manifest.module.web')}{cinematic ? ` ${t('contact.manifest.module.video')}` : ''}
+                        </span>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* Error Display */}
+                {error && (
+                  <div className="px-4 py-3 rounded-lg border border-red-500/30 bg-red-500/5 text-xs font-mono text-red-400">
+                    {error}
+                  </div>
+                )}
+
                 {/* Submit Button */}
                 <motion.button
                   type="submit"
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full py-4 rounded-xl bg-[#CCFF00] text-black font-bold text-sm font-mono tracking-wider hover:shadow-lg hover:shadow-[#CCFF00]/20 transition-shadow duration-300"
+                  disabled={sending}
+                  whileHover={{ scale: sending ? 1 : 1.01 }}
+                  whileTap={{ scale: sending ? 1 : 0.98 }}
+                  className={`
+                    w-full py-4 rounded-xl font-bold text-sm font-mono tracking-wider transition-all duration-300 flex items-center justify-center gap-2
+                    ${sending
+                      ? 'bg-[#CCFF00]/50 text-black/50 cursor-wait'
+                      : 'bg-[#CCFF00] text-black hover:shadow-lg hover:shadow-[#CCFF00]/20'
+                    }
+                  `}
                 >
-                  {t('contact.submit')}
+                  {sending ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      {t('contact.sending')}
+                    </>
+                  ) : (
+                    t('contact.submit')
+                  )}
                 </motion.button>
 
                 {/* Footer note */}

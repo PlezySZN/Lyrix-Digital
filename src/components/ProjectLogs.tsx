@@ -153,6 +153,11 @@ export default function ProjectLogs({ lang = 'es' }: { lang?: Lang }) {
             transition={{ duration: 0.5, delay: 0.15 }}
             className="mb-6"
           >
+            <div className="inline-flex items-center gap-2 mb-4 px-3 py-1.5 rounded-lg bg-[#CCFF00]/10 border border-[#CCFF00]/20">
+              <span className="text-xs font-mono font-bold text-[#CCFF00] uppercase tracking-widest">
+                {t('logs.section.label')}
+              </span>
+            </div>
             <div className="flex items-center gap-2 mb-2">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
               <span className="text-xs font-mono text-white/40 uppercase tracking-wider">

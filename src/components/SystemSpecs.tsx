@@ -21,6 +21,18 @@ export default function SystemSpecs({ lang = 'es' }: { lang?: Lang }) {
   // Service modules data — i18n
   const modules = [
     {
+      icon: Aperture,
+      title: t('specs.module2.title'),
+      codeName: t('specs.module2.codeName'),
+      specs: [
+        { label: 'QUALITY', value: t('specs.module2.quality') },
+        { label: 'FORMAT', value: t('specs.module2.format') },
+        { label: 'DRONE', value: t('specs.module2.drone') },
+      ],
+      description: t('specs.module2.description'),
+      isOptional: true,
+    },
+        {
       icon: Cpu,
       title: t('specs.module1.title'),
       codeName: t('specs.module1.codeName'),
@@ -32,18 +44,6 @@ export default function SystemSpecs({ lang = 'es' }: { lang?: Lang }) {
       ],
       description: t('specs.module1.description'),
       isOptional: false,
-    },
-    {
-      icon: Aperture,
-      title: t('specs.module2.title'),
-      codeName: t('specs.module2.codeName'),
-      specs: [
-        { label: 'QUALITY', value: t('specs.module2.quality') },
-        { label: 'FORMAT', value: t('specs.module2.format') },
-        { label: 'DRONE', value: t('specs.module2.drone') },
-      ],
-      description: t('specs.module2.description'),
-      isOptional: true,
     },
     {
       icon: Activity,
@@ -77,6 +77,11 @@ export default function SystemSpecs({ lang = 'es' }: { lang?: Lang }) {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="mb-8"
           >
+            <div className="inline-flex items-center gap-2 mb-4 px-3 py-1.5 rounded-lg bg-[#CCFF00]/10 border border-[#CCFF00]/20">
+              <span className="text-xs font-mono font-bold text-[#CCFF00] uppercase tracking-widest">
+                {t('specs.section.label')}
+              </span>
+            </div>
             <div className="flex items-center gap-2 mb-2">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
               <span className="text-xs font-mono text-white/40 uppercase tracking-wider">

@@ -19,6 +19,7 @@ interface KnowledgeEntry {
   question: string;
   answer: string;
   category: string;
+  _response: string;
 }
 
 const knowledgeIds = ['Q001', 'Q002', 'Q003', 'Q004', 'Q005', 'Q006', 'Q007', 'Q008'] as const;
@@ -121,7 +122,7 @@ export default function KnowledgeBase({ lang = 'es' }: { lang?: Lang }) {
   const isInView = useInView(containerRef, { once: true, margin: '-60px' });
 
   // Build FAQ entries from i18n dictionary
-  const knowledgeEntries: (KnowledgeEntry & { _response: string })[] = knowledgeIds.map((_, i) => {
+  const knowledgeEntries: KnowledgeEntry[] = knowledgeIds.map((_, i) => {
     const n = i + 1;
     const qKey = `kb.q${n}.question` as keyof ReturnType<typeof t> & string;
     const aKey = `kb.q${n}.answer` as keyof ReturnType<typeof t> & string;
@@ -148,7 +149,7 @@ export default function KnowledgeBase({ lang = 'es' }: { lang?: Lang }) {
   };
 
   return (
-    <OsWindow id="manual" className="relative w-full bg-[#050505] px-4 md:px-8 py-8">
+    <OsWindow id="manual" className="relative w-full bg-[#050505] px-4 md:px-8 pb-8">
     <section ref={containerRef}>
       {/* ─── CONTENT (window frame provided by OsWindow) ─── */}
       <motion.div

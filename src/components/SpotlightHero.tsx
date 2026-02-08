@@ -1,23 +1,73 @@
 /**
  * ═══════════════════════════════════════════════════════════
  * SPOTLIGHT HERO — LYRIX OS
- * macOS-inspired window with particle trail cursor effect
+ * macOS-inspired window with text-scramble headline
+ * and a single "Master Node" CTA folder
  * ═══════════════════════════════════════════════════════════
  */
 
 import { useState, useRef, useEffect, useCallback, type MouseEvent } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { Briefcase, Music, User } from 'lucide-react';
-import FolderCard from './FolderCard';
-import { openContactModal, type ContactPreset } from '../stores/modalStore';
+import { FolderOpen, ArrowRight } from 'lucide-react';
+import { openContactModal } from '../stores/modalStore';
 import { useTranslations } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
+
+// ─── TEXT SCRAMBLE HOOK ───
+// Decrypts text character-by-character from random glyphs
+
+const GLYPHS = 'X#01!>_░▒▓█▀▄';
+
+function useTextScramble(text: string, { delay = 0, duration = 1200, trigger = true } = {}) {
+  const [display, setDisplay] = useState('');
+  const frameRef = useRef<ReturnType<typeof setTimeout>>(0);
+
+  useEffect(() => {
+    if (!trigger) { setDisplay(''); return; }
+
+    const chars = text.split('');
+    const total = chars.length;
+    const perChar = duration / total;
+    let revealed = 0;
+
+    const startTimeout = setTimeout(() => {
+      // Tick: reveal one more real character per interval
+      const tick = () => {
+        revealed++;
+        const out = chars.map((ch, i) => {
+          if (i < revealed) return ch;
+          return GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+        }).join('');
+        setDisplay(out);
+
+        if (revealed < total) {
+          frameRef.current = setTimeout(tick, perChar);
+        }
+      };
+
+      // Initial scrambled state
+      setDisplay(chars.map(() => GLYPHS[Math.floor(Math.random() * GLYPHS.length)]).join(''));
+      frameRef.current = setTimeout(tick, perChar);
+    }, delay);
+
+    return () => {
+      clearTimeout(startTimeout);
+      clearTimeout(frameRef.current);
+    };
+  }, [text, delay, duration, trigger]);
+
+  return display;
+}
+
+// ─── PARTICLE ───
 
 interface Particle {
   id: number;
   x: number;
   y: number;
 }
+
+// ─── MAIN COMPONENT ───
 
 export default function SpotlightHero({ lang = 'es' }: { lang?: Lang }) {
   const t = useTranslations(lang);
@@ -27,93 +77,43 @@ export default function SpotlightHero({ lang = 'es' }: { lang?: Lang }) {
   const isInView = useInView(headlineRef, { once: true, margin: '-100px' });
   const particleIdRef = useRef(0);
 
-  // Particle trail effect - add new particle on mouse move
+  // Scramble headline text
+  const scrambledHeadline = useTextScramble(t('hero.headline'), {
+    delay: 400,
+    duration: 1400,
+    trigger: isInView,
+  });
+
+  // Particle trail effect
   const handleMouseMove = useCallback((e: MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    const newParticle: Particle = {
-      id: particleIdRef.current++,
-      x,
-      y,
-    };
-
-    setParticles((prev) => [...prev.slice(-20), newParticle]);
+    setParticles((prev) => [
+      ...prev.slice(-20),
+      { id: particleIdRef.current++, x: e.clientX - rect.left, y: e.clientY - rect.top },
+    ]);
   }, []);
 
-  // Auto-remove particles after animation
   useEffect(() => {
     if (particles.length === 0) return;
-    const timer = setTimeout(() => {
-      setParticles((prev) => prev.slice(1));
-    }, 400);
+    const timer = setTimeout(() => setParticles((prev) => prev.slice(1)), 400);
     return () => clearTimeout(timer);
   }, [particles]);
 
-  // Animation variants for staggered text reveal
+  // Staggered reveal variants
   const containerVariants = {
     hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.3,
-      },
-    },
+    visible: { transition: { staggerChildren: 0.15, delayChildren: 0.3 } },
   };
-
   const wordVariants = {
-    hidden: {
-      opacity: 0,
-      y: 30,
-      filter: 'blur(10px)',
-    },
+    hidden: { opacity: 0, y: 30, filter: 'blur(10px)' },
     visible: {
       opacity: 1,
       y: 0,
       filter: 'blur(0px)',
-      transition: {
-        duration: 0.8,
-        ease: [0.25, 0.46, 0.45, 0.94] as const,
-      },
+      transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] as const },
     },
   };
-
-  // Folder data — i18n + preset mapping
-  const folders: Array<{
-    name: string;
-    extension: string;
-    icon: typeof Briefcase;
-    meta: string;
-    size: string;
-    preset: ContactPreset;
-  }> = [
-    {
-      name: t('hero.folder.industry'),
-      extension: 'folder',
-      icon: Briefcase,
-      meta: t('hero.folder.industry.meta'),
-      size: t('hero.folder.size'),
-      preset: 'INDUSTRY',
-    },
-    {
-      name: t('hero.folder.creative'),
-      extension: 'folder',
-      icon: Music,
-      meta: t('hero.folder.creative.meta'),
-      size: t('hero.folder.size'),
-      preset: 'CREATIVE',
-    },
-    {
-      name: t('hero.folder.personal'),
-      extension: 'folder',
-      icon: User,
-      meta: t('hero.folder.personal.meta'),
-      size: t('hero.folder.size'),
-      preset: 'PERSONAL',
-    },
-  ];
 
   return (
     <div className="min-h-screen w-full bg-[#050505] p-4 md:p-8">
@@ -125,21 +125,16 @@ export default function SpotlightHero({ lang = 'es' }: { lang?: Lang }) {
       >
         {/* ─── MACOS TITLE BAR ─── */}
         <div className="sticky top-0 z-50 flex items-center gap-2 px-4 py-3 bg-[#1a1a1a]/80 backdrop-blur-xl border-b border-white/5">
-          {/* Traffic Light Buttons */}
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-[#FF5F57] hover:brightness-110 transition-all cursor-pointer" />
             <div className="w-3 h-3 rounded-full bg-[#FEBC2E] hover:brightness-110 transition-all cursor-pointer" />
             <div className="w-3 h-3 rounded-full bg-[#28C840] hover:brightness-110 transition-all cursor-pointer" />
           </div>
-
-          {/* Window Title */}
           <div className="flex-1 text-center">
             <span className="text-xs font-medium text-white/40 tracking-wide">
               {t('hero.finder')}
             </span>
           </div>
-
-          {/* Spacer for balance */}
           <div className="w-14" />
         </div>
 
@@ -178,47 +173,93 @@ export default function SpotlightHero({ lang = 'es' }: { lang?: Lang }) {
 
         {/* ─── CONTENT CONTAINER ─── */}
         <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-8rem)] px-6 py-20">
-          {/* ─── HEADLINE ─── */}
+
+          {/* ─── HEADLINE (Scramble) ─── */}
           <motion.div
             ref={headlineRef}
             variants={containerVariants}
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
-            className="text-center mb-20"
+            className="text-center mb-6"
           >
             <motion.h1
               variants={wordVariants}
-              className="text-4xl md:text-5xl lg:text-7xl font-semibold tracking-tight text-white mb-3"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1]"
+              style={{ fontFamily: "'Oswald', 'Barlow Condensed', sans-serif" }}
             >
-              {t('hero.headline1')}
-            </motion.h1>
-            <motion.h1
-              variants={wordVariants}
-              className="text-4xl md:text-5xl lg:text-7xl font-semibold tracking-tight text-white/60"
-            >
-              {t('hero.headline2')}
+              {scrambledHeadline || '\u00A0'}
             </motion.h1>
           </motion.div>
 
-          {/* ─── FINDER DOCK / FOLDER GRID ─── */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-            transition={{ duration: 0.8, delay: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6"
+          {/* ─── SUBTITLE ─── */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.8, delay: 0.9 }}
+            className="text-center text-sm sm:text-base md:text-lg text-white/50 max-w-2xl leading-relaxed mb-14 md:mb-20 px-4"
           >
-            {folders.map((folder, index) => (
-              <FolderCard
-                key={folder.name}
-                name={folder.name}
-                extension={folder.extension}
-                icon={folder.icon}
-                meta={folder.meta}
-                size={folder.size}
-                delay={index * 0.1}
-                onClick={() => openContactModal(folder.preset)}
-              />
-            ))}
+            {t('hero.subtitle')}
+          </motion.p>
+
+          {/* ─── MASTER NODE — Single CTA Folder ─── */}
+          <motion.div
+            initial={{ opacity: 0, y: 40, scale: 0.92 }}
+            animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 40, scale: 0.92 }}
+            transition={{ duration: 0.8, delay: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+          >
+            <motion.button
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={() => openContactModal()}
+              className="group relative cursor-pointer"
+            >
+              {/* Breathing neon glow */}
+              <div className="absolute -inset-3 rounded-3xl bg-[#CCFF00]/10 blur-2xl animate-pulse opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-b from-[#CCFF00]/20 to-transparent opacity-0 group-hover:opacity-100 blur-xl transition-all duration-500" />
+
+              {/* Card body — macOS folder style */}
+              <div className="relative w-72 sm:w-80 md:w-96 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md overflow-hidden transition-all duration-300 group-hover:border-[#CCFF00]/30 group-hover:bg-white/[0.06]">
+
+                {/* Folder tab */}
+                <div className="flex items-center gap-2 px-5 pt-4 pb-2">
+                  <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-[#CCFF00]/10 border border-[#CCFF00]/20 group-hover:bg-[#CCFF00]/20 group-hover:border-[#CCFF00]/40 transition-all duration-300">
+                    <FolderOpen className="w-5 h-5 text-[#CCFF00]" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <span className="text-xs font-mono text-[#CCFF00]/60 uppercase tracking-widest">
+                      Lyrix Digital
+                    </span>
+                  </div>
+                  <div className="w-2 h-2 rounded-full bg-[#CCFF00] animate-pulse" />
+                </div>
+
+                {/* Divider */}
+                <div className="mx-5 border-t border-white/5" />
+
+                {/* CTA label */}
+                <div className="px-5 py-5">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-base md:text-lg font-bold text-white tracking-wide group-hover:text-[#CCFF00] transition-colors duration-300">
+                      {t('hero.cta')}
+                    </span>
+                    <ArrowRight className="w-5 h-5 text-white/40 group-hover:text-[#CCFF00] group-hover:translate-x-1 transition-all duration-300" />
+                  </div>
+                  <p className="text-xs text-white/30 font-mono mt-2">
+                    {t('hero.cta.hint')}
+                  </p>
+                </div>
+
+                {/* Footer bar */}
+                <div className="flex items-center justify-between px-5 py-3 bg-white/[0.02] border-t border-white/5">
+                  <span className="text-[11px] text-white/25 font-mono">
+                    {t('hero.cta.meta')}
+                  </span>
+                  <span className="text-[11px] text-white/25 font-mono">
+                    Type: Project
+                  </span>
+                </div>
+              </div>
+            </motion.button>
           </motion.div>
         </div>
       </div>

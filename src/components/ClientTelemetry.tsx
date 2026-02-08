@@ -90,9 +90,8 @@ const packets: TelemetryPacket[] = [
 // ─── PACKET COMPONENT ───
 
 function DataPacket({ packet }: { packet: TelemetryPacket }) {
-  // Signal strength bar visualization
-  const signalBars = '██████████'.slice(0, Math.floor(packet.signal / 10));
-  const emptyBars = '░░░░░░░░░░'.slice(0, 10 - Math.floor(packet.signal / 10));
+  // Calculate stars from signal (signal/100 * 5)
+  const stars = ((packet.signal / 100) * 5).toFixed(1);
 
   return (
     <div
@@ -114,19 +113,18 @@ function DataPacket({ packet }: { packet: TelemetryPacket }) {
         </span>
       </div>
 
-      {/* Signal Strength */}
+      {/* Star Rating */}
       <div className="mb-4">
-        <div className="flex items-center gap-2 mb-1">
-          <span className="text-xs font-mono text-white/40 uppercase tracking-wider">
-            Signal
+        <div className="flex flex-col items-center justify-center py-2">
+          <div className="flex items-center gap-1.5 mb-1">
+            <span className="text-3xl font-bold text-[#CCFF00]">
+              {stars}
+            </span>
+            <span className="text-2xl text-[#CCFF00]">★</span>
+          </div>
+          <span className="text-sm font-mono text-white/50">
+            {packet.signal}% satisfaction
           </span>
-          <span className="text-xs font-mono text-[#CCFF00]">
-            {packet.signal}%
-          </span>
-        </div>
-        <div className="font-mono text-sm">
-          <span className="text-[#CCFF00]">{signalBars}</span>
-          <span className="text-white/10">{emptyBars}</span>
         </div>
       </div>
 
@@ -166,7 +164,7 @@ export default function ClientTelemetry({ lang = 'es' }: { lang?: Lang }) {
   const duplicatedPackets = [...packets, ...packets];
 
   return (
-    <OsWindow id="telemetry" className="relative w-full bg-[#050505] px-4 md:px-8 py-8">
+    <OsWindow id="telemetry" className="relative w-full bg-[#050505] px-4 md:px-8 pb-8">
     <section ref={containerRef}>
       {/* ─── CONTENT (window frame provided by OsWindow) ─── */}
       <motion.div
@@ -183,6 +181,11 @@ export default function ClientTelemetry({ lang = 'es' }: { lang?: Lang }) {
             transition={{ duration: 0.5, delay: 0.15 }}
             className="mb-8"
           >
+            <div className="inline-flex items-center gap-2 mb-4 px-3 py-1.5 rounded-lg bg-[#CCFF00]/10 border border-[#CCFF00]/20">
+              <span className="text-xs font-mono font-bold text-[#CCFF00] uppercase tracking-widest">
+                {t('telemetry.section.label')}
+              </span>
+            </div>
             <div className="flex items-center gap-2 mb-2">
               <div className="w-2 h-2 rounded-full bg-[#CCFF00] animate-pulse" />
               <span className="text-xs font-mono text-white/40 uppercase tracking-wider">

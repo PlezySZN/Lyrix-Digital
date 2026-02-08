@@ -23,7 +23,7 @@ function useTypewriter(
   const idx = useRef(0);        // current phrase index
   const char = useRef(0);       // current character position
   const deleting = useRef(false);
-  const raf = useRef<ReturnType<typeof setTimeout>>();
+  const raf = useRef<ReturnType<typeof setTimeout>>(0);
 
   // Keep phrases in a ref so the effect doesn't restart when
   // the parent re-renders with the same translated array.
@@ -141,6 +141,11 @@ export default function SystemExecution({ lang = 'es' }: { lang?: Lang }) {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="mb-8"
               >
+                <div className="inline-flex items-center gap-2 mb-6 px-3 py-1.5 rounded-lg bg-[#CCFF00]/10 border border-[#CCFF00]/20">
+                  <span className="text-xs font-mono font-bold text-[#CCFF00] uppercase tracking-widest">
+                    {t('cta.section.label')}
+                  </span>
+                </div>
                 <div className="flex items-center gap-2 mb-4">
                   <span className="text-sm font-mono text-[#CCFF00]">{'>'}</span>
                   <span className="text-sm font-mono text-white/60">
