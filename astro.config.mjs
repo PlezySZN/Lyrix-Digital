@@ -7,8 +7,8 @@ import node from '@astrojs/node';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://lyrixdigital.com',
-  output: 'static',
-  adapter: node({ mode: 'standalone' }),
+  output: 'server',
+  adapter: cloudflare(),
 
   vite: {
     plugins: [tailwindcss()],
