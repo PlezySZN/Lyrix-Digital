@@ -165,7 +165,7 @@ export const ui = {
     'contact.sector.personal': 'Blogs y Portafolios',
     'contact.sector.business': 'Negocios y Startups',
     'contact.maintenance': 'Protocolo de Mantenimiento',
-    'contact.maintenance.managed': 'Modo Administrado',
+    'contact.maintenance.managed': 'Modo Automatico',
     'contact.maintenance.managed.desc': 'Nosotros manejamos todo',
     'contact.maintenance.handover': 'Modo Entrega',
     'contact.maintenance.handover.desc': 'Tú tomas las llaves',
