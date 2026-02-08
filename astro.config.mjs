@@ -8,7 +8,7 @@ import node from '@astrojs/node';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://lyrixdigital.com',
-  output: 'server',
+  output: 'static',
   adapter: cloudflare(),
 
   vite: {
@@ -19,8 +19,7 @@ export default defineConfig({
     defaultLocale: 'en',
     locales: ['es', 'en'],
     routing: {
-      prefixDefaultLocale: false,
-      redirectToDefaultLocale: true,
+      prefixDefaultLocale: true,
     },
   },
 
