@@ -1,0 +1,25 @@
+---
+/**
+ * ═══════════════════════════════════════════════════════════
+ * HERO.ASTRO — LYRIX OS DESKTOP
+ * Wrapper for the React Spotlight Hero component
+ * ═══════════════════════════════════════════════════════════
+ */
+
+import SpotlightHero from './SpotlightHero';
+import StatusBar from './StatusBar';
+import ContactModal from './ContactModal';
+import ProjectModal from './ProjectModal';
+---
+
+<section class="relative">
+  <!-- React Island: Spotlight Hero with Finder Navigation -->
+  <SpotlightHero client:load />
+  
+  <!-- React Island: Status Bar Footer -->
+  <StatusBar client:load />
+  
+  <!-- Global Modals (loaded once, accessible from any component via nanostores) -->
+  <ContactModal client:load />
+  <ProjectModal client:load />
+</section>

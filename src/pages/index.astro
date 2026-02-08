@@ -1,26 +1,29 @@
 ---
-import '../styles/global.css';
-// Component Imports
-import Button from '../components/Button.astro';
+/**
+ * ═══════════════════════════════════════════════════════════
+ * LYRIX OS — LANDING PAGE
+ * Dark Mode Operating System Aesthetic
+ * ═══════════════════════════════════════════════════════════
+ */
 
-// Full Astro Component Syntax:
-// https://docs.astro.build/basics/astro-components/
+import Layout from '../layouts/main.astro';
+import Hero from '../components/Hero.astro';
+import SystemSpecs from '../components/SystemSpecs.astro';
+import ProjectLogs from '../components/ProjectLogs.astro';
+import DeploymentSequence from '../components/DeploymentSequence.astro';
+import ClientTelemetry from '../components/ClientTelemetry.astro';
+import KnowledgeBase from '../components/KnowledgeBase.astro';
+import SystemExecution from '../components/SystemExecution.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro + TailwindCSS</title>
-	</head>
-
-	<body>
-		<div class="grid place-items-center h-screen content-center">
-			<Button>Tailwind Button in Astro!</Button>
-			<a href="/markdown-page" class="p-4 underline">Markdown is also supported...</a>
-		</div>
-	</body>
-</html>
+<Layout>
+	<main>
+		<Hero />
+		<ProjectLogs />
+		<SystemSpecs />
+		<ClientTelemetry />
+		<DeploymentSequence />
+		<KnowledgeBase />
+		<SystemExecution />
+	</main>
+</Layout>

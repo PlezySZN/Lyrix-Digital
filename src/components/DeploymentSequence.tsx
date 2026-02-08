@@ -1,0 +1,342 @@
+/**
+ * ═══════════════════════════════════════════════════════════
+ * DEPLOYMENT SEQUENCE — LYRIX OS
+ * 3-step process as a circuit board with scroll-animated SVG path
+ * ═══════════════════════════════════════════════════════════
+ */
+
+import { useRef, useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, useInView, useMotionValueEvent } from 'framer-motion';
+import { Radar, Code2, Rocket } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
+import OsWindow from './OsWindow';
+
+// ─── DATA ───
+
+interface StepNode {
+  id: string;
+  label: string;
+  title: string;
+  description: string;
+  icon: LucideIcon;
+}
+
+const steps: StepNode[] = [
+  {
+    id: '01',
+    label: 'SCAN',
+    title: 'Discovery',
+    description: 'We analyze your current digital footprint and identify growth vectors.',
+    icon: Radar,
+  },
+  {
+    id: '02',
+    label: 'COMPILE',
+    title: 'Development',
+    description: 'We build your custom architecture using Astro & React. No bloatware.',
+    icon: Code2,
+  },
+  {
+    id: '03',
+    label: 'GO_LIVE',
+    title: 'Launch',
+    description: 'System deployment to global CDNs. Instant indexing on Google.',
+    icon: Rocket,
+  },
+];
+
+// ─── NODE COMPONENT ───
+
+function ProcessNode({
+  step,
+  isActive,
+  delay,
+  isInView,
+}: {
+  step: StepNode;
+  isActive: boolean;
+  delay: number;
+  isInView: boolean;
+}) {
+  const Icon = step.icon;
+  const isNode02 = step.id === '02';
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      transition={{ duration: 0.5, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className="relative flex flex-col items-center text-center"
+    >
+      {/* Card background for z-layering above SVG line */}
+      <div className="relative z-10 flex flex-col items-center p-6 rounded-xl border border-white/5 bg-[#0a0a0a]/90 backdrop-blur-sm">
+        {/* Glow ring behind node */}
+        <div
+          className={`
+            absolute top-6 left-1/2 -translate-x-1/2 w-20 h-20 rounded-full
+            transition-all duration-700 ease-out
+            ${isActive ? 'bg-[#CCFF00]/10 blur-xl scale-150' : 'bg-transparent blur-none scale-100'}
+          `}
+        />
+
+      {/* Icon Node */}
+      <div
+        className={`
+          relative z-10 flex items-center justify-center w-16 h-16 rounded-2xl
+          border transition-all duration-500 ease-out mb-5 bg-white/[0.03]
+          ${isNode02
+            ? (isActive 
+               ? 'border-[#CCFF00]/40 bg-[#0a0a0a] shadow-[0_0_30px_rgba(204,255,0,0.15)]' 
+               : 'border-white/10 bg-[#0a0a0a]')
+            : (isActive
+               ? 'border-[#CCFF00]/40 bg-[#CCFF00]/10 shadow-[0_0_30px_rgba(204,255,0,0.15)]'
+               : 'border-white/10 bg-white/[0.03]')
+          }
+        `}
+      >
+        <Icon
+          className={`w-7 h-7 transition-colors duration-500 ${isActive ? 'text-[#CCFF00]' : 'text-white/40'}`}
+        />
+      </div>
+
+      {/* Step Number + Label */}
+      <span
+        className={`text-xs font-mono tracking-widest mb-1.5 transition-colors duration-500 ${isActive ? 'text-[#CCFF00]/80' : 'text-white/30'}`}
+      >
+        NODE {step.id}
+      </span>
+
+      {/* Title */}
+      <h3
+        className={`text-lg font-semibold tracking-tight mb-2 transition-colors duration-500 ${isActive ? 'text-white' : 'text-white/60'}`}
+      >
+        [{step.label}]
+      </h3>
+
+      {/* Description */}
+      <p className="text-sm text-white/40 leading-relaxed max-w-[220px]">
+        {step.description}
+      </p>
+      </div>{/* end card background */}
+    </motion.div>
+  );
+}
+
+// ─── MAIN COMPONENT ───
+
+export default function DeploymentSequence() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const pathSectionRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, { once: true, margin: '-80px' });
+  const [activeNodes, setActiveNodes] = useState<number>(0);
+
+  // Scroll-linked animation for the SVG path
+  const { scrollYProgress } = useScroll({
+    target: pathSectionRef,
+    offset: ['start 0.8', 'end 0.5'],
+  });
+
+  const pathProgress = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
+  // Track which nodes are active based on scroll progress
+  useMotionValueEvent(pathProgress, 'change', (latest) => {
+    if (latest < 0.15) setActiveNodes(0);
+    else if (latest < 0.5) setActiveNodes(1);
+    else if (latest < 0.85) setActiveNodes(2);
+    else setActiveNodes(3);
+  });
+
+  return (
+    <OsWindow id="deployment" className="relative w-full bg-[#050505] px-4 md:px-8 pb-8">
+    <section ref={containerRef}>
+      {/* ─── CONTENT (window frame provided by OsWindow) ─── */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.96, y: 30 }}
+        animate={isInView ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.96, y: 30 }}
+        transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+      >
+        {/* ─── CONTENT ─── */}
+        <div ref={pathSectionRef} className="p-6 md:p-10 lg:p-14">
+          {/* Section Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="mb-12 md:mb-16"
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-2 h-2 rounded-full bg-[#CCFF00] animate-pulse" />
+              <span className="text-xs font-mono text-white/40 uppercase tracking-wider">
+                3-Phase Protocol
+              </span>
+            </div>
+            <h2 className="text-2xl md:text-3xl font-semibold text-white tracking-tight">
+              Deployment Sequence
+            </h2>
+            <p className="text-sm text-white/40 mt-2 max-w-xl">
+              A streamlined initiation process. No meetings that should be emails. No scope creep.
+            </p>
+          </motion.div>
+
+          {/* ─── DESKTOP: HORIZONTAL CIRCUIT ─── */}
+          <div className="hidden md:block">
+            {/* SVG Circuit Line that goes under NODE 02 */}
+            <div className="relative mb-12">
+              <svg
+                viewBox="0 0 900 60"
+                className="absolute top-3 left-[calc(16.66%+32px)] w-[calc(66.66%-64px)] h-15 z-0"
+                preserveAspectRatio="none"
+              >
+                {/* Background track path */}
+                <path
+                  d="M 0 30 L 380 30 L 390 30 Q 400 30 410 35 L 440 45 Q 450 48 460 45 L 490 35 Q 500 30 510 30 L 520 30 L 900 30"
+                  stroke="rgba(255,255,255,0.06)"
+                  strokeWidth="2"
+                  fill="none"
+                />
+                
+                {/* Animated fill path */}
+                <motion.path
+                  d="M 0 30 L 380 30 L 390 30 Q 400 30 410 35 L 440 45 Q 450 48 460 45 L 490 35 Q 500 30 510 30 L 520 30 L 900 30"
+                  stroke="#CCFF00"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  fill="none"
+                  style={{
+                    pathLength: pathProgress,
+                  }}
+                  initial={{ pathLength: 0 }}
+                />
+              </svg>
+
+              {/* Energy glow on the path */}
+              <svg
+                viewBox="0 0 900 60"
+                className="absolute top-3 left-[calc(16.66%+32px)] w-[calc(66.66%-64px)] h-15 z-0 blur-sm opacity-60"
+                preserveAspectRatio="none"
+              >
+                <motion.path
+                  d="M 0 30 L 380 30 L 390 30 Q 400 30 410 35 L 440 45 Q 450 48 460 45 L 490 35 Q 500 30 510 30 L 520 30 L 900 30"
+                  stroke="#CCFF00"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  fill="none"
+                  style={{
+                    pathLength: pathProgress,
+                  }}
+                  initial={{ pathLength: 0 }}
+                />
+              </svg>
+
+              {/* Nodes Grid */}
+              <div className="relative z-10 grid grid-cols-3 gap-8">
+                {steps.map((step, index) => (
+                  <ProcessNode
+                    key={step.id}
+                    step={step}
+                    isActive={index < activeNodes}
+                    delay={0.3 + index * 0.15}
+                    isInView={isInView}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* ─── MOBILE: VERTICAL CIRCUIT ─── */}
+          <div className="md:hidden">
+            <div className="relative pl-10">
+              {/* Vertical SVG Circuit Line - smaller, from node 01 to node 03 */}
+              <svg
+                className="absolute left-[19px] top-0 w-1 z-0"
+                style={{ height: 'calc(100% - 40px)' }}
+                preserveAspectRatio="none"
+              >
+                {/* Background track */}
+                <line x1="2" y1="5%" x2="2" y2="95%" stroke="rgba(255,255,255,0.06)" strokeWidth="2" />
+                {/* Animated fill */}
+                <motion.line
+                  x1="2" y1="5%" x2="2" y2="95%"
+                  stroke="#CCFF00"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  style={{
+                    pathLength: pathProgress,
+                  }}
+                  initial={{ pathLength: 0 }}
+                />
+              </svg>
+
+              {/* Mobile Nodes */}
+              {steps.map((step, index) => {
+                const Icon = step.icon;
+                const isActive = index < activeNodes;
+
+                return (
+                  <motion.div
+                    key={step.id}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+                    transition={{ duration: 0.5, delay: 0.3 + index * 0.15 }}
+                    className="relative pb-10 last:pb-0"
+                  >
+                    {/* Node Dot - all nodes now have solid backgrounds */}
+                    <div
+                      className={`
+                        absolute -left-10 top-0 w-10 h-10 rounded-xl
+                        flex items-center justify-center border
+                        transition-all duration-500 bg-[#0a0a0a]
+                        ${
+                          isActive
+                            ? 'border-[#CCFF00]/40 shadow-[0_0_20px_rgba(204,255,0,0.15)]'
+                            : 'border-white/10'
+                        }
+                      `}
+                    >
+                      <Icon
+                        className={`w-5 h-5 transition-colors duration-500 ${isActive ? 'text-[#CCFF00]' : 'text-white/40'}`}
+                      />
+                    </div>
+
+                    {/* Content */}
+                    <div className="ml-4">
+                      <span
+                        className={`text-xs font-mono tracking-widest transition-colors duration-500 ${isActive ? 'text-[#CCFF00]/80' : 'text-white/30'}`}
+                      >
+                        NODE {step.id}
+                      </span>
+                      <h3
+                        className={`text-base font-semibold tracking-tight mt-1 mb-1.5 transition-colors duration-500 ${isActive ? 'text-white' : 'text-white/60'}`}
+                      >
+                        [{step.label}] — {step.title}
+                      </h3>
+                      <p className="text-sm text-white/40 leading-relaxed">
+                        {step.description}
+                      </p>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* ─── FOOTER STATUS ─── */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+            className="mt-10 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-white/30"
+          >
+            <span>Protocol: Standard</span>
+            <span className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#CCFF00] animate-pulse" />
+              <span>Timeline: 2-4 Weeks</span>
+            </span>
+            <span>Priority: High</span>
+          </motion.div>
+        </div>
+      </motion.div>
+    </section>
+    </OsWindow>
+  );
+}

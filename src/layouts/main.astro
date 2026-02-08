@@ -1,17 +1,28 @@
 ---
 import '../styles/global.css';
-const { content } = Astro.props;
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { 
+  title = 'Lyrix Digital — Premier Work. Premier Image.',
+  description = 'High-end digital solutions for contractors, creatives, and professionals.'
+} = Astro.props;
 ---
 
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content={description} />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
-		<title>{content.title}</title>
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
 	</head>
-	<body>
+	<body class="antialiased">
 		<slot />
 	</body>
 </html>
