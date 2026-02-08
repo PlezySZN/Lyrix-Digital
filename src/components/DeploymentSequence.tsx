@@ -266,6 +266,7 @@ export default function DeploymentSequence({ lang = 'es' }: { lang?: Lang }) {
               {steps.map((step, index) => {
                 const Icon = step.icon;
                 const isActive = index < activeNodes;
+                const isNode03 = step.id === '03';
 
                 return (
                   <motion.div
@@ -273,7 +274,7 @@ export default function DeploymentSequence({ lang = 'es' }: { lang?: Lang }) {
                     initial={{ opacity: 0, x: -20 }}
                     animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
                     transition={{ duration: 0.5, delay: 0.3 + index * 0.15 }}
-                    className="relative pb-10 last:pb-0"
+                    className={`relative pb-10 last:pb-0 ${isNode03 ? 'mt-[3px]' : ''}`}
                   >
                     {/* Node Dot - all nodes now have solid backgrounds */}
                     <div

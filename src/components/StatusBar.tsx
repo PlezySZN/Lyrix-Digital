@@ -148,7 +148,7 @@ export default function StatusBar({ lang = 'es' }: { lang?: Lang }) {
           <span className="text-xs font-mono text-white/40 hidden md:inline">
             Lyrix OS v1.2
           </span>
-          <span className="text-xs font-mono text-white/40 md:hidden">
+          <span className="text-xs font-mono text-white/40 hidden">
             LX 1.2
           </span>
           <div className="h-3 w-px bg-white/10 hidden md:block" />
@@ -199,7 +199,7 @@ export default function StatusBar({ lang = 'es' }: { lang?: Lang }) {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => openContactModal()}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-200"
+            className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-200"
           >
             <MessageCircle className="w-3.5 h-3.5 text-white/60" />
             <span className="text-xs text-white/60">{t('statusbar.contact')}</span>

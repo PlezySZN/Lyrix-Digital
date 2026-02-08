@@ -166,15 +166,15 @@ export default function SystemExecution({ lang = 'es' }: { lang?: Lang }) {
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                className="text-center mb-8"
+                className="text-center mb-6 md:mb-8"
               >
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 tracking-tight leading-tight">
+                <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4 tracking-tight leading-tight">
                   {t('cta.headline1')}
                   <br />
                   <span className="text-[#CCFF00]">{t('cta.headline2')}</span>
                 </h2>
                 
-                <p className="text-lg md:text-xl text-white/60 max-w-2xl mx-auto leading-relaxed">
+                <p className="text-base md:text-lg lg:text-xl text-white/60 max-w-2xl mx-auto leading-relaxed px-4">
                   {t('cta.subheadline')}
                 </p>
               </motion.div>
@@ -184,13 +184,13 @@ export default function SystemExecution({ lang = 'es' }: { lang?: Lang }) {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
-                className="mb-8"
+                className="mb-6 md:mb-8 mt-4 md:mt-0"
               >
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => openContactModal()}
-                  className="group relative w-full overflow-hidden rounded-xl bg-[#CCFF00] text-black font-bold text-lg md:text-xl py-6 px-8 transition-all duration-300 hover:shadow-2xl hover:shadow-[#CCFF00]/25"
+                  className="group relative w-full overflow-hidden rounded-xl bg-[#CCFF00] text-black font-bold text-base md:text-lg lg:text-xl py-4 md:py-6 px-6 md:px-8 transition-all duration-300 hover:shadow-2xl hover:shadow-[#CCFF00]/25"
                 >
                   {/* Button glow effect */}
                   <div className="absolute inset-0 bg-[#CCFF00] opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300" />

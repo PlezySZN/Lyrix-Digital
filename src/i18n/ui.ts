@@ -44,7 +44,7 @@ export const ui = {
     'specs.module1.security': 'Encriptación Nivel Bancario',
     'specs.module1.system': 'Captura de Leads Automática',
     'specs.module1.description': 'No es solo un website. Es un empleado 24/7 que captura clientes, posiciona en Google, y se ve perfecto en cualquier celular.',
-    'specs.module2.title': 'IMAGEN CINEMATOGRÁFICA',
+    'specs.module2.title': 'IMAGEN DE CINE',
     'specs.module2.codeName': 'Media_Engine',
     'specs.module2.quality': 'Calidad de Cine para Vender Más',
     'specs.module2.format': 'Listo para Redes Sociales',
