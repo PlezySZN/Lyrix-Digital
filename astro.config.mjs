@@ -5,6 +5,8 @@ import cloudflare from '@astrojs/cloudflare';
 import react from '@astrojs/react';
 import node from '@astrojs/node';
 
+import sitemap from '@astrojs/sitemap';
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://lyrixdigital.com',
@@ -24,5 +26,5 @@ export default defineConfig({
     },
   },
 
-  integrations: [react()],
+  integrations: [react(), sitemap()],
 });
