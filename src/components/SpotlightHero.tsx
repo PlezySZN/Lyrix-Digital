@@ -185,7 +185,7 @@ export default function SpotlightHero({ lang = 'en' }: { lang?: Lang }) {
             <motion.h1
               variants={wordVariants}
               className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1]"
-              style={{ fontFamily: "'Oswald', 'Barlow Condensed', sans-serif" }}
+              style={{ fontFamily: 'var(--font-oswald, var(--font-barlow, sans-serif))' }}
             >
               {scrambledHeadline || '\u00A0'}
             </motion.h1>

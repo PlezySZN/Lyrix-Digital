@@ -10,6 +10,7 @@ import '../styles/global.css';
 import { t } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
 import SEO from '../components/SEO.astro';
+import { AstroFont } from 'astro-font';
 
 interface Props {
   lang?: Lang;
@@ -39,19 +40,51 @@ const resolvedDescription = description ?? t(lang, 'meta.description');
 		<meta name="generator" content={Astro.generator} />
 		<title>{resolvedTitle}</title>
 
-		<!-- ═══ CRITICAL FONT PRELOADS (before anything else — eliminates FOIT/CLS) ═══ -->
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<!-- ═══ FONT ENGINE (astro-font: auto @font-face + swap + size-adjust fallbacks) ═══ -->
+		<!-- preload:false globally — we hand-pick the 2 LCP-critical files below -->
+		<AstroFont
+			config={[
+				{
+					name: 'Oswald',
+					src: [],
+					googleFontsURL: 'https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap',
+					preload: false,
+					display: 'swap',
+					fallback: 'sans-serif',
+					cssVariable: 'font-oswald',
+				},
+				{
+					name: 'Barlow Condensed',
+					src: [],
+					googleFontsURL: 'https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&display=swap',
+					preload: false,
+					display: 'swap',
+					fallback: 'sans-serif',
+					cssVariable: 'font-barlow',
+				},
+				{
+					name: 'Inter',
+					src: [],
+					googleFontsURL: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap',
+					preload: false,
+					display: 'swap',
+					fallback: 'sans-serif',
+					cssVariable: 'font-inter',
+				},
+			]}
+		/>
+		<!-- LCP-critical preloads: only Oswald 700 + Inter 400 (latin) -->
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
 			rel="preload"
-			href="https://fonts.gstatic.com/s/oswald/v57/TK3_WkUHHAIjg75cFRf3bXL8LICs1xZosUhiZTaR.woff2"
+			href="https://fonts.gstatic.com/s/oswald/v57/TK3IWkUHHAIjg75cFRf3bXL8LICs1_Fv40pKlN4NNSeSASz7FmlWHYjMdZwl.woff2"
 			as="font"
 			type="font/woff2"
 			crossorigin
 		/>
 		<link
 			rel="preload"
-			href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2"
+			href="https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2"
 			as="font"
 			type="font/woff2"
 			crossorigin
@@ -59,20 +92,6 @@ const resolvedDescription = description ?? t(lang, 'meta.description');
 
 		<!-- ═══ SEO ENGINE (Canonical, Hreflang, OG, Twitter, JSON-LD) ═══ -->
 		<SEO lang={lang} title={resolvedTitle} description={resolvedDescription} keywords={keywords} />
-
-		<!-- ═══ GOOGLE FONTS (non-render-blocking via media swap) ═══ -->
-		<link
-			rel="stylesheet"
-			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap"
-			media="print"
-			onload="this.media='all'"
-		/>
-		<noscript>
-			<link
-				rel="stylesheet"
-				href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap"
-			/>
-		</noscript>
 
 		<!-- ═══ CLOUDFLARE TURNSTILE (explicit render — activated by ContactModal) ═══ -->
 		<script type="module">

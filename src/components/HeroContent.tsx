@@ -77,10 +77,10 @@ export default function HeroContent({ lang = 'en' }: { lang?: Lang }) {
   const isInView = useInView(headlineRef, { once: true, margin: '-100px' });
   const particleIdRef = useRef(0);
 
-  // Scramble headline text
+  // Scramble headline text — delay reduced for faster LCP
   const scrambledHeadline = useTextScramble(t('hero.headline'), {
-    delay: 400,
-    duration: 1400,
+    delay: 100,
+    duration: 1200,
     trigger: isInView,
   });
 
@@ -105,13 +105,15 @@ export default function HeroContent({ lang = 'en' }: { lang?: Lang }) {
     hidden: {},
     visible: { transition: { staggerChildren: 0.15, delayChildren: 0.3 } },
   };
+  // LCP FIX: headline starts VISIBLE (opacity: 1) — no fade-in blocking
+  // Lighthouse. The text-scramble effect provides the visual reveal.
   const wordVariants = {
-    hidden: { opacity: 0, y: 30, filter: 'blur(10px)' },
+    hidden: { opacity: 1, y: 0, filter: 'blur(0px)' },
     visible: {
       opacity: 1,
       y: 0,
       filter: 'blur(0px)',
-      transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] as const },
+      transition: { duration: 0.15 },
     },
   };
 
@@ -187,9 +189,9 @@ export default function HeroContent({ lang = 'en' }: { lang?: Lang }) {
               aria-hidden="true"
               variants={wordVariants}
               className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1] min-h-[1.15em]"
-              style={{ fontFamily: "'Oswald', 'Oswald Fallback', 'Barlow Condensed', sans-serif" }}
+              style={{ fontFamily: 'var(--font-oswald, var(--font-barlow, sans-serif))' }}
             >
-              {scrambledHeadline || '\u00A0'}
+              {scrambledHeadline || t('hero.headline')}
             </motion.div>
           </motion.div>
 

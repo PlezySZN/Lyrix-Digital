@@ -6,10 +6,10 @@
 ═══════════════════════════════════════════════════════════ */
 
 /*
-  Font loading moved to <link> tags in the layout <head> for
-  better CWV (eliminates render-blocking @import).
-  See: SEO.astro → preconnect hints
-       main.astro → font stylesheet link
+  Font loading handled by astro-font in <head>.
+  It auto-generates: preloads, @font-face with font-display:swap,
+  size-adjust fallback metrics, and CSS variables.
+  See: main.astro → <AstroFont />
 */
 
 @theme {
@@ -23,34 +23,8 @@
   --color-lyrix-white: #ffffff;
 
   /* ─── TYPOGRAPHY ─── */
-  --font-family-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
-/*
-  Font-metric fallbacks — matches Oswald & Inter metrics so the
-  system-font placeholder occupies the same box as the real font.
-  This prevents CLS when the web font arrives.
-*/
-@font-face {
-  font-family: 'Oswald Fallback';
-  src: local('Arial Black'), local('Arial Bold');
-  font-weight: 700;
-  font-style: normal;
-  ascent-override: 138%;
-  descent-override: 30%;
-  line-gap-override: 0%;
-  size-adjust: 82%;
-}
-
-@font-face {
-  font-family: 'Inter Fallback';
-  src: local('Arial'), local('Helvetica');
-  font-weight: 400;
-  font-style: normal;
-  ascent-override: 90%;
-  descent-override: 22%;
-  line-gap-override: 0%;
-  size-adjust: 107%;
+  /* Consumed via var(--font-inter) from astro-font, with fallback chain */
+  --font-family-sans: var(--font-inter, 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif);
 }
 
 /* Base Styles */
