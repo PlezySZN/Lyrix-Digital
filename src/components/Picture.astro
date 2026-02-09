@@ -93,14 +93,14 @@ const decoding = priority ? 'sync' : 'async';
   {/* ── Desktop (>= 768px) ── */}
   <source
     media="(min-width: 768px)"
-    srcset={desktopAvif.src}
+    srcSet={desktopAvif.src}
     type="image/avif"
     width={desktop.width}
     height={desktop.height}
   />
   <source
     media="(min-width: 768px)"
-    srcset={desktopWebp.src}
+    srcSet={desktopWebp.src}
     type="image/webp"
     width={desktop.width}
     height={desktop.height}
@@ -109,14 +109,14 @@ const decoding = priority ? 'sync' : 'async';
   {/* ── Tablet (>= 640px) ── */}
   <source
     media="(min-width: 640px)"
-    srcset={tabletAvif.src}
+    srcSet={tabletAvif.src}
     type="image/avif"
     width={tabletSource.width}
     height={tabletSource.height}
   />
   <source
     media="(min-width: 640px)"
-    srcset={tabletWebp.src}
+    srcSet={tabletWebp.src}
     type="image/webp"
     width={tabletSource.width}
     height={tabletSource.height}
@@ -124,13 +124,13 @@ const decoding = priority ? 'sync' : 'async';
 
   {/* ── Mobile (default) ── */}
   <source
-    srcset={mobileAvif.src}
+    srcSet={mobileAvif.src}
     type="image/avif"
     width={mobile.width}
     height={mobile.height}
   />
   <source
-    srcset={mobileWebp.src}
+    srcSet={mobileWebp.src}
     type="image/webp"
     width={mobile.width}
     height={mobile.height}
@@ -144,8 +144,8 @@ const decoding = priority ? 'sync' : 'async';
     height={mobile.height}
     loading={loading}
     decoding={decoding}
-    fetchpriority={fetchpriority}
-    class={className}
+    fetchPriority={fetchpriority}
+    className={className}
     style={style}
   />
 </picture>

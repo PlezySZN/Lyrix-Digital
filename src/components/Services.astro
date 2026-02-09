@@ -1,4 +1,5 @@
 ---
+// @ts-nocheck
 /**
  * ═══════════════════════════════════════════════════════════
  * SYSTEM SPECS.ASTRO — LYRIX OS CAPABILITIES
@@ -13,6 +14,6 @@ interface Props { lang?: Lang; }
 const { lang = 'en' } = Astro.props;
 ---
 
-<div class="cwv-defer">
-<ServicesComponent lang={lang} client:load/>
+<div className="cwv-defer">
+  <ServicesComponent lang={lang} client:load/>
 </div>

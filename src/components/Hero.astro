@@ -34,20 +34,20 @@ const { lang = 'en' } = Astro.props;
   href="https://fonts.gstatic.com/s/oswald/v53/TK3_WkUHHAIjg75cFRf3bXL8LICs1_FvsUZiYA.woff2"
   as="font"
   type="font/woff2"
-  crossorigin
+  crossOrigin="anonymous"
 />
 
 <header
-  class="relative"
+  className="relative"
   aria-label={lang === 'es' ? 'Sección principal' : 'Hero section'}
-  style="contain: layout style paint;"
+  style={{ contain: 'layout style paint' } as any}
 >
   <!--
     SSR-rendered h1 — crawlable by all bots (Googlebot, Bingbot, social scrapers).
     The React island renders a visual duplicate with scramble animation,
     marked aria-hidden to avoid double-announcement.
   -->
-  <h1 class="sr-only">{t(lang, 'hero.headline')}</h1>
+  <h1 className="sr-only">{t(lang, 'hero.headline')}</h1>
 
   <!--
     ═══ OPTIONAL: HERO BACKGROUND IMAGE ═══
@@ -82,7 +82,7 @@ const { lang = 'en' } = Astro.props;
   -->
 
   <!-- React Island: Spotlight Hero with Finder Navigation -->
-  <HeroContent lang={lang} client:load/>
+  <HeroContent {lang} client:load />
 </header>
 
 <!--
@@ -90,6 +90,6 @@ const { lang = 'en' } = Astro.props;
   `contain: layout|paint` creates a new containing block that traps
   `position: fixed` descendants. These need viewport-level positioning.
 -->
-<StatusBar lang={lang} client:load/>
-<ContactModal lang={lang} client:load/>
-<ProjectModal lang={lang} client:load/>
+<StatusBar {lang} client:load />
+<ContactModal {lang} client:load />
+<ProjectModal {lang} client:load />

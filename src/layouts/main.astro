@@ -31,7 +31,7 @@ const resolvedDescription = description ?? t(lang, 'meta.description');
 <html lang={lang} dir="ltr">
 	<head>
 		<!-- ═══ CORE META ═══ -->
-		<meta charset="utf-8" />
+		<meta charSet="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" content={resolvedDescription} />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -49,13 +49,19 @@ const resolvedDescription = description ?? t(lang, 'meta.description');
 		/>
 
 		<!-- ═══ CLOUDFLARE TURNSTILE (explicit render — activated by ContactModal) ═══ -->
-		<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+		<script type="module">
+			const script = document.createElement('script');
+			script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+			script.async = true;
+			script.defer = true;
+			document.head.appendChild(script);
+		</script>
 	</head>
-	<body class="antialiased">
+	<body className="antialiased">
 		<!-- Skip Navigation (Accessibility + crawlability) -->
 		<a
 			href="#main-content"
-			class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-9999 focus:px-4 focus:py-2 focus:bg-[#CCFF00] focus:text-black focus:font-bold focus:rounded-md focus:outline-none"
+			className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-9999 focus:px-4 focus:py-2 focus:bg-[#CCFF00] focus:text-black focus:font-bold focus:rounded-md focus:outline-none"
 		>
 			{lang === 'es' ? 'Ir al contenido' : 'Skip to content'}
 		</a>

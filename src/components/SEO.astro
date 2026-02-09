@@ -312,9 +312,9 @@ const graphPayload = {
 
 <!-- ═══ HREFLANG ALTERNATES ═══ -->
 {hreflangs.map(({ lang: hl, href }) => (
-  <link rel="alternate" hreflang={hl} href={href} />
+  <link rel="alternate" hrefLang={hl} href={href} />
 ))}
-<link rel="alternate" hreflang="x-default" href={xDefaultHref} />
+<link rel="alternate" hrefLang="x-default" href={xDefaultHref} />
 
 <!-- ═══ KEYWORDS (optional) ═══ -->
 {keywords && <meta name="keywords" content={keywords} />}
@@ -356,7 +356,7 @@ const graphPayload = {
 
 <!-- ═══ PRECONNECT HINTS (CWV: eliminates DNS/TLS latency for fonts) ═══ -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
 
 <!-- ═══ ROBOTS & CRAWL DIRECTIVES ═══ -->
 <meta name="robots" content={resolvedRobots} />
@@ -364,15 +364,9 @@ const graphPayload = {
 <link rel="sitemap" href="/sitemap-index.xml" />
 
 <!-- ═══ JSON-LD: MAIN SCHEMA GRAPH ═══ -->
-<script
-  type="application/ld+json"
-  set:html={JSON.stringify(graphPayload, null, 0)}
-/>
+<Fragment set:html={`<script type="application/ld+json">${JSON.stringify(graphPayload)}</script>`} />
 
 <!-- ═══ JSON-LD: FAQ (standalone — Google prefers separate for rich results) ═══ -->
 {faqSchema && (
-  <script
-    type="application/ld+json"
-    set:html={JSON.stringify(faqSchema, null, 0)}
-  />
+  <Fragment set:html={`<script type="application/ld+json">${JSON.stringify(faqSchema)}</script>`} />
 )}

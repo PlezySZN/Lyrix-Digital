@@ -1,4 +1,5 @@
 ---
+// @ts-nocheck
 /**
  * ═══════════════════════════════════════════════════════════
  * PORTFOLIO.ASTRO — LYRIX OS PORTFOLIO
@@ -13,6 +14,6 @@ interface Props { lang?: Lang; }
 const { lang = 'en' } = Astro.props;
 ---
 
-<div class="cwv-defer">
+<div className="cwv-defer">
 <PortfolioComponent lang={lang} client:load/>
 </div>

@@ -18,6 +18,7 @@ export default function Services({ lang = 'en' }: { lang?: Lang }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: '-100px' });
 
+
   // Service modules data — i18n
   const modules = [
     {
