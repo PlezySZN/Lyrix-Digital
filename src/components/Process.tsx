@@ -167,7 +167,7 @@ export default function Process({ lang = 'en' }: { lang?: Lang }) {
                 {t('deploy.status')}
               </span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-semibold text-white tracking-tight">
+            <h2 className="text-2xl md:text-3xl font-semibold text-white tracking-tight" aria-label="How We Work With You">
               {t('deploy.title')}
             </h2>
             <p className="text-xs font-mono text-[#CCFF00]/60 uppercase tracking-widest mt-1">

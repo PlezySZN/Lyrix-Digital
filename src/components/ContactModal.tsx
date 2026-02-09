@@ -196,18 +196,20 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
               <div className="flex items-center gap-2">
                 <button
                   onClick={closeContactModal}
+                  aria-label={lang === 'es' ? 'Cerrar ventana' : 'Close window'}
                   className="w-3 h-3 rounded-full bg-[#FF5F57] hover:brightness-125 transition-all"
                 />
                 <div className="w-3 h-3 rounded-full bg-[#FEBC2E]" />
                 <div className="w-3 h-3 rounded-full bg-[#28C840]" />
               </div>
               <div className="flex-1 text-center">
-                <span className="text-xs font-mono text-white/40 tracking-wide">
+                <span id="contact-modal-title" className="text-xs font-mono text-white/40 tracking-wide">
                   {modalTitle}
                 </span>
               </div>
               <button
                 onClick={closeContactModal}
+                aria-label={lang === 'es' ? 'Cerrar' : 'Close'}
                 className="text-white/30 hover:text-white/60 transition-colors"
               >
                 <X className="w-4 h-4" />
@@ -243,10 +245,11 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
 
                 {/* Name */}
                 <div>
-                  <label className="block text-xs font-mono text-white/40 mb-1.5 uppercase tracking-wider">
+                  <label htmlFor="contact-name" className="block text-xs font-mono text-white/40 mb-1.5 uppercase tracking-wider">
                     {t('contact.name')}
                   </label>
                   <input
+                    id="contact-name"
                     type="text"
                     required
                     value={name}
@@ -258,10 +261,11 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
 
                 {/* Email */}
                 <div>
-                  <label className="block text-xs font-mono text-white/40 mb-1.5 uppercase tracking-wider">
+                  <label htmlFor="contact-email" className="block text-xs font-mono text-white/40 mb-1.5 uppercase tracking-wider">
                     {t('contact.email')}
                   </label>
                   <input
+                    id="contact-email"
                     type="email"
                     required
                     value={email}
@@ -273,10 +277,11 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
 
                 {/* Phone */}
                 <div>
-                  <label className="block text-xs font-mono text-white/40 mb-1.5 uppercase tracking-wider">
+                  <label htmlFor="contact-phone" className="block text-xs font-mono text-white/40 mb-1.5 uppercase tracking-wider">
                     {t('contact.phone')}
                   </label>
                   <input
+                    id="contact-phone"
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
@@ -306,6 +311,7 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
                         key={mode.value}
                         type="button"
                         onClick={() => setMaintenance(mode.value)}
+                        aria-pressed={maintenance === mode.value}
                         className={`
                           p-3 rounded-lg border text-left transition-all duration-200
                           ${maintenance === mode.value
@@ -336,6 +342,7 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
                         key={range}
                         type="button"
                         onClick={() => setBudget(budget === range ? '' : range)}
+                        aria-pressed={budget === range}
                         className={`
                           px-4 py-2 rounded-lg border text-xs font-mono transition-all duration-200
                           ${budget === range
@@ -352,10 +359,11 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
 
                 {/* Message */}
                 <div>
-                  <label className="block text-xs font-mono text-white/40 mb-1.5 uppercase tracking-wider">
+                  <label htmlFor="contact-message" className="block text-xs font-mono text-white/40 mb-1.5 uppercase tracking-wider">
                     {t('contact.message')}
                   </label>
                   <textarea
+                    id="contact-message"
                     rows={4}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
@@ -371,6 +379,8 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
                   </label>
                   <button
                     type="button"
+                    role="switch"
+                    aria-checked={cinematic}
                     onClick={() => setCinematic(!cinematic)}
                     className={`
                       w-full flex items-center gap-3 p-4 rounded-lg border transition-all duration-300

@@ -37,7 +37,7 @@ const { lang = 'en' } = Astro.props;
   crossorigin
 />
 
-<section
+<header
   class="relative"
   aria-label={lang === 'es' ? 'Sección principal' : 'Hero section'}
   style="contain: layout style paint;"
@@ -82,16 +82,14 @@ const { lang = 'en' } = Astro.props;
   -->
 
   <!-- React Island: Spotlight Hero with Finder Navigation -->
-  <HeroContent lang={lang} client:load />
-  
-  <!-- React Island: Status Bar Footer -->
-  <StatusBar lang={lang} client:load />
-</section>
+  <HeroContent lang={lang} client:load/>
+</header>
 
 <!--
-  Global Modals — MUST live outside any `contain:` context.
+  StatusBar + Modals — MUST live outside any `contain:` context.
   `contain: layout|paint` creates a new containing block that traps
-  `position: fixed` descendants. Modals need viewport-level positioning.
+  `position: fixed` descendants. These need viewport-level positioning.
 -->
-<ContactModal lang={lang} client:load />
-<ProjectModal lang={lang} client:load />
+<StatusBar lang={lang} client:load/>
+<ContactModal lang={lang} client:load/>
+<ProjectModal lang={lang} client:load/>

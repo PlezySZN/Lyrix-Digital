@@ -158,16 +158,16 @@ export default function StatusBar({ lang = 'en' }: { lang?: Lang }) {
         </div>
 
         {/* ─── CENTER: Window Dock ─── */}
-        <div className="flex items-end gap-1.5 md:gap-2 px-3 py-1 rounded-xl bg-white/2 border border-white/5 pt-2.5">
+        <nav aria-label={lang === 'es' ? 'Panel de ventanas' : 'Window dock'} className="flex items-end gap-1.5 md:gap-2 px-3 py-1 rounded-xl bg-white/2 border border-white/5 pt-2.5">
           {ALL_WINDOW_IDS.map((id) => (
             <DockItem key={id} id={id} state={windows[id]} />
           ))}
-        </div>
+        </nav>
 
         {/* ─── RIGHT: System Tray ─── */}
         <div className="flex items-center gap-2 md:gap-3 shrink-0">
           {/* Signal indicator */}
-          <div className="hidden md:flex items-center gap-1 text-white/40 hover:text-white/60 transition-colors cursor-pointer">
+          <div className="hidden md:flex items-center gap-1 text-white/40" aria-hidden="true">
             <Wifi className="w-3.5 h-3.5" />
           </div>
 
@@ -184,6 +184,7 @@ export default function StatusBar({ lang = 'en' }: { lang?: Lang }) {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleLangSwitch}
+            aria-label={lang === 'es' ? 'Switch to English' : 'Cambiar a Español'}
             className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-200"
           >
             <Globe className="w-3 h-3 text-[#CCFF00]/60" />

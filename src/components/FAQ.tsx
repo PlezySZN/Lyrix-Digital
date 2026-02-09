@@ -49,6 +49,8 @@ function KnowledgeItem({
       {/* Question Button */}
       <button
         onClick={onToggle}
+        aria-expanded={isOpen}
+        aria-controls={`faq-answer-${entry.id}`}
         className="w-full flex items-center gap-3 px-4 py-4 text-left hover:bg-white/2 transition-colors duration-200 group"
       >
         {/* Icon */}
@@ -71,6 +73,7 @@ function KnowledgeItem({
             </span>
           </div>
           <span
+            id={`faq-question-${entry.id}`}
             className={`font-mono text-sm transition-colors duration-200 ${
               isOpen ? 'text-[#CCFF00]' : 'text-white/60 group-hover:text-white/80'
             }`}
@@ -84,6 +87,9 @@ function KnowledgeItem({
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            id={`faq-answer-${entry.id}`}
+            role="region"
+            aria-labelledby={`faq-question-${entry.id}`}
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -173,7 +179,7 @@ export default function FAQ({ lang = 'en' }: { lang?: Lang }) {
                 {t('kb.status')}
               </span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-semibold text-white tracking-tight">
+            <h2 className="text-2xl md:text-3xl font-semibold text-white tracking-tight" aria-label="System Manual">
               {t('kb.title')}
             </h2>
             <p className="text-sm text-white/40 mt-2 max-w-xl">

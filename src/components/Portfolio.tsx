@@ -164,7 +164,7 @@ export default function ProjectLogs({ lang = 'en' }: { lang?: Lang }) {
                 {t('logs.status').replace('{count}', String(projects.length))}
               </span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-semibold text-white tracking-tight">
+            <h2 className="text-2xl md:text-3xl font-semibold text-white tracking-tight" aria-label="Businesses That Trusted Us">
               {t('logs.title')}
             </h2>
             <p className="text-xs font-mono text-[#CCFF00]/60 uppercase tracking-widest mt-1">
@@ -204,7 +204,11 @@ export default function ProjectLogs({ lang = 'en' }: { lang?: Lang }) {
               >
                 {/* Desktop Row */}
                 <div
+                  role="button"
+                  tabIndex={0}
                   onClick={() => openProjectModal(project)}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openProjectModal(project); } }}
+                  aria-label={`${t('logs.table.view' as any) || 'View project'}: ${project.client}`}
                   className={`
                     hidden md:grid grid-cols-[60px_1fr_140px_120px_80px_40px] gap-4 items-center
                     px-4 py-4 border-b border-white/5
@@ -242,12 +246,16 @@ export default function ProjectLogs({ lang = 'en' }: { lang?: Lang }) {
 
                 {/* Mobile Card — single tap opens project */}
                 <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => openProjectModal(project)}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openProjectModal(project); } }}
+                  aria-label={`${t('logs.table.view' as any) || 'View project'}: ${project.client}`}
                   className={`
                     md:hidden p-4 border-b border-white/5
                     transition-all duration-200 cursor-pointer
                     active:bg-white/4
                   `}
-                  onClick={() => openProjectModal(project)}
                 >
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm font-mono text-white/30">{project.id}</span>

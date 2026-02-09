@@ -13,6 +13,6 @@ interface Props { lang?: Lang; }
 const { lang = 'en' } = Astro.props;
 ---
 
-<section id="execute" class="cwv-defer">
-  <CTAComponent lang={lang} client:visible />
-</section>
+<div class="cwv-defer">
+<CTAComponent lang={lang} client:load/>
+</div>

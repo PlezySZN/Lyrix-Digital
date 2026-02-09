@@ -126,9 +126,9 @@ export default function HeroContent({ lang = 'en' }: { lang?: Lang }) {
         {/* ─── MACOS TITLE BAR ─── */}
         <div className="sticky top-0 z-50 flex items-center gap-2 px-4 py-3 bg-lyrix-steel/80 backdrop-blur-xl border-b border-white/5">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-[#FF5F57] hover:brightness-110 transition-all cursor-pointer" />
-            <div className="w-3 h-3 rounded-full bg-[#FEBC2E] hover:brightness-110 transition-all cursor-pointer" />
-            <div className="w-3 h-3 rounded-full bg-[#28C840] hover:brightness-110 transition-all cursor-pointer" />
+            <div className="w-3 h-3 rounded-full bg-[#FF5F57]" />
+            <div className="w-3 h-3 rounded-full bg-[#FEBC2E]" />
+            <div className="w-3 h-3 rounded-full bg-[#28C840]" />
           </div>
           <div className="flex-1 text-center">
             <span className="text-xs font-medium text-white/40 tracking-wide">

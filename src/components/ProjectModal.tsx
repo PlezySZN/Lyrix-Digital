@@ -81,6 +81,9 @@ export default function ProjectModal({ lang = 'en' }: { lang?: Lang }) {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
           className="fixed inset-0 z-100 flex items-center justify-center p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="project-modal-title"
           onClick={closeProjectModal}
         >
           {/* Backdrop */}
@@ -100,18 +103,20 @@ export default function ProjectModal({ lang = 'en' }: { lang?: Lang }) {
               <div className="flex items-center gap-2">
                 <button
                   onClick={closeProjectModal}
+                  aria-label={lang === 'es' ? 'Cerrar ventana' : 'Close window'}
                   className="w-3 h-3 rounded-full bg-[#FF5F57] hover:brightness-125 transition-all"
                 />
                 <div className="w-3 h-3 rounded-full bg-[#FEBC2E]" />
                 <div className="w-3 h-3 rounded-full bg-[#28C840]" />
               </div>
               <div className="flex-1 text-center">
-                <span className="text-xs font-mono text-white/40 tracking-wide">
+                <span id="project-modal-title" className="text-xs font-mono text-white/40 tracking-wide">
                   {t('project.titlebar').replace('{id}', project.id)}
                 </span>
               </div>
               <button
                 onClick={closeProjectModal}
+                aria-label={lang === 'es' ? 'Cerrar' : 'Close'}
                 className="text-white/30 hover:text-white/60 transition-colors"
               >
                 <X className="w-4 h-4" />
@@ -164,12 +169,14 @@ export default function ProjectModal({ lang = 'en' }: { lang?: Lang }) {
                 <>
                   <button
                     onClick={prevImage}
+                    aria-label={lang === 'es' ? 'Imagen anterior' : 'Previous image'}
                     className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/70 border border-white/10 backdrop-blur-sm flex items-center justify-center text-white/60 hover:text-white hover:bg-black/90 transition-all duration-200 z-10"
                   >
                     <ChevronLeft className="w-5 h-5" />
                   </button>
                   <button
                     onClick={nextImage}
+                    aria-label={lang === 'es' ? 'Siguiente imagen' : 'Next image'}
                     className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/70 border border-white/10 backdrop-blur-sm flex items-center justify-center text-white/60 hover:text-white hover:bg-black/90 transition-all duration-200 z-10"
                   >
                     <ChevronRight className="w-5 h-5" />
@@ -181,6 +188,8 @@ export default function ProjectModal({ lang = 'en' }: { lang?: Lang }) {
                       <button
                         key={index}
                         onClick={() => setCurrentImageIndex(index)}
+                        aria-label={`${lang === 'es' ? 'Imagen' : 'Image'} ${index + 1}`}
+                        aria-current={index === currentImageIndex ? 'true' : undefined}
                         className={`w-2 h-2 rounded-full transition-all duration-200 ${
                           index === currentImageIndex 
                             ? 'bg-[#CCFF00] scale-110' 
@@ -258,7 +267,9 @@ export default function ProjectModal({ lang = 'en' }: { lang?: Lang }) {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="flex-1 py-3 rounded-lg bg-[#CCFF00] text-black text-sm font-mono font-bold hover:shadow-lg hover:shadow-[#CCFF00]/20 transition-shadow duration-300 flex items-center justify-center gap-2"
+                  disabled
+                  aria-label={`${t('project.viewLive')} (${lang === 'es' ? 'Próximamente' : 'Coming soon'})`}
+                  className="flex-1 py-3 rounded-lg bg-[#CCFF00]/50 text-black/50 text-sm font-mono font-bold cursor-not-allowed transition-shadow duration-300 flex items-center justify-center gap-2"
                 >
                   <ExternalLink className="w-4 h-4" />
                   {t('project.viewLive')}

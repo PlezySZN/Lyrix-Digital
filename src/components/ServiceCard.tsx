@@ -70,7 +70,7 @@ export default function ServiceCard({
   }, [isInView, delay]);
 
   return (
-    <motion.div
+    <motion.article
       initial={{ opacity: 0, y: 20, scale: 0.95 }}
       animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 20, scale: 0.95 }}
       transition={{ duration: 0.5, delay: delay / 1000, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -121,7 +121,7 @@ export default function ServiceCard({
         {/* Hover glow */}
         <div className="absolute -inset-px rounded-xl bg-linear-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
       </div>
-    </motion.div>
+    </motion.article>
   );
 }
 

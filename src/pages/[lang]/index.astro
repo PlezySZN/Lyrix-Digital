@@ -29,13 +29,15 @@ const lang = getLangFromUrl(Astro.url) as Lang;
 ---
 
 <Layout lang={lang}>
+	<!-- Banner landmark (implicit role="banner" as direct child of <body>) -->
+	<Hero lang={lang} />
+
 	<main id="main-content">
-		<Hero lang={lang} />
-		<Portfolio lang={lang} />
-		<Services lang={lang} />
-		<Reviews lang={lang} />
-		<Process lang={lang} />
-		<FAQ lang={lang} />
-		<CTA lang={lang} />
+		<Portfolio lang={lang}/>
+		<Services lang={lang}/>
+		<Reviews lang={lang}/>
+		<Process lang={lang}/>
+		<FAQ lang={lang}/>
+		<CTA lang={lang}/>
 	</main>
 </Layout>

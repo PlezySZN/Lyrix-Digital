@@ -173,7 +173,8 @@ export default function CTA({ lang = 'en' }: { lang?: Lang }) {
                 transition={{ duration: 0.6, delay: 0.4 }}
                 className="text-center mb-6 md:mb-8"
               >
-                <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4 tracking-tight leading-tight">
+                <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4 tracking-tight leading-tight" aria-label="Ready For A System">
+                  
                   {t('cta.headline1')}
                   <br />
                   <span className="text-[#CCFF00]">{t('cta.headline2')}</span>
@@ -240,21 +241,16 @@ export default function CTA({ lang = 'en' }: { lang?: Lang }) {
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.5, delay: 1.0 }}
           className="mt-12 text-center"
+          role="contentinfo"
         >
           <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 text-xs font-mono text-white/20">
             <span>{t('cta.copyright')}</span>
-            <span className="hidden md:inline">|</span>
-            <a href="#" className="hover:text-white/40 transition-colors duration-200">
-              {t('cta.privacy')}
-            </a>
-            <span className="hidden md:inline">|</span>
-            <a href="#" className="hover:text-white/40 transition-colors duration-200">
-              {t('cta.terms')}
-            </a>
-            <span className="hidden md:inline">|</span>
-            <a href="#" className="hover:text-white/40 transition-colors duration-200">
-              {t('cta.social')}
-            </a>
+            <span className="hidden md:inline" aria-hidden="true">|</span>
+            <span>{t('cta.privacy')}</span>
+            <span className="hidden md:inline" aria-hidden="true">|</span>
+            <span>{t('cta.terms')}</span>
+            <span className="hidden md:inline" aria-hidden="true">|</span>
+            <span>{t('cta.social')}</span>
           </div>
         </motion.footer>
       </div>
