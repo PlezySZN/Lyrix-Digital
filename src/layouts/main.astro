@@ -46,6 +46,9 @@ const resolvedDescription = description ?? t(lang, 'meta.description');
 			rel="stylesheet"
 			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@400;500;600;700&display=swap"
 		/>
+
+		<!-- ═══ CLOUDFLARE TURNSTILE (explicit render — activated by ContactModal) ═══ -->
+		<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 	</head>
 	<body class="antialiased">
 		<!-- Skip Navigation (Accessibility + crawlability) -->

@@ -8,7 +8,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useStore } from '@nanostores/react';
-import { X, Send, Film, Loader2 } from 'lucide-react';
+import { X, Send, Film, Loader2, AlertTriangle } from 'lucide-react';
 import CustomSelect from './CustomSelect';
 import {
   $contactModalOpen,
@@ -19,6 +19,21 @@ import {
 } from '../stores/modalStore';
 import { useTranslations } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
+import { contactSchema, getFieldErrors } from '../schemas/contact';
+
+// ─── TURNSTILE TYPES ───
+
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (container: HTMLElement, options: Record<string, unknown>) => string;
+      reset: (widgetId: string) => void;
+      remove: (widgetId: string) => void;
+    };
+  }
+}
+
+const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
 
 // ─── DATA ───
 
@@ -62,6 +77,13 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+
+  // ─── SECURITY STATE ───
+  const [_honeypot, setHoneypot] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const turnstileContainerRef = useRef<HTMLDivElement>(null);
+  const turnstileWidgetId = useRef<string | null>(null);
 
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -123,26 +145,87 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen]);
 
+  // ─── TURNSTILE: Invisible CAPTCHA ───
+  useEffect(() => {
+    if (!isOpen || !TURNSTILE_SITE_KEY) return;
+
+    const renderWidget = () => {
+      if (!turnstileContainerRef.current || !window.turnstile) return;
+      if (turnstileWidgetId.current !== null) return;
+
+      turnstileWidgetId.current = window.turnstile.render(
+        turnstileContainerRef.current,
+        {
+          sitekey: TURNSTILE_SITE_KEY,
+          callback: (token: string) => setTurnstileToken(token),
+          'expired-callback': () => {
+            setTurnstileToken('');
+            if (turnstileWidgetId.current !== null && window.turnstile) {
+              window.turnstile.reset(turnstileWidgetId.current);
+            }
+          },
+          'error-callback': () => setTurnstileToken(''),
+          theme: 'dark',
+          size: 'invisible',
+        }
+      );
+    };
+
+    if (window.turnstile) {
+      renderWidget();
+    } else {
+      const interval = setInterval(() => {
+        if (window.turnstile) {
+          clearInterval(interval);
+          renderWidget();
+        }
+      }, 200);
+      const timeout = setTimeout(() => clearInterval(interval), 10_000);
+      return () => { clearInterval(interval); clearTimeout(timeout); };
+    }
+
+    return () => {
+      if (turnstileWidgetId.current !== null && window.turnstile) {
+        window.turnstile.remove(turnstileWidgetId.current);
+        turnstileWidgetId.current = null;
+      }
+      setTurnstileToken('');
+    };
+  }, [isOpen]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSending(true);
+    setFieldErrors({});
     setError('');
+
+    // ─── CLIENT-SIDE ZOD VALIDATION ───
+    const payload = {
+      name: name.trim(),
+      email: email.trim(),
+      phone: phone.trim(),
+      sector,
+      maintenance,
+      budget,
+      cinematic,
+      message: message.trim(),
+      lang,
+      _honeypot,
+      turnstileToken,
+    };
+
+    const result = contactSchema.safeParse(payload);
+    if (!result.success) {
+      setFieldErrors(getFieldErrors(result.error));
+      return;
+    }
+
+    setSending(true);
 
     try {
       const res = await fetch('/api/send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          email,
-          phone,
-          sector,
-          maintenance,
-          budget,
-          cinematic,
-          message,
-          lang,
-        }),
+        body: JSON.stringify(result.data),
       });
 
       if (!res.ok) throw new Error('API error');
@@ -159,6 +242,8 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
         setCinematic(false);
         setMessage('');
         setError('');
+        setFieldErrors({});
+        setHoneypot('');
         closeContactModal();
       }, 2500);
     } catch {
@@ -235,6 +320,23 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
               </motion.div>
             ) : (
               <form ref={formRef} onSubmit={handleSubmit} className="p-6 space-y-5">
+                {/* ─── HONEYPOT (invisible to humans, bots fill it) ─── */}
+                <div className="absolute -left-[9999px]" aria-hidden="true">
+                  <label htmlFor="contact-website">Website</label>
+                  <input
+                    id="contact-website"
+                    type="text"
+                    name="website"
+                    value={_honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
+
+                {/* Turnstile invisible widget container */}
+                <div ref={turnstileContainerRef} />
+
                 {/* Section Label */}
                 <div className="flex items-center gap-2 mb-1">
                   <div className="w-2 h-2 rounded-full bg-[#CCFF00] animate-pulse" />
@@ -255,8 +357,18 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder={t('contact.name.placeholder')}
-                    className="w-full px-4 py-3 rounded-lg bg-white/3 border border-white/10 text-sm text-white placeholder:text-white/20 font-mono focus:outline-none focus:border-[#CCFF00]/40 focus:ring-1 focus:ring-[#CCFF00]/20 transition-all"
+                    className={`w-full px-4 py-3 rounded-lg bg-white/3 border text-sm text-white placeholder:text-white/20 font-mono focus:outline-none transition-all ${
+                      fieldErrors.name
+                        ? 'border-red-500/50 focus:border-red-400/60 focus:ring-1 focus:ring-red-400/20'
+                        : 'border-white/10 focus:border-[#CCFF00]/40 focus:ring-1 focus:ring-[#CCFF00]/20'
+                    }`}
                   />
+                  {fieldErrors.name && (
+                    <p className="mt-1 flex items-center gap-1 text-[11px] font-mono text-red-400">
+                      <AlertTriangle className="w-3 h-3 shrink-0" />
+                      {fieldErrors.name}
+                    </p>
+                  )}
                 </div>
 
                 {/* Email */}
@@ -271,8 +383,18 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder={t('contact.email.placeholder')}
-                    className="w-full px-4 py-3 rounded-lg bg-white/3 border border-white/10 text-sm text-white placeholder:text-white/20 font-mono focus:outline-none focus:border-[#CCFF00]/40 focus:ring-1 focus:ring-[#CCFF00]/20 transition-all"
+                    className={`w-full px-4 py-3 rounded-lg bg-white/3 border text-sm text-white placeholder:text-white/20 font-mono focus:outline-none transition-all ${
+                      fieldErrors.email
+                        ? 'border-red-500/50 focus:border-red-400/60 focus:ring-1 focus:ring-red-400/20'
+                        : 'border-white/10 focus:border-[#CCFF00]/40 focus:ring-1 focus:ring-[#CCFF00]/20'
+                    }`}
                   />
+                  {fieldErrors.email && (
+                    <p className="mt-1 flex items-center gap-1 text-[11px] font-mono text-red-400">
+                      <AlertTriangle className="w-3 h-3 shrink-0" />
+                      {fieldErrors.email}
+                    </p>
+                  )}
                 </div>
 
                 {/* Phone */}
@@ -286,8 +408,18 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder={t('contact.phone.placeholder')}
-                    className="w-full px-4 py-3 rounded-lg bg-white/3 border border-white/10 text-sm text-white placeholder:text-white/20 font-mono focus:outline-none focus:border-[#CCFF00]/40 focus:ring-1 focus:ring-[#CCFF00]/20 transition-all"
+                    className={`w-full px-4 py-3 rounded-lg bg-white/3 border text-sm text-white placeholder:text-white/20 font-mono focus:outline-none transition-all ${
+                      fieldErrors.phone
+                        ? 'border-red-500/50 focus:border-red-400/60 focus:ring-1 focus:ring-red-400/20'
+                        : 'border-white/10 focus:border-[#CCFF00]/40 focus:ring-1 focus:ring-[#CCFF00]/20'
+                    }`}
                   />
+                  {fieldErrors.phone && (
+                    <p className="mt-1 flex items-center gap-1 text-[11px] font-mono text-red-400">
+                      <AlertTriangle className="w-3 h-3 shrink-0" />
+                      {fieldErrors.phone}
+                    </p>
+                  )}
                 </div>
 
                 {/* Sector Dropdown */}
@@ -368,8 +500,18 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder={messagePlaceholder}
-                    className="w-full px-4 py-3 rounded-lg bg-white/3 border border-white/10 text-sm text-white placeholder:text-white/20 font-mono focus:outline-none focus:border-[#CCFF00]/40 focus:ring-1 focus:ring-[#CCFF00]/20 transition-all resize-none"
+                    className={`w-full px-4 py-3 rounded-lg bg-white/3 border text-sm text-white placeholder:text-white/20 font-mono focus:outline-none transition-all resize-none ${
+                      fieldErrors.message
+                        ? 'border-red-500/50 focus:border-red-400/60 focus:ring-1 focus:ring-red-400/20'
+                        : 'border-white/10 focus:border-[#CCFF00]/40 focus:ring-1 focus:ring-[#CCFF00]/20'
+                    }`}
                   />
+                  {fieldErrors.message && (
+                    <p className="mt-1 flex items-center gap-1 text-[11px] font-mono text-red-400">
+                      <AlertTriangle className="w-3 h-3 shrink-0" />
+                      {fieldErrors.message}
+                    </p>
+                  )}
                 </div>
 
                 {/* ─── CINEMATIC PRODUCTION TOGGLE ─── */}
