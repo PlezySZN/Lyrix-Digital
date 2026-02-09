@@ -41,7 +41,7 @@ export default function FolderCard({
       <div className="absolute -inset-0.5 rounded-2xl bg-white/0 group-hover:bg-white/5 blur-xl transition-all duration-500 opacity-0 group-hover:opacity-100" />
 
       {/* Main card container */}
-      <div className="relative w-56 md:w-64 p-5 rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md transition-all duration-300 group-hover:border-white/20 group-hover:bg-white/[0.04]">
+      <div className="relative w-56 md:w-64 p-5 rounded-2xl border border-white/10 bg-white/2 backdrop-blur-md transition-all duration-300 group-hover:border-white/20 group-hover:bg-white/4">
         {/* Icon container */}
         <div className="flex items-center justify-center w-12 h-12 mb-4 rounded-xl bg-white/5 border border-white/10 group-hover:border-white/20 transition-all duration-300">
           <Icon className="w-6 h-6 text-white/70 group-hover:text-white transition-colors duration-300" />

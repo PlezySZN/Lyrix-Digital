@@ -321,7 +321,7 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
             ) : (
               <form ref={formRef} onSubmit={handleSubmit} className="p-6 space-y-5">
                 {/* ─── HONEYPOT (invisible to humans, bots fill it) ─── */}
-                <div className="absolute -left-[9999px]" aria-hidden="true">
+                <div className="absolute -left-2499.75" aria-hidden="true">
                   <label htmlFor="contact-website">Website</label>
                   <input
                     id="contact-website"
