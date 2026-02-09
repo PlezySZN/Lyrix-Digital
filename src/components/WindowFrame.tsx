@@ -87,41 +87,47 @@ export default function WindowFrame({
           `}
         >
           {/* Traffic Light Buttons */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             {/* RED — Close / Dock */}
-            <button
-              onClick={handleRed}
-              className="group relative w-3 h-3 rounded-full bg-[#FF5F57] hover:brightness-125 transition-all"
-              aria-label="Close window"
-            >
-              <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-black/60 text-[8px] font-bold leading-none">
-                ×
-              </span>
-            </button>
+            <div className="flex items-center justify-center w-6 h-6">
+              <button
+                onClick={handleRed}
+                className="group relative w-3 h-3 rounded-full bg-[#FF5F57] hover:brightness-125 transition-all"
+                aria-label="Close window"
+              >
+                <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-black/60 text-[8px] font-bold leading-none">
+                  ×
+                </span>
+              </button>
+            </div>
 
             {/* YELLOW — Minimize / Collapse */}
-            <button
-              onClick={handleYellow}
-              className="group relative w-3 h-3 rounded-full bg-[#FEBC2E] hover:brightness-125 transition-all"
-              aria-label="Minimize window"
-            >
-              <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-black/60 text-[8px] font-bold leading-none">
-                −
-              </span>
-            </button>
+            <div className="flex items-center justify-center w-6 h-6">
+              <button
+                onClick={handleYellow}
+                className="group relative w-3 h-3 rounded-full bg-[#FEBC2E] hover:brightness-125 transition-all"
+                aria-label="Minimize window"
+              >
+                <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-black/60 text-[8px] font-bold leading-none">
+                  −
+                </span>
+              </button>
+            </div>
 
             {/* GREEN — Restore / Maximize */}
-            <button
-              onClick={handleGreen}
-              className={`group relative w-3 h-3 rounded-full bg-[#28C840] hover:brightness-125 transition-all ${
-                state === 'OPEN' ? 'ring-1 ring-[#28C840]/40' : ''
-              }`}
-              aria-label="Restore window"
-            >
-              <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-black/60 text-[8px] font-bold leading-none">
-                +
-              </span>
-            </button>
+            <div className="flex items-center justify-center w-6 h-6">
+              <button
+                onClick={handleGreen}
+                className={`group relative w-3 h-3 rounded-full bg-[#28C840] hover:brightness-125 transition-all ${
+                  state === 'OPEN' ? 'ring-1 ring-[#28C840]/40' : ''
+                }`}
+                aria-label="Restore window"
+              >
+                <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-black/60 text-[8px] font-bold leading-none">
+                  +
+                </span>
+              </button>
+            </div>
           </div>
 
           {/* Window Title */}
@@ -129,7 +135,7 @@ export default function WindowFrame({
             {titleIcon && titleIcon}
             <span
               className={`text-xs font-mono tracking-wide ${
-                accent ? 'text-[#CCFF00]/60 text-sm' : 'text-white/40'
+                accent ? 'text-[#CCFF00]/60 text-sm' : 'text-white/60'
               }`}
             >
               {displayTitle}

@@ -156,7 +156,7 @@ export default function SystemExecution({ lang = 'en' }: { lang?: Lang }) {
                   </span>
                 </div>
                 
-                <div className="flex items-center gap-2 text-xs font-mono text-white/40">
+                <div className="flex items-center gap-2 text-xs font-mono text-white/60">
                   <div className="w-2 h-2 rounded-full bg-[#CCFF00] animate-pulse" />
                   <span>{t('cta.systems')}</span>
                   <span className="mx-2">•</span>
@@ -220,7 +220,7 @@ export default function SystemExecution({ lang = 'en' }: { lang?: Lang }) {
                 transition={{ duration: 0.5, delay: 0.8 }}
                 className="text-center"
               >
-                <p className="text-sm text-white/40 font-mono mb-4">
+                <p className="text-sm text-white/60 font-mono mb-4">
                   {t('cta.trust')}
                 </p>
                 

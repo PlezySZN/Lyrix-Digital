@@ -131,7 +131,7 @@ export default function HeroContent({ lang = 'en' }: { lang?: Lang }) {
             <div className="w-3 h-3 rounded-full bg-[#28C840]" />
           </div>
           <div className="flex-1 text-center">
-            <span className="text-xs font-medium text-white/40 tracking-wide">
+            <span className="text-xs font-medium text-white/60 tracking-wide">
               {t('hero.finder')}
             </span>
           </div>
@@ -186,8 +186,8 @@ export default function HeroContent({ lang = 'en' }: { lang?: Lang }) {
               role="presentation"
               aria-hidden="true"
               variants={wordVariants}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1]"
-              style={{ fontFamily: "'Oswald', 'Barlow Condensed', sans-serif" }}
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1] min-h-[1.15em]"
+              style={{ fontFamily: "'Oswald', 'Oswald Fallback', 'Barlow Condensed', sans-serif" }}
             >
               {scrambledHeadline || '\u00A0'}
             </motion.div>

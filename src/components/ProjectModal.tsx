@@ -110,7 +110,7 @@ export default function ProjectModal({ lang = 'en' }: { lang?: Lang }) {
                 <div className="w-3 h-3 rounded-full bg-[#28C840]" />
               </div>
               <div className="flex-1 text-center">
-                <span id="project-modal-title" className="text-xs font-mono text-white/40 tracking-wide">
+                <span id="project-modal-title" className="text-xs font-mono text-white/60 tracking-wide">
                   {t('project.titlebar').replace('{id}', project.id)}
                 </span>
               </div>
@@ -245,7 +245,7 @@ export default function ProjectModal({ lang = 'en' }: { lang?: Lang }) {
               <div className="mb-6 p-4 rounded-lg bg-white/1 border border-white/5">
                 <div className="flex items-center gap-1.5 mb-2">
                   <span className="text-xs font-mono text-[#CCFF00]/60">{'>'}</span>
-                  <span className="text-xs font-mono text-white/40 uppercase tracking-wider">
+                  <span className="text-xs font-mono text-white/60 uppercase tracking-wider">
                     {t('project.brief')}
                   </span>
                 </div>

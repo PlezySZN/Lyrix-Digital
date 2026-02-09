@@ -39,14 +39,40 @@ const resolvedDescription = description ?? t(lang, 'meta.description');
 		<meta name="generator" content={Astro.generator} />
 		<title>{resolvedTitle}</title>
 
-		<!-- ═══ SEO ENGINE (Canonical, Hreflang, OG, Twitter, JSON-LD, Preconnect) ═══ -->
+		<!-- ═══ CRITICAL FONT PRELOADS (before anything else — eliminates FOIT/CLS) ═══ -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			rel="preload"
+			href="https://fonts.gstatic.com/s/oswald/v57/TK3_WkUHHAIjg75cFRf3bXL8LICs1xZosUhiZTaR.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
+		/>
+		<link
+			rel="preload"
+			href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
+		/>
+
+		<!-- ═══ SEO ENGINE (Canonical, Hreflang, OG, Twitter, JSON-LD) ═══ -->
 		<SEO lang={lang} title={resolvedTitle} description={resolvedDescription} keywords={keywords} />
 
-		<!-- ═══ GOOGLE FONTS (non-blocking via preconnect in SEO) ═══ -->
+		<!-- ═══ GOOGLE FONTS (non-render-blocking via media swap) ═══ -->
 		<link
 			rel="stylesheet"
-			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@400;500;600;700&display=swap"
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap"
+			media="print"
+			onload="this.media='all'"
 		/>
+		<noscript>
+			<link
+				rel="stylesheet"
+				href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap"
+			/>
+		</noscript>
 
 		<!-- ═══ CLOUDFLARE TURNSTILE (explicit render — activated by ContactModal) ═══ -->
 		<script type="module">

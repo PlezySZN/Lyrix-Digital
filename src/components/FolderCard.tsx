@@ -50,7 +50,7 @@ export default function FolderCard({
         {/* File name */}
         <h3 className="text-base font-medium text-white mb-1 transition-colors duration-300">
           {name}
-          <span className="text-white/40">.{extension}</span>
+          <span className="text-white/60">.{extension}</span>
         </h3>
 
         {/* Meta description */}

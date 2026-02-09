@@ -92,7 +92,7 @@ function ProcessNode({
       </h3>
 
       {/* Description */}
-      <p className="text-sm text-white/40 leading-relaxed max-w-55">
+      <p className="text-sm text-white/60 leading-relaxed max-w-55">
         {step.description}
       </p>
       </div>{/* end card background */}
@@ -197,7 +197,7 @@ export default function Process({ lang = 'en' }: { lang?: Lang }) {
             </div>
             <div className="flex items-center gap-2 mb-2">
               <div className="w-2 h-2 rounded-full bg-[#CCFF00] animate-pulse" />
-              <span className="text-xs font-mono text-white/40 uppercase tracking-wider">
+              <span className="text-xs font-mono text-white/60 uppercase tracking-wider">
                 {t('deploy.status')}
               </span>
             </div>
@@ -207,7 +207,7 @@ export default function Process({ lang = 'en' }: { lang?: Lang }) {
             <p className="text-xs font-mono text-[#CCFF00]/60 uppercase tracking-widest mt-1">
               {t('deploy.subtitle')}
             </p>
-            <p className="text-sm text-white/40 mt-2 max-w-xl">
+            <p className="text-sm text-white/60 mt-2 max-w-xl">
               {t('deploy.description')}
             </p>
           </motion.div>
@@ -345,7 +345,7 @@ export default function Process({ lang = 'en' }: { lang?: Lang }) {
                       >
                         [{step.label}] — {step.title}
                       </h3>
-                      <p className="text-sm text-white/40 leading-relaxed">
+                      <p className="text-sm text-white/60 leading-relaxed">
                         {step.description}
                       </p>
                     </div>

@@ -175,14 +175,14 @@ export default function FAQ({ lang = 'en' }: { lang?: Lang }) {
           >
             <div className="flex items-center gap-2 mb-2">
               <div className="w-2 h-2 rounded-full bg-[#CCFF00] animate-pulse" />
-              <span className="text-xs font-mono text-white/40 uppercase tracking-wider">
+              <span className="text-xs font-mono text-white/60 uppercase tracking-wider">
                 {t('kb.status')}
               </span>
             </div>
             <h2 className="text-2xl md:text-3xl font-semibold text-white tracking-tight" aria-label="System Manual">
               {t('kb.title')}
             </h2>
-            <p className="text-sm text-white/40 mt-2 max-w-xl">
+            <p className="text-sm text-white/60 mt-2 max-w-xl">
               {t('kb.description')}
             </p>
           </motion.div>

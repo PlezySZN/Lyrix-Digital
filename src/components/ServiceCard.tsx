@@ -96,7 +96,7 @@ export default function ServiceCard({
             </div>
             <div className="flex items-center gap-1.5 mt-0.5">
               <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-xs text-white/40 font-mono">ONLINE</span>
+              <span className="text-xs text-white/60 font-mono">ONLINE</span>
             </div>
           </div>
         </div>

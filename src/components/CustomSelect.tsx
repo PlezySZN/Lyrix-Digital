@@ -124,7 +124,7 @@ export default function CustomSelect({
     <div className={`relative ${className}`} ref={containerRef}>
       {/* Label */}
       {label && (
-        <label className="block text-xs font-mono text-white/40 mb-1.5 uppercase tracking-wider">
+        <label className="block text-xs font-mono text-white/60 mb-1.5 uppercase tracking-wider">
           {label}
           {required && <span className="text-[#CCFF00] ml-1">*</span>}
         </label>

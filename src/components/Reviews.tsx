@@ -100,7 +100,7 @@ function DataPacket({ packet }: { packet: TelemetryPacket }) {
       {/* Header - Packet Metadata */}
       <div className="flex items-center justify-between mb-4 pb-2 border-b border-white/5">
         <div className="flex items-center gap-3">
-          <span className="text-xs font-mono text-white/40">
+          <span className="text-xs font-mono text-white/60">
             {packet.id}
           </span>
           <div className="w-px h-3 bg-white/10" />
@@ -108,7 +108,7 @@ function DataPacket({ packet }: { packet: TelemetryPacket }) {
             {packet.source}
           </span>
         </div>
-        <span className="text-xs font-mono text-white/40">
+        <span className="text-xs font-mono text-white/60">
           {packet.latency}
         </span>
       </div>
@@ -141,11 +141,11 @@ function DataPacket({ packet }: { packet: TelemetryPacket }) {
           <span className="text-sm font-medium text-white/80">
             {packet.user}
           </span>
-          <span className="text-xs text-white/40 ml-2">
+          <span className="text-xs text-white/60 ml-2">
             // {packet.role}
           </span>
         </div>
-        <span className="text-xs font-mono px-2 py-1 rounded bg-white/5 text-white/40">
+        <span className="text-xs font-mono px-2 py-1 rounded bg-white/5 text-white/60">
           [{packet.clientType}]
         </span>
       </div>
@@ -188,14 +188,14 @@ export default function Reviews({ lang = 'en' }: { lang?: Lang }) {
             </div>
             <div className="flex items-center gap-2 mb-2">
               <div className="w-2 h-2 rounded-full bg-[#CCFF00] animate-pulse" />
-              <span className="text-xs font-mono text-white/40 uppercase tracking-wider">
+              <span className="text-xs font-mono text-white/60 uppercase tracking-wider">
                 {t('telemetry.status')}
               </span>
             </div>
             <h2 className="text-2xl md:text-3xl font-semibold text-white tracking-tight" aria-label="Client Telemetry">
               {t('telemetry.title')}
             </h2>
-            <p className="text-sm text-white/40 mt-2 max-w-xl">
+            <p className="text-sm text-white/60 mt-2 max-w-xl">
               {t('telemetry.description')}
             </p>
           </motion.div>

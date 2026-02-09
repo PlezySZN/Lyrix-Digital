@@ -288,7 +288,7 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
                 <div className="w-3 h-3 rounded-full bg-[#28C840]" />
               </div>
               <div className="flex-1 text-center">
-                <span id="contact-modal-title" className="text-xs font-mono text-white/40 tracking-wide">
+                <span id="contact-modal-title" className="text-xs font-mono text-white/60 tracking-wide">
                   {modalTitle}
                 </span>
               </div>
@@ -340,14 +340,14 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
                 {/* Section Label */}
                 <div className="flex items-center gap-2 mb-1">
                   <div className="w-2 h-2 rounded-full bg-[#CCFF00] animate-pulse" />
-                  <span className="text-xs font-mono text-white/40 uppercase tracking-wider">
+                  <span className="text-xs font-mono text-white/60 uppercase tracking-wider">
                     {t('contact.init')}
                   </span>
                 </div>
 
                 {/* Name */}
                 <div>
-                  <label htmlFor="contact-name" className="block text-xs font-mono text-white/40 mb-1.5 uppercase tracking-wider">
+                  <label htmlFor="contact-name" className="block text-xs font-mono text-white/60 mb-1.5 uppercase tracking-wider">
                     {t('contact.name')}
                   </label>
                   <input
@@ -373,7 +373,7 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
 
                 {/* Email */}
                 <div>
-                  <label htmlFor="contact-email" className="block text-xs font-mono text-white/40 mb-1.5 uppercase tracking-wider">
+                  <label htmlFor="contact-email" className="block text-xs font-mono text-white/60 mb-1.5 uppercase tracking-wider">
                     {t('contact.email')}
                   </label>
                   <input
@@ -399,7 +399,7 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
 
                 {/* Phone */}
                 <div>
-                  <label htmlFor="contact-phone" className="block text-xs font-mono text-white/40 mb-1.5 uppercase tracking-wider">
+                  <label htmlFor="contact-phone" className="block text-xs font-mono text-white/60 mb-1.5 uppercase tracking-wider">
                     {t('contact.phone')}
                   </label>
                   <input
@@ -434,7 +434,7 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
 
                 {/* Maintenance Protocol */}
                 <div>
-                  <label className="block text-xs font-mono text-white/40 mb-2 uppercase tracking-wider">
+                  <label className="block text-xs font-mono text-white/60 mb-2 uppercase tracking-wider">
                     {t('contact.maintenance')}
                   </label>
                   <div className="grid grid-cols-3 gap-2">
@@ -465,7 +465,7 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
 
                 {/* Budget Range */}
                 <div>
-                  <label className="block text-xs font-mono text-white/40 mb-2 uppercase tracking-wider">
+                  <label className="block text-xs font-mono text-white/60 mb-2 uppercase tracking-wider">
                     {t('contact.budget')}
                   </label>
                   <div className="flex flex-wrap gap-2">
@@ -491,7 +491,7 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
 
                 {/* Message */}
                 <div>
-                  <label htmlFor="contact-message" className="block text-xs font-mono text-white/40 mb-1.5 uppercase tracking-wider">
+                  <label htmlFor="contact-message" className="block text-xs font-mono text-white/60 mb-1.5 uppercase tracking-wider">
                     {t('contact.message')}
                   </label>
                   <textarea
@@ -516,7 +516,7 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
 
                 {/* ─── CINEMATIC PRODUCTION TOGGLE ─── */}
                 <div>
-                  <label className="block text-xs font-mono text-white/40 mb-2 uppercase tracking-wider">
+                  <label className="block text-xs font-mono text-white/60 mb-2 uppercase tracking-wider">
                     {t('contact.cinematic')}
                   </label>
                   <button
@@ -542,7 +542,7 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
                       <Film className={`w-5 h-5 transition-colors duration-300 ${cinematic ? 'text-[#CCFF00]' : 'text-white/40'}`} />
                     </div>
                     <div className="flex-1 text-left">
-                      <span className={`block text-xs font-mono font-semibold tracking-wider transition-colors duration-300 ${cinematic ? 'text-[#CCFF00]' : 'text-white/60'}`}>
+                      <span className={`block text-xs font-mono font-semibold tracking-wider transition-colors duration-300 ${cinematic ? 'text-[#CCFF00]' : 'text-white/40'}`}>
                         {t('contact.cinematic.toggle')}
                       </span>
                       <span className="block text-[10px] text-white/30 mt-0.5">

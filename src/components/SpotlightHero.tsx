@@ -131,7 +131,7 @@ export default function SpotlightHero({ lang = 'en' }: { lang?: Lang }) {
             <div className="w-3 h-3 rounded-full bg-[#28C840] hover:brightness-110 transition-all cursor-pointer" />
           </div>
           <div className="flex-1 text-center">
-            <span className="text-xs font-medium text-white/40 tracking-wide">
+            <span className="text-xs font-medium text-white/60 tracking-wide">
               {t('hero.finder')}
             </span>
           </div>

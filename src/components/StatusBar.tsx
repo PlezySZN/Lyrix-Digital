@@ -145,10 +145,10 @@ export default function StatusBar({ lang = 'en' }: { lang?: Lang }) {
       <div className="relative flex items-center justify-between px-4 md:px-6 py-2.5">
         {/* ─── LEFT: System Info ─── */}
         <div className="flex items-center gap-3 min-w-0 shrink-0">
-          <span className="text-xs font-mono text-white/40 hidden md:inline">
+          <span className="text-xs font-mono text-white/60 hidden md:inline">
             Lyrix OS v1.2
           </span>
-          <span className="text-xs font-mono text-white/40 hidden">
+          <span className="text-xs font-mono text-white/60 hidden">
             LX 1.2
           </span>
           <div className="h-3 w-px bg-white/10 hidden md:block" />
@@ -167,12 +167,12 @@ export default function StatusBar({ lang = 'en' }: { lang?: Lang }) {
         {/* ─── RIGHT: System Tray ─── */}
         <div className="flex items-center gap-2 md:gap-3 shrink-0">
           {/* Signal indicator */}
-          <div className="hidden md:flex items-center gap-1 text-white/40" aria-hidden="true">
+          <div className="hidden md:flex items-center gap-1 text-white/60" aria-hidden="true">
             <Wifi className="w-3.5 h-3.5" />
           </div>
 
           {/* Battery indicator */}
-          <div className="hidden md:flex items-center gap-1 text-white/40">
+          <div className="hidden md:flex items-center gap-1 text-white/60">
             <Battery className="w-3.5 h-3.5" />
             <span className="text-xs font-mono">100%</span>
           </div>

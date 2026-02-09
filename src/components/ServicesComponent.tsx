@@ -85,7 +85,7 @@ export default function Services({ lang = 'en' }: { lang?: Lang }) {
             </div>
             <div className="flex items-center gap-2 mb-2">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-xs font-mono text-white/40 uppercase tracking-wider">
+              <span className="text-xs font-mono text-white/60 uppercase tracking-wider">
                 {t('specs.status')}
               </span>
             </div>
@@ -95,7 +95,7 @@ export default function Services({ lang = 'en' }: { lang?: Lang }) {
             <p className="text-xs font-mono text-[#CCFF00]/60 uppercase tracking-widest mt-1">
               {t('specs.subtitle')}
             </p>
-            <p className="text-sm text-white/40 mt-2 max-w-xl">
+            <p className="text-sm text-white/60 mt-2 max-w-xl">
               {t('specs.description')}
             </p>
           </motion.div>

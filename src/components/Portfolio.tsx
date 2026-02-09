@@ -160,7 +160,7 @@ export default function ProjectLogs({ lang = 'en' }: { lang?: Lang }) {
             </div>
             <div className="flex items-center gap-2 mb-2">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-xs font-mono text-white/40 uppercase tracking-wider">
+              <span className="text-xs font-mono text-white/60 uppercase tracking-wider">
                 {t('logs.status').replace('{count}', String(projects.length))}
               </span>
             </div>
@@ -170,7 +170,7 @@ export default function ProjectLogs({ lang = 'en' }: { lang?: Lang }) {
             <p className="text-xs font-mono text-[#CCFF00]/60 uppercase tracking-widest mt-1">
               {t('logs.subtitle')}
             </p>
-            <p className="text-sm text-white/40 mt-2 max-w-xl">
+            <p className="text-sm text-white/60 mt-2 max-w-xl">
               {t('logs.description')}
             </p>
           </motion.div>
@@ -238,7 +238,7 @@ export default function ProjectLogs({ lang = 'en' }: { lang?: Lang }) {
                   </span>
 
                   {/* Year */}
-                  <span className="text-xs font-mono text-white/40">{project.year}</span>
+                  <span className="text-xs font-mono text-white/60">{project.year}</span>
 
                   {/* Arrow */}
                   <ChevronRight className="w-4 h-4 text-white/20 group-hover:text-white/50 group-hover:translate-x-0.5 transition-all duration-200" />
@@ -269,7 +269,7 @@ export default function ProjectLogs({ lang = 'en' }: { lang?: Lang }) {
                       <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
                       <span className="text-xs font-mono text-green-400/80">{project.status}</span>
                     </span>
-                    <span className="text-xs font-mono text-white/40">{project.year}</span>
+                    <span className="text-xs font-mono text-white/60">{project.year}</span>
                   </div>
                 </div>
               </motion.div>
@@ -324,14 +324,14 @@ export default function ProjectLogs({ lang = 'en' }: { lang?: Lang }) {
                 />
                 <div className="relative flex flex-col items-center gap-2">
                   <ExternalLink className="w-6 h-6 text-white/30" />
-                  <span className="text-xs font-mono text-white/40">preview.render</span>
+                  <span className="text-xs font-mono text-white/60">preview.render</span>
                 </div>
               </div>
 
               {/* Preview Details */}
               <div className="p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-mono text-white/40">{projects[hoveredIndex].id}</span>
+                  <span className="text-xs font-mono text-white/60">{projects[hoveredIndex].id}</span>
                   <span className={`text-xs font-mono ${projects[hoveredIndex].typeColor}`}>
                     [{projects[hoveredIndex].type}]
                   </span>
