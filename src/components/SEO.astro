@@ -77,7 +77,7 @@ interface Props {
 
 const SITE = 'https://lyrixdigital.com';
 const BRAND = 'Lyrix Digital';
-const DEFAULT_OG_IMAGE = '../og-image.png';
+const DEFAULT_OG_IMAGE = 'public/og-image.png';
 const THEME_COLOR = '#050505';
 
 /* ─── Destructure Props With Defaults ─────────────────── */
@@ -148,7 +148,7 @@ const resolvedBreadcrumbs: BreadcrumbItem[] = breadcrumbs ?? [
 ═══════════════════════════════════════════════════════════ */
 
 // ── 1. Organization (always present)
-const OG_IMAGE_URL = `${SITE}../og-image.png`;
+const OG_IMAGE_URL = `${SITE}public/og-image.png`;
 
 const organizationSchema = {
   '@type': 'Organization',
