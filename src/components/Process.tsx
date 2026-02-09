@@ -9,7 +9,7 @@ import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useInView, useMotionValueEvent } from 'framer-motion';
 import { Radar, Code2, Rocket } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
-import OsWindow from './OsWindow';
+import WindowFrame from './WindowFrame';
 import { useTranslations } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
 
@@ -67,14 +67,14 @@ function ProcessNode({
       <div
         className={`
           relative z-10 flex items-center justify-center w-16 h-16 rounded-2xl
-          border transition-all duration-500 ease-out mb-5 bg-white/[0.03]
+          border transition-all duration-500 ease-out mb-5 bg-white/3
           ${isNode02
             ? (isActive 
                ? 'border-[#CCFF00]/40 bg-[#0a0a0a] shadow-[0_0_30px_rgba(204,255,0,0.15)]' 
                : 'border-white/10 bg-[#0a0a0a]')
             : (isActive
                ? 'border-[#CCFF00]/40 bg-[#CCFF00]/10 shadow-[0_0_30px_rgba(204,255,0,0.15)]'
-               : 'border-white/10 bg-white/[0.03]')
+               : 'border-white/10 bg-white/3')
           }
         `}
       >
@@ -98,7 +98,7 @@ function ProcessNode({
       </h3>
 
       {/* Description */}
-      <p className="text-sm text-white/40 leading-relaxed max-w-[220px]">
+      <p className="text-sm text-white/40 leading-relaxed max-w-55">
         {step.description}
       </p>
       </div>{/* end card background */}
@@ -108,7 +108,7 @@ function ProcessNode({
 
 // ─── MAIN COMPONENT ───
 
-export default function DeploymentSequence({ lang = 'es' }: { lang?: Lang }) {
+export default function Process({ lang = 'en' }: { lang?: Lang }) {
   const t = useTranslations(lang);
   const containerRef = useRef<HTMLDivElement>(null);
   const pathSectionRef = useRef<HTMLDivElement>(null);
@@ -139,8 +139,8 @@ export default function DeploymentSequence({ lang = 'es' }: { lang?: Lang }) {
   });
 
   return (
-    <OsWindow id="deployment" className="relative w-full bg-[#050505] px-4 md:px-8 pb-8">
-    <section ref={containerRef}>
+    <WindowFrame id="deployment" className="relative w-full bg-lyrix-dark px-4 md:px-8 pb-8">
+    <section ref={containerRef} aria-label={lang === 'es' ? 'Proceso' : 'Process'}>
       {/* ─── CONTENT (window frame provided by OsWindow) ─── */}
       <motion.div
         initial={{ opacity: 0, scale: 0.96, y: 30 }}
@@ -248,7 +248,7 @@ export default function DeploymentSequence({ lang = 'es' }: { lang?: Lang }) {
             <div className="relative pl-10">
               {/* Vertical SVG Circuit Line - smaller, from node 01 to node 03 */}
               <svg
-                className="absolute left-[19px] top-0 w-1 z-0"
+                className="absolute left-4.75 top-0 w-1 z-0"
                 style={{ height: 'calc(100% - 40px)' }}
                 preserveAspectRatio="none"
               >
@@ -279,7 +279,7 @@ export default function DeploymentSequence({ lang = 'es' }: { lang?: Lang }) {
                     initial={{ opacity: 0, x: -20 }}
                     animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
                     transition={{ duration: 0.5, delay: 0.3 + index * 0.15 }}
-                    className={`relative pb-10 last:pb-0 ${isNode03 ? 'mt-[3px]' : ''}`}
+                    className={`relative pb-10 last:pb-0 ${isNode03 ? 'mt-0.75' : ''}`}
                   >
                     {/* Node Dot - all nodes now have solid backgrounds */}
                     <div
@@ -338,6 +338,6 @@ export default function DeploymentSequence({ lang = 'es' }: { lang?: Lang }) {
         </div>
       </motion.div>
     </section>
-    </OsWindow>
+    </WindowFrame>
   );
 }

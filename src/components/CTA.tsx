@@ -75,7 +75,7 @@ function useTypewriter(
 
 // ─── MAIN COMPONENT ───
 
-export default function SystemExecution({ lang = 'en' }: { lang?: Lang }) {
+export default function CTA({ lang = 'en' }: { lang?: Lang }) {
   const t = useTranslations(lang);
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: '-80px' });
@@ -90,7 +90,7 @@ export default function SystemExecution({ lang = 'en' }: { lang?: Lang }) {
   const statusText = useTypewriter(statusMessages);
 
   return (
-    <section ref={containerRef} className="relative w-full bg-[#111111] py-16 md:py-24">
+    <section ref={containerRef} className="relative w-full bg-lyrix-carbon py-16 md:py-24" aria-label={lang === 'es' ? 'Contacto' : 'Contact'}>
       {/* ─── BACKGROUND GRID PATTERN ─── */}
       <div
         className="absolute inset-0 opacity-20"
@@ -117,7 +117,7 @@ export default function SystemExecution({ lang = 'en' }: { lang?: Lang }) {
           {/* Terminal window */}
           <div className="relative rounded-2xl border border-[#CCFF00]/50 bg-[#0a0a0a]/95 backdrop-blur-xl shadow-2xl shadow-[#CCFF00]/5 overflow-hidden">
             {/* ─── TERMINAL TITLE BAR ─── */}
-            <div className="flex items-center gap-2 px-6 py-4 bg-[#1a1a1a]/80 backdrop-blur-xl border-b border-[#CCFF00]/20">
+            <div className="flex items-center gap-2 px-6 py-4 bg-lyrix-steel/80 backdrop-blur-xl border-b border-[#CCFF00]/20">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-[#FF5F57]" />
                 <div className="w-3 h-3 rounded-full bg-[#FEBC2E]" />
@@ -209,7 +209,7 @@ export default function SystemExecution({ lang = 'en' }: { lang?: Lang }) {
                   </div>
                   
                   {/* Animated border */}
-                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-pulse transition-opacity duration-300" />
+                  <div className="absolute inset-0 rounded-xl bg-linear-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-pulse transition-opacity duration-300" />
                 </motion.button>
               </motion.div>
 

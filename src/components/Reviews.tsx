@@ -7,7 +7,7 @@
 
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import OsWindow from './OsWindow';
+import WindowFrame from './WindowFrame';
 import { useTranslations } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
 
@@ -95,7 +95,7 @@ function DataPacket({ packet }: { packet: TelemetryPacket }) {
 
   return (
     <div
-      className="relative flex-shrink-0 w-80 md:w-96 p-5 rounded-xl border border-white/10 bg-white/[0.02] backdrop-blur-sm"
+      className="relative shrink-0 w-80 md:w-96 p-5 rounded-xl border border-white/10 bg-white/2 backdrop-blur-sm"
     >
       {/* Header - Packet Metadata */}
       <div className="flex items-center justify-between mb-4 pb-2 border-b border-white/5">
@@ -155,7 +155,7 @@ function DataPacket({ packet }: { packet: TelemetryPacket }) {
 
 // ─── MAIN COMPONENT ───
 
-export default function ClientTelemetry({ lang = 'es' }: { lang?: Lang }) {
+export default function Reviews({ lang = 'en' }: { lang?: Lang }) {
   const t = useTranslations(lang);
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: '-80px' });
@@ -164,8 +164,8 @@ export default function ClientTelemetry({ lang = 'es' }: { lang?: Lang }) {
   const duplicatedPackets = [...packets, ...packets];
 
   return (
-    <OsWindow id="telemetry" className="relative w-full bg-[#050505] px-4 md:px-8 pb-8">
-    <section ref={containerRef}>
+    <WindowFrame id="telemetry" className="relative w-full bg-lyrix-dark px-4 md:px-8 pb-8">
+    <section ref={containerRef} aria-label={lang === 'es' ? 'Testimonios' : 'Testimonials'}>
       {/* ─── CONTENT (window frame provided by OsWindow) ─── */}
       <motion.div
         initial={{ opacity: 0, scale: 0.96, y: 30 }}
@@ -208,8 +208,8 @@ export default function ClientTelemetry({ lang = 'es' }: { lang?: Lang }) {
             className="relative overflow-hidden"
           >
             {/* Gradient fade edges */}
-            <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[#0a0a0a]/80 to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#0a0a0a]/80 to-transparent z-10 pointer-events-none" />
+            <div className="absolute left-0 top-0 bottom-0 w-8 bg-linear-to-r from-[#0a0a0a]/80 to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-8 bg-linear-to-l from-[#0a0a0a]/80 to-transparent z-10 pointer-events-none" />
 
             {/* Scrolling packets */}
             <div
@@ -244,6 +244,6 @@ export default function ClientTelemetry({ lang = 'es' }: { lang?: Lang }) {
         </div>
       </motion.div>
     </section>
-    </OsWindow>
+    </WindowFrame>
   );
 }

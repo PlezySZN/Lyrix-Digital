@@ -31,7 +31,7 @@ const budgetRanges = [
 
 // ─── COMPONENT ───
 
-export default function ContactModal({ lang = 'es' }: { lang?: Lang }) {
+export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
   const t = useTranslations(lang);
 
   const sectors = [
@@ -176,7 +176,7 @@ export default function ContactModal({ lang = 'es' }: { lang?: Lang }) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+          className="fixed inset-0 z-100 flex items-center justify-center p-4"
           onClick={closeContactModal}
         >
           {/* Backdrop */}
@@ -192,7 +192,7 @@ export default function ContactModal({ lang = 'es' }: { lang?: Lang }) {
             className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-xl border border-white/10 bg-[#0a0a0a]/95 backdrop-blur-2xl shadow-2xl"
           >
             {/* ─── TITLE BAR ─── */}
-            <div className="sticky top-0 z-10 flex items-center gap-2 px-4 py-3 bg-[#1a1a1a]/90 backdrop-blur-xl border-b border-white/5">
+            <div className="sticky top-0 z-10 flex items-center gap-2 px-4 py-3 bg-lyrix-steel/90 backdrop-blur-xl border-b border-white/5">
               <div className="flex items-center gap-2">
                 <button
                   onClick={closeContactModal}
@@ -252,7 +252,7 @@ export default function ContactModal({ lang = 'es' }: { lang?: Lang }) {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder={t('contact.name.placeholder')}
-                    className="w-full px-4 py-3 rounded-lg bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 font-mono focus:outline-none focus:border-[#CCFF00]/40 focus:ring-1 focus:ring-[#CCFF00]/20 transition-all"
+                    className="w-full px-4 py-3 rounded-lg bg-white/3 border border-white/10 text-sm text-white placeholder:text-white/20 font-mono focus:outline-none focus:border-[#CCFF00]/40 focus:ring-1 focus:ring-[#CCFF00]/20 transition-all"
                   />
                 </div>
 
@@ -267,7 +267,7 @@ export default function ContactModal({ lang = 'es' }: { lang?: Lang }) {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder={t('contact.email.placeholder')}
-                    className="w-full px-4 py-3 rounded-lg bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 font-mono focus:outline-none focus:border-[#CCFF00]/40 focus:ring-1 focus:ring-[#CCFF00]/20 transition-all"
+                    className="w-full px-4 py-3 rounded-lg bg-white/3 border border-white/10 text-sm text-white placeholder:text-white/20 font-mono focus:outline-none focus:border-[#CCFF00]/40 focus:ring-1 focus:ring-[#CCFF00]/20 transition-all"
                   />
                 </div>
 
@@ -281,7 +281,7 @@ export default function ContactModal({ lang = 'es' }: { lang?: Lang }) {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder={t('contact.phone.placeholder')}
-                    className="w-full px-4 py-3 rounded-lg bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 font-mono focus:outline-none focus:border-[#CCFF00]/40 focus:ring-1 focus:ring-[#CCFF00]/20 transition-all"
+                    className="w-full px-4 py-3 rounded-lg bg-white/3 border border-white/10 text-sm text-white placeholder:text-white/20 font-mono focus:outline-none focus:border-[#CCFF00]/40 focus:ring-1 focus:ring-[#CCFF00]/20 transition-all"
                   />
                 </div>
 
@@ -310,7 +310,7 @@ export default function ContactModal({ lang = 'es' }: { lang?: Lang }) {
                           p-3 rounded-lg border text-left transition-all duration-200
                           ${maintenance === mode.value
                             ? 'border-[#CCFF00]/40 bg-[#CCFF00]/5'
-                            : 'border-white/5 bg-white/[0.01] hover:border-white/10 hover:bg-white/[0.02]'
+                            : 'border-white/5 bg-white/1 hover:border-white/10 hover:bg-white/2'
                           }
                         `}
                       >
@@ -340,7 +340,7 @@ export default function ContactModal({ lang = 'es' }: { lang?: Lang }) {
                           px-4 py-2 rounded-lg border text-xs font-mono transition-all duration-200
                           ${budget === range
                             ? 'border-[#CCFF00]/40 bg-[#CCFF00]/5 text-[#CCFF00]'
-                            : 'border-white/5 bg-white/[0.01] text-white/50 hover:border-white/10 hover:bg-white/[0.02]'
+                            : 'border-white/5 bg-white/1 text-white/50 hover:border-white/10 hover:bg-white/2'
                           }
                         `}
                       >
@@ -360,7 +360,7 @@ export default function ContactModal({ lang = 'es' }: { lang?: Lang }) {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder={messagePlaceholder}
-                    className="w-full px-4 py-3 rounded-lg bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 font-mono focus:outline-none focus:border-[#CCFF00]/40 focus:ring-1 focus:ring-[#CCFF00]/20 transition-all resize-none"
+                    className="w-full px-4 py-3 rounded-lg bg-white/3 border border-white/10 text-sm text-white placeholder:text-white/20 font-mono focus:outline-none focus:border-[#CCFF00]/40 focus:ring-1 focus:ring-[#CCFF00]/20 transition-all resize-none"
                   />
                 </div>
 
@@ -376,7 +376,7 @@ export default function ContactModal({ lang = 'es' }: { lang?: Lang }) {
                       w-full flex items-center gap-3 p-4 rounded-lg border transition-all duration-300
                       ${cinematic
                         ? 'border-[#CCFF00]/40 bg-[#CCFF00]/5 shadow-[0_0_20px_rgba(204,255,0,0.08)]'
-                        : 'border-white/5 bg-white/[0.01] hover:border-white/10 hover:bg-white/[0.02]'
+                        : 'border-white/5 bg-white/1 hover:border-white/10 hover:bg-white/2'
                       }
                     `}
                   >
@@ -384,7 +384,7 @@ export default function ContactModal({ lang = 'es' }: { lang?: Lang }) {
                       flex items-center justify-center w-10 h-10 rounded-md transition-all duration-300
                       ${cinematic
                         ? 'bg-[#CCFF00]/10 border border-[#CCFF00]/30'
-                        : 'bg-white/[0.03] border border-white/10'
+                        : 'bg-white/3 border border-white/10'
                       }
                     `}>
                       <Film className={`w-5 h-5 transition-colors duration-300 ${cinematic ? 'text-[#CCFF00]' : 'text-white/40'}`} />
@@ -406,7 +406,7 @@ export default function ContactModal({ lang = 'es' }: { lang?: Lang }) {
                       <div
                         className={`
                           absolute top-1 w-4 h-4 rounded-sm bg-black transition-transform duration-300 ease-in-out
-                          ${cinematic ? 'translate-x-[26px]' : 'translate-x-1'}
+                          ${cinematic ? 'translate-x-6.5' : 'translate-x-1'}
                         `}
                       />
                     </div>
@@ -420,9 +420,9 @@ export default function ContactModal({ lang = 'es' }: { lang?: Lang }) {
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="rounded-lg border border-white/5 bg-white/[0.02] overflow-hidden"
+                    className="rounded-lg border border-white/5 bg-white/2 overflow-hidden"
                   >
-                    <div className="px-4 py-2.5 border-b border-white/5 bg-white/[0.02]">
+                    <div className="px-4 py-2.5 border-b border-white/5 bg-white/2">
                       <span className="text-[10px] font-mono text-white/30 uppercase tracking-widest">
                         {t('contact.manifest')}
                       </span>

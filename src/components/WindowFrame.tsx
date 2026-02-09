@@ -35,7 +35,7 @@ interface OsWindowProps {
 
 // ─── COMPONENT ───
 
-export default function OsWindow({
+export default function WindowFrame({
   id,
   children,
   title,

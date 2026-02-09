@@ -17,7 +17,7 @@ import {
 import { useTranslations } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
 
-export default function ProjectModal({ lang = 'es' }: { lang?: Lang }) {
+export default function ProjectModal({ lang = 'en' }: { lang?: Lang }) {
   const t = useTranslations(lang);
   const isOpen = useStore($projectModalOpen);
   const project = useStore($activeProject);
@@ -80,7 +80,7 @@ export default function ProjectModal({ lang = 'es' }: { lang?: Lang }) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+          className="fixed inset-0 z-100 flex items-center justify-center p-4"
           onClick={closeProjectModal}
         >
           {/* Backdrop */}
@@ -96,7 +96,7 @@ export default function ProjectModal({ lang = 'es' }: { lang?: Lang }) {
             className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-xl border border-white/10 bg-[#0a0a0a]/95 backdrop-blur-2xl shadow-2xl"
           >
             {/* ─── TITLE BAR ─── */}
-            <div className="sticky top-0 z-10 flex items-center gap-2 px-4 py-3 bg-[#1a1a1a]/90 backdrop-blur-xl border-b border-white/5">
+            <div className="sticky top-0 z-10 flex items-center gap-2 px-4 py-3 bg-lyrix-steel/90 backdrop-blur-xl border-b border-white/5">
               <div className="flex items-center gap-2">
                 <button
                   onClick={closeProjectModal}
@@ -216,7 +216,7 @@ export default function ProjectModal({ lang = 'es' }: { lang?: Lang }) {
                   return (
                     <div
                       key={field.label}
-                      className="p-3 rounded-lg bg-white/[0.02] border border-white/5"
+                      className="p-3 rounded-lg bg-white/2 border border-white/5"
                     >
                       <div className="flex items-center gap-1.5 mb-1">
                         <FieldIcon className="w-3 h-3 text-white/30" />
@@ -233,7 +233,7 @@ export default function ProjectModal({ lang = 'es' }: { lang?: Lang }) {
               </div>
 
               {/* ─── DESCRIPTION ─── */}
-              <div className="mb-6 p-4 rounded-lg bg-white/[0.01] border border-white/5">
+              <div className="mb-6 p-4 rounded-lg bg-white/1 border border-white/5">
                 <div className="flex items-center gap-1.5 mb-2">
                   <span className="text-xs font-mono text-[#CCFF00]/60">{'>'}</span>
                   <span className="text-xs font-mono text-white/40 uppercase tracking-wider">
@@ -251,7 +251,7 @@ export default function ProjectModal({ lang = 'es' }: { lang?: Lang }) {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={closeProjectModal}
-                  className="flex-1 py-3 rounded-lg border border-white/10 bg-white/[0.03] text-sm font-mono text-white/60 hover:bg-white/[0.06] hover:text-white/80 transition-all"
+                  className="flex-1 py-3 rounded-lg border border-white/10 bg-white/3 text-sm font-mono text-white/60 hover:bg-white/6 hover:text-white/80 transition-all"
                 >
                   {t('project.close')}
                 </motion.button>

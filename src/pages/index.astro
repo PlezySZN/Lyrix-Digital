@@ -2,21 +2,22 @@
 /**
  * ═══════════════════════════════════════════════════════════
  * ROOT REDIRECT — LYRIX OS
- * Sends visitors to the default locale (/es/)
+ * Sends visitors to the default locale (/en/)
+ * Aligned with astro.config.mjs → defaultLocale: 'en'
  * Static-compatible redirect (no SSR needed)
  * ═══════════════════════════════════════════════════════════
  */
 ---
 
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta http-equiv="refresh" content="0;url=/es/" />
-    <link rel="canonical" href="/es/" />
+    <meta http-equiv="refresh" content="0;url=/en/" />
+    <link rel="canonical" href="https://lyrixdigital.com/en/" />
     <title>Redirecting…</title>
   </head>
   <body>
-    <script is:inline>window.location.replace('/es/');</script>
+    <script is:inline>window.location.replace('/en/');</script>
   </body>
 </html>
 

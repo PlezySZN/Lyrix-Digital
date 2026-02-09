@@ -8,12 +8,12 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Cpu, Aperture, Activity } from 'lucide-react';
-import SpecModule from './SpecModule';
-import OsWindow from './OsWindow';
+import ServiceCard from './ServiceCard';
+import WindowFrame from './WindowFrame';
 import { useTranslations } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
 
-export default function SystemSpecs({ lang = 'es' }: { lang?: Lang }) {
+export default function Services({ lang = 'en' }: { lang?: Lang }) {
   const t = useTranslations(lang);
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: '-100px' });
@@ -60,8 +60,8 @@ export default function SystemSpecs({ lang = 'es' }: { lang?: Lang }) {
   ];
 
   return (
-    <OsWindow id="specs" className="relative w-full bg-[#050505] px-4 md:px-8 pb-8">
-      <section ref={containerRef}>
+    <WindowFrame id="specs" className="relative w-full bg-lyrix-dark px-4 md:px-8 pb-8">
+      <section ref={containerRef} aria-label={lang === 'es' ? 'Servicios' : 'Services'}>
       {/* ─── CONTENT ─── */}
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 40 }}
@@ -102,7 +102,7 @@ export default function SystemSpecs({ lang = 'es' }: { lang?: Lang }) {
           {/* ─── MODULES GRID ─── */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
             {modules.map((module, index) => (
-              <SpecModule
+              <ServiceCard
                 key={module.title}
                 icon={module.icon}
                 title={module.title}
@@ -129,6 +129,6 @@ export default function SystemSpecs({ lang = 'es' }: { lang?: Lang }) {
         </div>
       </motion.div>
       </section>
-    </OsWindow>
+    </WindowFrame>
   );
 }

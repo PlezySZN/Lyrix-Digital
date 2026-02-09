@@ -1,16 +1,16 @@
 ---
 /**
  * ═══════════════════════════════════════════════════════════
- * SYSTEM SPECS.ASTRO — LYRIX OS CAPABILITIES
- * Wrapper for the React SystemSpecs component
+ * PORTFOLIO.ASTRO — LYRIX OS PORTFOLIO
+ * Wrapper for the React Portfolio component
  * ═══════════════════════════════════════════════════════════
  */
 
 import type { Lang } from '../i18n/ui';
-import SystemSpecsComponent from './SystemSpecs';
+import PortfolioComponent from './Portfolio';
 
 interface Props { lang?: Lang; }
-const { lang = 'es' } = Astro.props;
+const { lang = 'en' } = Astro.props;
 ---
 
-<SystemSpecsComponent lang={lang} client:visible />
+<PortfolioComponent lang={lang} client:visible />

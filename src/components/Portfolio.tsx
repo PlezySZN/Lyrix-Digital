@@ -9,7 +9,7 @@ import { useState, useRef } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { ExternalLink, ChevronRight } from 'lucide-react';
 import { openProjectModal } from '../stores/modalStore';
-import OsWindow from './OsWindow';
+import WindowFrame from './WindowFrame';
 import { useTranslations } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
 
@@ -99,7 +99,7 @@ const projectStructure = [
 
 // ─── COMPONENT ───
 
-export default function ProjectLogs({ lang = 'es' }: { lang?: Lang }) {
+export default function ProjectLogs({ lang = 'en' }: { lang?: Lang }) {
   const t = useTranslations(lang);
 
   // Build translated project entries from structural data + i18n dictionary
@@ -136,8 +136,8 @@ export default function ProjectLogs({ lang = 'es' }: { lang?: Lang }) {
   };
 
   return (
-    <OsWindow id="logs" className="relative w-full bg-lyrix-dark px-4 md:px-8 pb-8">
-    <section ref={containerRef} onMouseMove={handleMouseMove} className="relative">
+    <WindowFrame id="logs" className="relative w-full bg-lyrix-dark px-4 md:px-8 pb-8">
+    <section ref={containerRef} onMouseMove={handleMouseMove} className="relative" aria-label={lang === 'es' ? 'Portafolio' : 'Portfolio'}>
       {/* ─── CONTENT (window frame provided by OsWindow) ─── */}
       <motion.div
         initial={{ opacity: 0, scale: 0.96, y: 30 }}
@@ -366,6 +366,6 @@ export default function ProjectLogs({ lang = 'es' }: { lang?: Lang }) {
         )}
       </AnimatePresence>
     </section>
-    </OsWindow>
+    </WindowFrame>
   );
 }

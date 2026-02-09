@@ -3,22 +3,31 @@
  * ═══════════════════════════════════════════════════════════
  * HERO.ASTRO — LYRIX OS DESKTOP
  * Wrapper for the React Spotlight Hero component
+ * Includes an SSR-rendered <h1> for crawlers & screen readers
  * ═══════════════════════════════════════════════════════════
  */
 
 import type { Lang } from '../i18n/ui';
-import SpotlightHero from './SpotlightHero';
+import { t } from '../i18n/utils';
+import HeroContent from './HeroContent';
 import StatusBar from './StatusBar';
 import ContactModal from './ContactModal';
 import ProjectModal from './ProjectModal';
 
 interface Props { lang?: Lang; }
-const { lang = 'es' } = Astro.props;
+const { lang = 'en' } = Astro.props;
 ---
 
-<section class="relative">
+<section class="relative" aria-label={lang === 'es' ? 'Sección principal' : 'Hero section'}>
+  <!--
+    SSR-rendered h1 — crawlable by all bots (Googlebot, Bingbot, social scrapers).
+    The React island renders a visual duplicate with scramble animation,
+    marked aria-hidden to avoid double-announcement.
+  -->
+  <h1 class="sr-only">{t(lang, 'hero.headline')}</h1>
+
   <!-- React Island: Spotlight Hero with Finder Navigation -->
-  <SpotlightHero lang={lang} client:load />
+  <HeroContent lang={lang} client:load />
   
   <!-- React Island: Status Bar Footer -->
   <StatusBar lang={lang} client:load />

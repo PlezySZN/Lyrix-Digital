@@ -51,7 +51,7 @@ function useTypewriter(text: string, isActive: boolean, delay: number = 0) {
   return displayedText;
 }
 
-export default function SpecModule({
+export default function ServiceCard({
   icon: Icon,
   title,
   specs,
@@ -77,7 +77,7 @@ export default function SpecModule({
       className="group relative"
     >
       {/* Module Card */}
-      <div className="relative p-6 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/10 transition-all duration-300">
+      <div className="relative p-6 rounded-xl border border-white/5 bg-white/2 hover:bg-white/4 hover:border-white/10 transition-all duration-300">
         {/* Icon + Title Bar */}
         <div className="flex items-center gap-3 mb-4">
           <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-white/5 border border-white/10">
@@ -119,7 +119,7 @@ export default function SpecModule({
         </p>
 
         {/* Hover glow */}
-        <div className="absolute -inset-px rounded-xl bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+        <div className="absolute -inset-px rounded-xl bg-linear-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
       </div>
     </motion.div>
   );

@@ -208,7 +208,7 @@ export default function CustomSelect({
                     
                     {/* Check Icon for Selected */}
                     {isSelected && (
-                      <Check className="w-4 h-4 text-[#CCFF00] flex-shrink-0 ml-2" />
+                      <Check className="w-4 h-4 text-[#CCFF00] shrink-0 ml-2" />
                     )}
                   </button>
                 );

@@ -8,7 +8,7 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { ChevronRight, ChevronDown } from 'lucide-react';
-import OsWindow from './OsWindow';
+import WindowFrame from './WindowFrame';
 import { useTranslations } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
 
@@ -49,10 +49,10 @@ function KnowledgeItem({
       {/* Question Button */}
       <button
         onClick={onToggle}
-        className="w-full flex items-center gap-3 px-4 py-4 text-left hover:bg-white/[0.02] transition-colors duration-200 group"
+        className="w-full flex items-center gap-3 px-4 py-4 text-left hover:bg-white/2 transition-colors duration-200 group"
       >
         {/* Icon */}
-        <div className="flex-shrink-0">
+        <div className="shrink-0">
           {isOpen ? (
             <ChevronDown className="w-4 h-4 text-[#CCFF00] transition-transform duration-200" />
           ) : (
@@ -91,7 +91,7 @@ function KnowledgeItem({
             className="overflow-hidden"
           >
             <div className="px-4 pb-4 ml-7 mt-4">
-              <div className="p-4 rounded-lg bg-white/[0.01] border border-white/5">
+              <div className="p-4 rounded-lg bg-white/1 border border-white/5">
                 <div className="flex items-start gap-2 mb-2">
                   <span className="text-xs font-mono text-[#CCFF00] mt-0.5">
                     {'v [!]'}
@@ -114,7 +114,7 @@ function KnowledgeItem({
 
 // ─── MAIN COMPONENT ───
 
-export default function KnowledgeBase({ lang = 'es' }: { lang?: Lang }) {
+export default function FAQ({ lang = 'en' }: { lang?: Lang }) {
   const t = useTranslations(lang);
   const [openItems, setOpenItems] = useState<Set<string>>(new Set());
   const [showAll, setShowAll] = useState(false);
@@ -149,8 +149,8 @@ export default function KnowledgeBase({ lang = 'es' }: { lang?: Lang }) {
   };
 
   return (
-    <OsWindow id="manual" className="relative w-full bg-[#050505] px-4 md:px-8 pb-8">
-    <section ref={containerRef}>
+    <WindowFrame id="manual" className="relative w-full bg-lyrix-dark px-4 md:px-8 pb-8">
+    <section ref={containerRef} aria-label={lang === 'es' ? 'Preguntas frecuentes' : 'Frequently asked questions'}>
       {/* ─── CONTENT (window frame provided by OsWindow) ─── */}
       <motion.div
         initial={{ opacity: 0, scale: 0.96, y: 30 }}
@@ -182,7 +182,7 @@ export default function KnowledgeBase({ lang = 'es' }: { lang?: Lang }) {
           </motion.div>
 
           {/* ─── ACCORDION LIST ─── */}
-          <div className="rounded-xl border border-white/5 bg-white/[0.01] overflow-hidden">
+          <div className="rounded-xl border border-white/5 bg-white/1 overflow-hidden">
             {(showAll ? knowledgeEntries : knowledgeEntries.slice(0, 4)).map((entry, index) => (
               <KnowledgeItem
                 key={entry.id}
@@ -205,7 +205,7 @@ export default function KnowledgeBase({ lang = 'es' }: { lang?: Lang }) {
             >
               <button
                 onClick={() => setShowAll(true)}
-                className="group flex items-center gap-2 px-5 py-2.5 rounded-lg border border-white/10 bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/15 transition-all duration-200"
+                className="group flex items-center gap-2 px-5 py-2.5 rounded-lg border border-white/10 bg-white/2 hover:bg-white/4 hover:border-white/15 transition-all duration-200"
               >
                 <span className="text-xs font-mono text-white/50 group-hover:text-white/70 transition-colors">
                   {t('kb.expand').replace('{count}', String(knowledgeEntries.length - 4))}
@@ -224,7 +224,7 @@ export default function KnowledgeBase({ lang = 'es' }: { lang?: Lang }) {
             >
               <button
                 onClick={() => setShowAll(false)}
-                className="group flex items-center gap-2 px-5 py-2.5 rounded-lg border border-white/10 bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/15 transition-all duration-200"
+                className="group flex items-center gap-2 px-5 py-2.5 rounded-lg border border-white/10 bg-white/2 hover:bg-white/4 hover:border-white/15 transition-all duration-200"
               >
                 <span className="text-xs font-mono text-white/50 group-hover:text-white/70 transition-colors">
                   {t('kb.collapse')}
@@ -250,6 +250,6 @@ export default function KnowledgeBase({ lang = 'es' }: { lang?: Lang }) {
         </div>
       </motion.div>
     </section>
-    </OsWindow>
+    </WindowFrame>
   );
 }

@@ -110,7 +110,7 @@ function DockItem({ id, state }: { id: WindowId; state: WindowState }) {
       />
 
       {/* Tooltip */}
-      <div className="absolute bottom-full mb-2 px-2 py-1 rounded bg-[#1a1a1a] border border-white/10 text-[10px] font-mono text-white/60 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+      <div className="absolute bottom-full mb-2 px-2 py-1 rounded bg-lyrix-steel border border-white/10 text-[10px] font-mono text-white/60 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
         {meta.title}
       </div>
     </motion.button>
@@ -119,7 +119,7 @@ function DockItem({ id, state }: { id: WindowId; state: WindowState }) {
 
 // ─── MAIN STATUS BAR ───
 
-export default function StatusBar({ lang = 'es' }: { lang?: Lang }) {
+export default function StatusBar({ lang = 'en' }: { lang?: Lang }) {
   const t = useTranslations(lang);
   const windows = useStore($windows);
 
@@ -158,7 +158,7 @@ export default function StatusBar({ lang = 'es' }: { lang?: Lang }) {
         </div>
 
         {/* ─── CENTER: Window Dock ─── */}
-        <div className="flex items-end gap-1.5 md:gap-2 px-3 py-1 rounded-xl bg-white/[0.02] border border-white/5 pt-2.5">
+        <div className="flex items-end gap-1.5 md:gap-2 px-3 py-1 rounded-xl bg-white/2 border border-white/5 pt-2.5">
           {ALL_WINDOW_IDS.map((id) => (
             <DockItem key={id} id={id} state={windows[id]} />
           ))}

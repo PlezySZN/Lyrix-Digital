@@ -11,12 +11,12 @@ import { getLangFromUrl } from '../../i18n/utils';
 import type { Lang } from '../../i18n/ui';
 import Layout from '../../layouts/main.astro';
 import Hero from '../../components/Hero.astro';
-import SystemSpecs from '../../components/SystemSpecs.astro';
-import ProjectLogs from '../../components/ProjectLogs.astro';
-import DeploymentSequence from '../../components/DeploymentSequence.astro';
-import ClientTelemetry from '../../components/ClientTelemetry.astro';
-import KnowledgeBase from '../../components/KnowledgeBase.astro';
-import SystemExecution from '../../components/SystemExecution.astro';
+import Services from '../../components/Services.astro';
+import Portfolio from '../../components/Portfolio.astro';
+import Process from '../../components/Process.astro';
+import Reviews from '../../components/Reviews.astro';
+import FAQ from '../../components/FAQ.astro';
+import CTA from '../../components/CTA.astro';
 
 export function getStaticPaths() {
   return [
@@ -29,13 +29,13 @@ const lang = getLangFromUrl(Astro.url) as Lang;
 ---
 
 <Layout lang={lang}>
-	<main>
+	<main id="main-content">
 		<Hero lang={lang} />
-		<ProjectLogs lang={lang} />
-		<SystemSpecs lang={lang} />
-		<ClientTelemetry lang={lang} />
-		<DeploymentSequence lang={lang} />
-		<KnowledgeBase lang={lang} />
-		<SystemExecution lang={lang} />
+		<Portfolio lang={lang} />
+		<Services lang={lang} />
+		<Reviews lang={lang} />
+		<Process lang={lang} />
+		<FAQ lang={lang} />
+		<CTA lang={lang} />
 	</main>
 </Layout>

@@ -1,7 +1,15 @@
 ---
+/**
+ * ═══════════════════════════════════════════════════════════
+ * MAIN LAYOUT — LYRIX OS
+ * Unified <head> with the single SEO.astro engine.
+ * ═══════════════════════════════════════════════════════════
+ */
+
 import '../styles/global.css';
 import { t } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
+import SEO from '../components/SEO.astro';
 
 interface Props {
   lang?: Lang;
@@ -10,7 +18,7 @@ interface Props {
 }
 
 const {
-  lang = 'es',
+  lang = 'en',
   title,
   description,
 } = Astro.props;
@@ -19,8 +27,9 @@ const resolvedTitle = title ?? t(lang, 'meta.title');
 const resolvedDescription = description ?? t(lang, 'meta.description');
 ---
 
-<html lang={lang}>
+<html lang={lang} dir="ltr">
 	<head>
+		<!-- ═══ CORE META ═══ -->
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" content={resolvedDescription} />
@@ -28,8 +37,24 @@ const resolvedDescription = description ?? t(lang, 'meta.description');
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{resolvedTitle}</title>
+
+		<!-- ═══ SEO ENGINE (Canonical, Hreflang, OG, Twitter, JSON-LD, Preconnect) ═══ -->
+		<SEO lang={lang} title={resolvedTitle} description={resolvedDescription} />
+
+		<!-- ═══ GOOGLE FONTS (non-blocking via preconnect in SEO) ═══ -->
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@400;500;600;700&display=swap"
+		/>
 	</head>
 	<body class="antialiased">
+		<!-- Skip Navigation (Accessibility + crawlability) -->
+		<a
+			href="#main-content"
+			class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-[#CCFF00] focus:text-black focus:font-bold focus:rounded-md focus:outline-none"
+		>
+			{lang === 'es' ? 'Ir al contenido' : 'Skip to content'}
+		</a>
 		<slot />
 	</body>
 </html>

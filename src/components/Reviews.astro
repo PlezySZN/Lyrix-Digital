@@ -1,18 +1,16 @@
 ---
 /**
  * ═══════════════════════════════════════════════════════════
- * SYSTEM EXECUTION.ASTRO — LYRIX OS FINAL CTA
- * Wrapper for the React SystemExecution component
+ * CLIENT TELEMETRY.ASTRO — LYRIX OS TESTIMONIALS
+ * Wrapper for the React ClientTelemetry component
  * ═══════════════════════════════════════════════════════════
  */
 
 import type { Lang } from '../i18n/ui';
-import SystemExecutionComponent from './SystemExecution';
+import ReviewsComponent from './Reviews';
 
 interface Props { lang?: Lang; }
-const { lang = 'es' } = Astro.props;
+const { lang = 'en' } = Astro.props;
 ---
 
-<section id="execute">
-  <SystemExecutionComponent lang={lang} client:visible />
-</section>
+<ReviewsComponent lang={lang} client:visible={true} />

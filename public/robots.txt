@@ -1,0 +1,19 @@
+# ═══════════════════════════════════════════════
+# LYRIX DIGITAL — robots.txt
+# https://lyrixdigital.com
+# ═══════════════════════════════════════════════
+
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# Sitemaps
+Sitemap: https://lyrixdigital.com/sitemap-index.xml
+
+# Crawl-delay (courtesy signal for non-Google bots)
+# Google ignores this but Bing/Yandex respect it
+User-agent: Bingbot
+Crawl-delay: 1
+
+User-agent: Yandex
+Crawl-delay: 2

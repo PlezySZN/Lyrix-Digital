@@ -1,16 +1,18 @@
 ---
 /**
  * ═══════════════════════════════════════════════════════════
- * DEPLOYMENT SEQUENCE.ASTRO — LYRIX OS PROCESS
- * Wrapper for the React DeploymentSequence component
+ * SYSTEM EXECUTION.ASTRO — LYRIX OS FINAL CTA
+ * Wrapper for the React SystemExecution component
  * ═══════════════════════════════════════════════════════════
  */
 
 import type { Lang } from '../i18n/ui';
-import DeploymentSequenceComponent from './DeploymentSequence';
+import CTAComponent from './CTA';
 
 interface Props { lang?: Lang; }
-const { lang = 'es' } = Astro.props;
+const { lang = 'en' } = Astro.props;
 ---
 
-<DeploymentSequenceComponent lang={lang} client:visible />
+<section id="execute">
+  <CTAComponent lang={lang} client:visible />
+</section>

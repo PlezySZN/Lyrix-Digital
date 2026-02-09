@@ -12,7 +12,7 @@ export const languages = {
 
 export type Lang = keyof typeof languages;
 
-export const defaultLang: Lang = 'es';
+export const defaultLang: Lang = 'en';
 
 export const ui = {
   es: {
@@ -22,7 +22,7 @@ export const ui = {
 
     // ─── HERO ───
     'hero.headline': 'DOMINA EL MERCADO DIGITAL.',
-    'hero.subtitle': 'Desarrollo Web de Alto Rendimiento con Producción Audiovisual para negocios que quieren liderar su mercado.',
+    'hero.subtitle': 'Webs de Alto Rendimiento con Producción Audiovisual para negocios que quieren liderar en el mercado.',
     'hero.finder': 'Lyrix Digital — Agencia Digital Premium',
     'hero.cta': '> INICIAR_TRANSFORMACION',
     'hero.cta.hint': 'Solicita tu proyecto web + video',
@@ -277,7 +277,7 @@ export const ui = {
 
     // ─── HERO ───
     'hero.headline': 'DOMINATE THE DIGITAL MARKET.',
-    'hero.subtitle': 'High-Performance Web Development & Cinematic Media for businesses that want to lead their market.',
+    'hero.subtitle': 'High-Performance Webs with Cinematic Media for businesses that want to lead on the market.',
     'hero.finder': 'Lyrix Digital — Premium Digital Agency',
     'hero.cta': '> START_TRANSFORMATION',
     'hero.cta.hint': 'Request your web + video project',

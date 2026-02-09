@@ -69,7 +69,7 @@ interface Particle {
 
 // ─── MAIN COMPONENT ───
 
-export default function SpotlightHero({ lang = 'en' }: { lang?: Lang }) {
+export default function HeroContent({ lang = 'en' }: { lang?: Lang }) {
   const t = useTranslations(lang);
   const [particles, setParticles] = useState<Particle[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -116,7 +116,7 @@ export default function SpotlightHero({ lang = 'en' }: { lang?: Lang }) {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#050505] p-4 md:p-8">
+    <div className="min-h-screen w-full bg-lyrix-dark p-4 md:p-8">
       {/* ─── MACOS WINDOW CONTAINER ─── */}
       <div
         ref={containerRef}
@@ -124,7 +124,7 @@ export default function SpotlightHero({ lang = 'en' }: { lang?: Lang }) {
         className="relative w-full min-h-[calc(100vh-4rem)] rounded-xl border border-white/10 bg-[#0a0a0a] overflow-hidden"
       >
         {/* ─── MACOS TITLE BAR ─── */}
-        <div className="sticky top-0 z-50 flex items-center gap-2 px-4 py-3 bg-[#1a1a1a]/80 backdrop-blur-xl border-b border-white/5">
+        <div className="sticky top-0 z-50 flex items-center gap-2 px-4 py-3 bg-lyrix-steel/80 backdrop-blur-xl border-b border-white/5">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-[#FF5F57] hover:brightness-110 transition-all cursor-pointer" />
             <div className="w-3 h-3 rounded-full bg-[#FEBC2E] hover:brightness-110 transition-all cursor-pointer" />
@@ -182,13 +182,15 @@ export default function SpotlightHero({ lang = 'en' }: { lang?: Lang }) {
             animate={isInView ? 'visible' : 'hidden'}
             className="text-center mb-6"
           >
-            <motion.h1
+            <motion.div
+              role="presentation"
+              aria-hidden="true"
               variants={wordVariants}
               className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1]"
               style={{ fontFamily: "'Oswald', 'Barlow Condensed', sans-serif" }}
             >
               {scrambledHeadline || '\u00A0'}
-            </motion.h1>
+            </motion.div>
           </motion.div>
 
           {/* ─── SUBTITLE ─── */}
@@ -215,10 +217,10 @@ export default function SpotlightHero({ lang = 'en' }: { lang?: Lang }) {
             >
               {/* Breathing neon glow */}
               <div className="absolute -inset-3 rounded-3xl bg-[#CCFF00]/10 blur-2xl animate-pulse opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-b from-[#CCFF00]/20 to-transparent opacity-0 group-hover:opacity-100 blur-xl transition-all duration-500" />
+              <div className="absolute -inset-1 rounded-2xl bg-linear-to-b from-[#CCFF00]/20 to-transparent opacity-0 group-hover:opacity-100 blur-xl transition-all duration-500" />
 
               {/* Card body — macOS folder style */}
-              <div className="relative w-72 sm:w-80 md:w-96 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md overflow-hidden transition-all duration-300 group-hover:border-[#CCFF00]/30 group-hover:bg-white/[0.06]">
+              <div className="relative w-72 sm:w-80 md:w-96 rounded-2xl border border-white/10 bg-white/3 backdrop-blur-md overflow-hidden transition-all duration-300 group-hover:border-[#CCFF00]/30 group-hover:bg-white/6">
 
                 {/* Folder tab */}
                 <div className="flex items-center gap-2 px-5 pt-4 pb-2">
@@ -250,7 +252,7 @@ export default function SpotlightHero({ lang = 'en' }: { lang?: Lang }) {
                 </div>
 
                 {/* Footer bar */}
-                <div className="flex items-center justify-between px-5 py-3 bg-white/[0.02] border-t border-white/5">
+                <div className="flex items-center justify-between px-5 py-3 bg-white/2 border-t border-white/5">
                   <span className="text-[11px] text-white/25 font-mono">
                     {t('hero.cta.meta')}
                   </span>

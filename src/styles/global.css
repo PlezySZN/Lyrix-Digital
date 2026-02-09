@@ -5,8 +5,12 @@
    Monochrome Neutrals | macOS-Inspired | Glassy UI
 ═══════════════════════════════════════════════════════════ */
 
-/* Font Import - Inter for clean UI aesthetic, Oswald for headlines */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@400;500;600;700&display=swap');
+/*
+  Font loading moved to <link> tags in the layout <head> for
+  better CWV (eliminates render-blocking @import).
+  See: SEO.astro → preconnect hints
+       main.astro → font stylesheet link
+*/
 
 @theme {
   /* ─── COLOR SYSTEM ─── */
