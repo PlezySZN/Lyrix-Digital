@@ -72,7 +72,6 @@ const QUALITY = 80;
 // Desktop (>= 768px)
 const desktopAvif = await getImage({ src: desktop.src, width: desktop.width, height: desktop.height, format: 'avif', quality: desktop.quality ?? QUALITY });
 const desktopWebp = await getImage({ src: desktop.src, width: desktop.width, height: desktop.height, format: 'webp', quality: desktop.quality ?? QUALITY });
-const desktopFallback = await getImage({ src: desktop.src, width: desktop.width, height: desktop.height, quality: desktop.quality ?? QUALITY });
 
 // Tablet (>= 640px) — falls back to desktop if not provided
 const tabletSource = tablet ?? desktop;

@@ -6,7 +6,7 @@
  */
 
 import { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useInView, useMotionValueEvent, useMotionValue } from 'framer-motion';
+import { motion, useScroll, useInView, useMotionValueEvent, useMotionValue } from 'framer-motion';
 import { Radar, Code2, Rocket } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import WindowFrame from './WindowFrame';
@@ -22,12 +22,6 @@ interface StepNode {
   description: string;
   icon: LucideIcon;
 }
-
-const defaultSteps: StepNode[] = [
-  { id: '01', label: 'SCAN', title: 'Discovery', description: '', icon: Radar },
-  { id: '02', label: 'COMPILE', title: 'Development', description: '', icon: Code2 },
-  { id: '03', label: 'GO_LIVE', title: 'Launch', description: '', icon: Rocket },
-];
 
 // ─── NODE COMPONENT ───
 

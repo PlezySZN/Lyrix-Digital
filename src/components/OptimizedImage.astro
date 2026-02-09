@@ -59,22 +59,27 @@ const {
 // ─── Loading Strategy (CWV-critical) ───
 // Above-the-fold (priority): eager + high fetchpriority + no decoding delay
 // Below-the-fold (default): lazy + async decode → zero CLS, minimal LCP impact
-const loading = priority ? 'eager' : 'lazy';
-const fetchpriority = priority ? 'high' : undefined;
-const decoding = priority ? 'sync' : 'async';
+const loading = priority ? 'eager' as const : 'lazy' as const;
+const fetchpriority = priority ? 'high' as const : undefined;
+const decoding = priority ? 'sync' as const : 'async' as const;
+
+// Build Image props — width/height are required for remote URLs but inferred
+// from ImageMetadata for local imports. We conditionally include them.
+type ImageProps = Parameters<typeof Image>[0];
+const imageProps: ImageProps = {
+  src,
+  alt,
+  quality,
+  format,
+  loading,
+  decoding,
+  fetchpriority,
+  sizes,
+  class: className,
+  style,
+} as ImageProps;
+if (width !== undefined) (imageProps as any).width = width;
+if (height !== undefined) (imageProps as any).height = height;
 ---
 
-<Image
-  src={src}
-  alt={alt}
-  width={width}
-  height={height}
-  quality={quality}
-  format={format}
-  loading={loading}
-  decoding={decoding}
-  fetchpriority={fetchpriority}
-  sizes={sizes}
-  class={className}
-  style={style}
-/>
+<Image {...imageProps} />

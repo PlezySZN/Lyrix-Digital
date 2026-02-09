@@ -193,7 +193,7 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
     };
   }, [isOpen]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFieldErrors({});
     setError('');
