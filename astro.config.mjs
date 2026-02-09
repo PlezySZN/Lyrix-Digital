@@ -11,6 +11,9 @@ export default defineConfig({
   site: 'https://lyrixdigital.com',
   output: 'static',
   adapter: cloudflare(),
+  build: {
+    inlineStylesheets: 'always',
+  },
 
   vite: {
     plugins: [tailwindcss()],

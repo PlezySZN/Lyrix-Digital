@@ -193,18 +193,27 @@ export default function HeroContent({ translations: t }: HeroContentProps) {
             animate={isInView ? 'visible' : 'hidden'}
             className="hero-headline-container text-center mb-6 min-h-[72px] sm:min-h-[84px] md:min-h-[110px] lg:min-h-[84px] flex items-center justify-center"
           >
-            <motion.div
-              role="presentation"
-              aria-hidden="true"
-              variants={wordVariants}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1]"
-              style={{
-                fontFamily: 'var(--font-oswald, var(--font-barlow, sans-serif))',
-                fontDisplay: 'swap' as const,
-              }}
-            >
-              {scrambledHeadline || t['hero.headline']}
-            </motion.div>
+            <div className="relative inline-block">
+              <span
+                aria-hidden="true"
+                className="invisible block text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1]"
+                style={{ fontFamily: 'var(--font-oswald, var(--font-barlow, sans-serif))' }}
+              >
+                {t['hero.headline']}
+              </span>
+              <motion.div
+                role="presentation"
+                aria-hidden="true"
+                variants={wordVariants}
+                className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1]"
+                style={{
+                  fontFamily: 'var(--font-oswald, var(--font-barlow, sans-serif))',
+                  fontDisplay: 'swap' as const,
+                }}
+              >
+                {scrambledHeadline || t['hero.headline']}
+              </motion.div>
+            </div>
           </motion.div>
 
           {/* ─── SUBTITLE ─── */}

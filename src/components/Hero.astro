@@ -87,7 +87,7 @@ const statusBarT = pickTranslations(lang, [...statusBarKeys]);
 
   <!-- React Island: Hero with Finder Navigation -->
   <!-- Translations passed as props (resolved at build time) -->
-  <HeroContent translations={heroT} client:load />
+  <HeroContent translations={heroT} client:idle />
 </header>
 
 <!--
@@ -95,6 +95,6 @@ const statusBarT = pickTranslations(lang, [...statusBarKeys]);
   `contain: layout|paint` creates a new containing block that traps
   `position: fixed` descendants. These need viewport-level positioning.
 -->
-<StatusBar translations={statusBarT} {lang} client:load />
+<StatusBar translations={statusBarT} {lang} client:idle />
 <ContactModal {lang} client:idle />
 <ProjectModal {lang} client:idle />
