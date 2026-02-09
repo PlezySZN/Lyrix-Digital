@@ -15,5 +15,5 @@ const { lang = 'en' } = Astro.props;
 ---
 
 <div className="cwv-defer">
-<PortfolioComponent lang={lang} client:load/>
+<PortfolioComponent lang={lang} client:visible />
 </div>

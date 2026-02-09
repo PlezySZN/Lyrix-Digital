@@ -91,5 +91,5 @@ const { lang = 'en' } = Astro.props;
   `position: fixed` descendants. These need viewport-level positioning.
 -->
 <StatusBar {lang} client:load />
-<ContactModal {lang} client:load />
-<ProjectModal {lang} client:load />
+<ContactModal {lang} client:idle />
+<ProjectModal {lang} client:idle />

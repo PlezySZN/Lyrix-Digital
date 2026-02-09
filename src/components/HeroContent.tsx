@@ -177,18 +177,19 @@ export default function HeroContent({ lang = 'en' }: { lang?: Lang }) {
         <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-8rem)] px-6 py-20">
 
           {/* ─── HEADLINE (Scramble) ─── */}
+          {/* CLS fix: explicit min-h per breakpoint locks the box before fonts load */}
           <motion.div
             ref={headlineRef}
             variants={containerVariants}
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
-            className="text-center mb-6"
+            className="text-center mb-6 min-h-[72px] sm:min-h-[84px] md:min-h-[110px] lg:min-h-[84px]"
           >
             <motion.div
               role="presentation"
               aria-hidden="true"
               variants={wordVariants}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1] min-h-[1.15em]"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1]"
               style={{ fontFamily: 'var(--font-oswald, var(--font-barlow, sans-serif))' }}
             >
               {scrambledHeadline || t('hero.headline')}
