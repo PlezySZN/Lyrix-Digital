@@ -15,6 +15,7 @@ interface Props {
   lang?: Lang;
   title?: string;
   description?: string;
+  keywords?: string;
   children?: unknown;
 }
 
@@ -22,6 +23,7 @@ const {
   lang = 'en',
   title,
   description,
+  keywords,
 } = Astro.props;
 
 const resolvedTitle = title ?? t(lang, 'meta.title');
@@ -40,7 +42,7 @@ const resolvedDescription = description ?? t(lang, 'meta.description');
 		<title>{resolvedTitle}</title>
 
 		<!-- ═══ SEO ENGINE (Canonical, Hreflang, OG, Twitter, JSON-LD, Preconnect) ═══ -->
-		<SEO lang={lang} title={resolvedTitle} description={resolvedDescription} />
+		<SEO lang={lang} title={resolvedTitle} description={resolvedDescription} keywords={keywords} />
 
 		<!-- ═══ GOOGLE FONTS (non-blocking via preconnect in SEO) ═══ -->
 		<link

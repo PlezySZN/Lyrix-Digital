@@ -26,9 +26,13 @@ export function getStaticPaths() {
 }
 
 const lang = getLangFromUrl(Astro.url) as Lang;
+
+const keywords = lang === 'es'
+  ? 'diseño web puerto rico, desarrollo web PR, agencia digital puerto rico, creación de páginas web, web design san juan, producción video drone PR, SEO puerto rico, marketing digital PR'
+  : 'web design puerto rico, web development PR, digital agency puerto rico, website creation, web design san juan, drone video production PR, SEO puerto rico, digital marketing PR';
 ---
 
-<Layout lang={lang}>
+<Layout lang={lang} keywords={keywords}>
 	<!-- Banner landmark (implicit role="banner" as direct child of <body>) -->
 	<Hero lang={lang} />
 

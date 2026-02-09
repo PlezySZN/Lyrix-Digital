@@ -80,6 +80,14 @@ const { lang = 'en' } = Astro.props;
     />
   -->
 
+  <!-- SSR <h1> — visible to crawlers & screen readers, visually hidden for sighted users
+       (the React island renders an animated visual duplicate marked aria-hidden) -->
+  <h1
+    class="sr-only"
+    set:html={t(lang, 'hero.headline')}
+  />
+  <p class="sr-only">{t(lang, 'hero.subtitle')}</p>
+
   <!-- React Island: Spotlight Hero with Finder Navigation -->
   <HeroContent {lang} client:load />
 </header>

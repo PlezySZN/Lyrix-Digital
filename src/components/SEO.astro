@@ -148,6 +148,8 @@ const resolvedBreadcrumbs: BreadcrumbItem[] = breadcrumbs ?? [
 ═══════════════════════════════════════════════════════════ */
 
 // ── 1. Organization (always present)
+const OG_IMAGE_URL = `${SITE}/og-image.png`;
+
 const organizationSchema = {
   '@type': 'Organization',
   '@id': `${SITE}/#organization`,
@@ -156,16 +158,20 @@ const organizationSchema = {
   logo: {
     '@type': 'ImageObject',
     '@id': `${SITE}/#logo`,
-    url: `${SITE}/favicon.svg`,
-    contentUrl: `${SITE}/favicon.svg`,
+    url: OG_IMAGE_URL,
+    contentUrl: OG_IMAGE_URL,
+    width: 1200,
+    height: 630,
     caption: BRAND,
   },
   image: { '@id': `${SITE}/#logo` },
-  description: t(lang, 'meta.description'),
-  areaServed: {
-    '@type': 'Place',
-    name: 'Puerto Rico',
-  },
+  description: 'Premium Web Design Agency in Puerto Rico — Desarrollo Web, Cinematic Media & Digital Marketing for high-end contractors and professionals.',
+  areaServed: [
+    { '@type': 'City', name: 'San Juan' },
+    { '@type': 'City', name: 'Dorado' },
+    { '@type': 'AdministrativeArea', name: 'Puerto Rico' },
+    { '@type': 'City', name: 'Miami' },
+  ],
   knowsLanguage: ['es', 'en'],
   sameAs: [
     // Add social profiles here when available:
@@ -211,42 +217,70 @@ const webPageSchema: Record<string, unknown> = {
   } : {}),
 };
 
-// ── 4. ProfessionalService (home page & service pages)
+// ── 4. ProfessionalService + LocalBusiness (home page & service pages)
+// Dual @type maximizes schema coverage for local SEO + professional service rich results.
 const serviceSchema = (type === 'service' || isHomePage) ? {
-  '@type': 'ProfessionalService',
+  '@type': ['ProfessionalService', 'LocalBusiness'],
   '@id': `${SITE}/#service`,
   name: BRAND,
   url: SITE,
-  description: t(lang, 'meta.description'),
+  description: lang === 'es'
+    ? 'Agencia Premium de Desarrollo Web en Puerto Rico. Diseño Web de alto calibre, Cinematic Media, SEO y Marketing Digital para contratistas y profesionales.'
+    : 'Premium Web Design Agency in Puerto Rico. High-end Desarrollo Web, Cinematic Media, SEO & Digital Marketing for contractors and professionals.',
   priceRange: '$$$',
-  image: imageUrl,
-  areaServed: {
-    '@type': 'Place',
-    name: 'Puerto Rico',
+  image: OG_IMAGE_URL,
+  logo: { '@id': `${SITE}/#logo` },
+  telephone: '+1-787-664-4109',
+  email: 'lyrixdigitals@gmail.com',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'San Juan',
+    addressRegion: 'PR',
+    addressCountry: 'US',
   },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 18.4655,
+    longitude: -66.1057,
+  },
+  areaServed: [
+    { '@type': 'City', name: 'San Juan' },
+    { '@type': 'City', name: 'Dorado' },
+    { '@type': 'AdministrativeArea', name: 'Puerto Rico' },
+    { '@type': 'City', name: 'Miami' },
+  ],
   serviceType: [
     'Web Design',
     'Web Development',
+    'Desarrollo Web',
+    'Cinematic Media',
     'Video Production',
     'SEO',
     'Digital Marketing',
   ],
+  knowsLanguage: ['es', 'en'],
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
-    name: lang === 'es' ? 'Servicios Digitales' : 'Digital Services',
+    name: lang === 'es' ? 'Servicios Digitales Premium' : 'Premium Digital Services',
     itemListElement: [
       {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: lang === 'es' ? 'Diseño y Desarrollo Web' : 'Web Design & Development',
+          name: lang === 'es' ? 'Diseño y Desarrollo Web Premium' : 'Premium Web Design & Development',
+          description: lang === 'es'
+            ? 'Sitios web de alto rendimiento para contratistas y profesionales en Puerto Rico.'
+            : 'High-performance websites for contractors and professionals in Puerto Rico.',
         },
       },
       {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: lang === 'es' ? 'Producción Audiovisual' : 'Video Production',
+          name: lang === 'es' ? 'Producción Cinematográfica' : 'Cinematic Media Production',
+          description: lang === 'es'
+            ? 'Video 4K con drone, edición profesional y contenido para redes sociales.'
+            : '4K drone video, professional editing & social media content.',
         },
       },
       {
@@ -254,6 +288,9 @@ const serviceSchema = (type === 'service' || isHomePage) ? {
         itemOffered: {
           '@type': 'Service',
           name: lang === 'es' ? 'SEO y Marketing Digital' : 'SEO & Digital Marketing',
+          description: lang === 'es'
+            ? 'Posicionamiento en buscadores y estrategia digital para el mercado de Puerto Rico.'
+            : 'Search engine optimization and digital strategy for the Puerto Rico market.',
         },
       },
     ],
