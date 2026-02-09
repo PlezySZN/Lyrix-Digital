@@ -1,0 +1,1 @@
+{"fallbackFont":"Arial","sizeAdjust":"100.00%","ascentOverride":"119.30%","descentOverride":"28.90%","lineGapOverride":"0.00%"}

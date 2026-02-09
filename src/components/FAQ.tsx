@@ -179,7 +179,7 @@ export default function FAQ({ lang = 'en' }: { lang?: Lang }) {
                 {t('kb.status')}
               </span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-semibold text-white tracking-tight" aria-label="System Manual">
+            <h2 className="text-2xl md:text-3xl font-semibold text-white tracking-tight">
               {t('kb.title')}
             </h2>
             <p className="text-sm text-white/60 mt-2 max-w-xl">

@@ -131,7 +131,10 @@ export default function StatusBar({ translations: t, lang = 'en' }: StatusBarPro
   const otherLang: Lang = lang === 'es' ? 'en' : 'es';
   const handleLangSwitch = () => {
     const currentPath = window.location.pathname;
-    const newPath = currentPath.replace(`/${lang}`, `/${otherLang}`);
+    const hasLangPrefix = currentPath === `/${lang}` || currentPath.startsWith(`/${lang}/`);
+    const newPath = hasLangPrefix
+      ? currentPath.replace(`/${lang}`, `/${otherLang}`)
+      : `/${otherLang}/`;
     window.location.href = newPath || `/${otherLang}/`;
   };
 
@@ -188,11 +191,13 @@ export default function StatusBar({ translations: t, lang = 'en' }: StatusBarPro
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleLangSwitch}
-            aria-label={lang === 'es' ? 'Switch to English' : 'Cambiar a Español'}
             className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-200"
           >
             <Globe className="w-3 h-3 text-[#CCFF00]/60" />
-            <span className="text-xs font-mono">
+            <span className="sr-only">
+              {lang === 'es' ? 'Cambiar a Ingles' : 'Switch to Espanol'}
+            </span>
+            <span className="text-xs font-mono" aria-hidden="true">
               <span className={lang === 'es' ? 'text-[#CCFF00]' : 'text-white/40'}>ES</span>
               <span className="text-white/20 mx-0.5">/</span>
               <span className={lang === 'en' ? 'text-[#CCFF00]' : 'text-white/40'}>EN</span>

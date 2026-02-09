@@ -34,6 +34,18 @@ declare global {
 }
 
 const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
+const TURNSTILE_SCRIPT_ID = 'cf-turnstile-script';
+
+function ensureTurnstileScriptLoaded() {
+  if (document.getElementById(TURNSTILE_SCRIPT_ID)) return;
+
+  const script = document.createElement('script');
+  script.id = TURNSTILE_SCRIPT_ID;
+  script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+  script.async = true;
+  script.defer = true;
+  document.head.appendChild(script);
+}
 
 // ─── DATA ───
 
@@ -148,6 +160,8 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
   // ─── TURNSTILE: Invisible CAPTCHA ───
   useEffect(() => {
     if (!isOpen || !TURNSTILE_SITE_KEY) return;
+
+    ensureTurnstileScriptLoaded();
 
     const renderWidget = () => {
       if (!turnstileContainerRef.current || !window.turnstile) return;

@@ -192,7 +192,7 @@ export default function Reviews({ lang = 'en' }: { lang?: Lang }) {
                 {t('telemetry.status')}
               </span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-semibold text-white tracking-tight" aria-label="Client Telemetry">
+            <h2 className="text-2xl md:text-3xl font-semibold text-white tracking-tight">
               {t('telemetry.title')}
             </h2>
             <p className="text-sm text-white/60 mt-2 max-w-xl">

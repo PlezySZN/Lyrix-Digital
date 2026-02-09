@@ -17,6 +17,7 @@ interface Props {
   title?: string;
   description?: string;
   keywords?: string;
+	canonicalPath?: string;
   children?: unknown;
 }
 
@@ -25,6 +26,7 @@ const {
   title,
   description,
   keywords,
+	canonicalPath,
 } = Astro.props;
 
 const resolvedTitle = title ?? t(lang, 'meta.title');
@@ -94,7 +96,13 @@ const resolvedDescription = description ?? t(lang, 'meta.description');
 		/>
 
 		<!-- ═══ SEO ENGINE (Canonical, Hreflang, OG, Twitter, JSON-LD) ═══ -->
-		<SEO lang={lang} title={resolvedTitle} description={resolvedDescription} keywords={keywords} />
+		<SEO
+			lang={lang}
+			title={resolvedTitle}
+			description={resolvedDescription}
+			keywords={keywords}
+			canonicalPath={canonicalPath}
+		/>
 
 		<!-- ═══ CRITICAL CSS: Above-the-fold styles inlined to eliminate render-blocking ═══ -->
 		<style is:inline>
@@ -120,26 +128,6 @@ const resolvedDescription = description ?? t(lang, 'meta.description');
 			html { background-color: #050505; }
 			body { background-color: #050505; color: #ffffff; min-height: 100vh; }
 		</style>
-
-		<!-- ═══ CLOUDFLARE TURNSTILE (explicit render — activated by ContactModal) ═══ -->
-		<!--
-			CLOUDFLARE WEB ANALYTICS FIX:
-			If you see beacon.min.js CORS/integrity errors in console:
-			1. Go to Cloudflare Dashboard > Analytics & Logs > Web Analytics
-			2. Click the gear icon for lyrixdigital.com
-			3. Either disable Web Analytics OR
-			4. Re-enable it (this refreshes the integrity hash)
-			
-			Alternatively, disable Rocket Loader:
-			Cloudflare Dashboard > Speed > Optimization > Rocket Loader = OFF
-		-->
-		<script type="module">
-			const script = document.createElement('script');
-			script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
-			script.async = true;
-			script.defer = true;
-			document.head.appendChild(script);
-		</script>
 
 		<!-- ═══ Extra head content from child pages ═══ -->
 		<slot name="head" />

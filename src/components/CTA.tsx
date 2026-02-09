@@ -173,7 +173,7 @@ export default function CTA({ lang = 'en' }: { lang?: Lang }) {
                 transition={{ duration: 0.6, delay: 0.4 }}
                 className="text-center mb-6 md:mb-8"
               >
-                <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4 tracking-tight leading-tight" aria-label="Ready For A System">
+                <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4 tracking-tight leading-tight">
                   
                   {t('cta.headline1')}
                   <br />

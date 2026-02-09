@@ -1,58 +1,36 @@
 ---
 /**
  * ═══════════════════════════════════════════════════════════
- * ROOT INDEX — LYRIX OS BOOT SEQUENCE
- * Renders full <head> with OG/Twitter meta for social previews,
- * then redirects to /en/ via meta-refresh + JS fallback.
- *
- * Why: Sharing lyrixdigital.com must show og-image, title,
- * and description — NOT a blank "Redirecting…" card.
+ * ROOT INDEX — LYRIX OS DEFAULT LOCALE
+ * Serves the English landing page without a redirect to
+ * improve performance and avoid extra hops.
  * ═══════════════════════════════════════════════════════════
  */
 
+import type { Lang } from '../i18n/ui';
 import Layout from '../layouts/main.astro';
+import Hero from '../components/Hero.astro';
+import Services from '../components/Services.astro';
+import Portfolio from '../components/Portfolio.astro';
+import Process from '../components/Process.astro';
+import Reviews from '../components/Reviews.astro';
+import FAQ from '../components/FAQ.astro';
+import CTA from '../components/CTA.astro';
+
+const lang: Lang = 'en';
+const keywords = 'web design puerto rico, web development PR, digital agency puerto rico, website creation, web design san juan, drone video production PR, SEO puerto rico, digital marketing PR';
 ---
 
-<Layout lang="en">
-	<meta slot="head" http-equiv="refresh" content="1;url=/en/" />
+<Layout lang={lang} keywords={keywords} canonicalPath="/en/">
+	<Hero lang={lang} />
 
-	<!-- Cinematic Boot Screen — visible for ~0.5s before redirect -->
-	<div
-		style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:#0a0a0a;font-family:'Courier New',Courier,monospace;"
-	>
-		<div style="text-align:center;">
-			<p style="color:#CCFF00;font-size:14px;letter-spacing:3px;margin:0 0 12px;opacity:0.6;">
-				■ LYRIX DIGITAL
-			</p>
-			<p
-				id="boot-text"
-				style="color:#CCFF00;font-size:16px;letter-spacing:2px;margin:0;animation:pulse 1.2s ease-in-out infinite;"
-			>
-				// INITIALIZING LYRIX OS...
-			</p>
-			<div style="margin-top:24px;width:200px;height:2px;background:rgba(204,255,0,0.15);border-radius:1px;overflow:hidden;margin-left:auto;margin-right:auto;">
-				<div style="width:100%;height:100%;background:#CCFF00;border-radius:1px;animation:loadbar 0.8s ease-out forwards;transform-origin:left;" />
-			</div>
-		</div>
-	</div>
-
-	<style is:inline>
-		/* Compositor-optimized: only opacity changes for pulse */
-		@keyframes pulse {
-			0%, 100% { opacity: 0.4; }
-			50% { opacity: 1; }
-		}
-		/* Compositor-optimized: scaleX instead of width for loadbar */
-		@keyframes loadbar {
-			0% { transform: scaleX(0); }
-			100% { transform: scaleX(1); }
-		}
-	</style>
-
-	<script is:inline>
-		setTimeout(function () {
-			window.location.replace('/en/');
-		}, 500);
-	</script>
+	<main id="main-content">
+		<Portfolio lang={lang} />
+		<Services lang={lang} />
+		<Reviews lang={lang} />
+		<Process lang={lang} />
+		<FAQ lang={lang} />
+		<CTA lang={lang} />
+	</main>
 </Layout>
 

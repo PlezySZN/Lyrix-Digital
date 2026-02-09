@@ -22,6 +22,7 @@ export default function ProjectModal({ lang = 'en' }: { lang?: Lang }) {
   const isOpen = useStore($projectModalOpen);
   const project = useStore($activeProject);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const viewLiveNoteId = 'project-view-live-note';
 
   // Reset image index when project changes
   useEffect(() => {
@@ -256,6 +257,9 @@ export default function ProjectModal({ lang = 'en' }: { lang?: Lang }) {
 
               {/* ─── ACTION BUTTONS ─── */}
               <div className="flex gap-3">
+                <span id={viewLiveNoteId} className="sr-only">
+                  {lang === 'es' ? 'Proximamente' : 'Coming soon'}
+                </span>
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
@@ -268,7 +272,7 @@ export default function ProjectModal({ lang = 'en' }: { lang?: Lang }) {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   disabled
-                  aria-label={`${t('project.viewLive')} (${lang === 'es' ? 'Próximamente' : 'Coming soon'})`}
+                  aria-describedby={viewLiveNoteId}
                   className="flex-1 py-3 rounded-lg bg-[#CCFF00]/50 text-black/50 text-sm font-mono font-bold cursor-not-allowed transition-shadow duration-300 flex items-center justify-center gap-2"
                 >
                   <ExternalLink className="w-4 h-4" />

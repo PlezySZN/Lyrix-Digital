@@ -89,7 +89,7 @@ export default function Services({ lang = 'en' }: { lang?: Lang }) {
                 {t('specs.status')}
               </span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-semibold text-white tracking-tight" aria-label="What We Build For You">
+            <h2 className="text-2xl md:text-3xl font-semibold text-white tracking-tight">
               {t('specs.title')}
             </h2>
             <p className="text-xs font-mono text-[#CCFF00]/60 uppercase tracking-widest mt-1">
