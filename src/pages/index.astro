@@ -1,23 +1,56 @@
 ---
 /**
  * ═══════════════════════════════════════════════════════════
- * ROOT REDIRECT — LYRIX OS
- * Sends visitors to the default locale (/en/)
- * Aligned with astro.config.mjs → defaultLocale: 'en'
- * Static-compatible redirect (no SSR needed)
+ * ROOT INDEX — LYRIX OS BOOT SEQUENCE
+ * Renders full <head> with OG/Twitter meta for social previews,
+ * then redirects to /en/ via meta-refresh + JS fallback.
+ *
+ * Why: Sharing lyrixdigital.com must show og-image, title,
+ * and description — NOT a blank "Redirecting…" card.
  * ═══════════════════════════════════════════════════════════
  */
+
+import Layout from '../layouts/main.astro';
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="refresh" content="0;url=/en/" />
-    <link rel="canonical" href="https://lyrixdigital.com/en/" />
-    <title>Redirecting…</title>
-  </head>
-  <body>
-    <script is:inline>window.location.replace('/en/');</script>
-  </body>
-</html>
+<Layout lang="en">
+	<meta slot="head" http-equiv="refresh" content="1;url=/en/" />
+
+	<!-- Cinematic Boot Screen — visible for ~0.5s before redirect -->
+	<div
+		style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:#0a0a0a;font-family:'Courier New',Courier,monospace;"
+	>
+		<div style="text-align:center;">
+			<p style="color:#CCFF00;font-size:14px;letter-spacing:3px;margin:0 0 12px;opacity:0.6;">
+				■ LYRIX DIGITAL
+			</p>
+			<p
+				id="boot-text"
+				style="color:#CCFF00;font-size:16px;letter-spacing:2px;margin:0;animation:pulse 1.2s ease-in-out infinite;"
+			>
+				// INITIALIZING LYRIX OS...
+			</p>
+			<div style="margin-top:24px;width:200px;height:2px;background:rgba(204,255,0,0.15);border-radius:1px;overflow:hidden;margin-left:auto;margin-right:auto;">
+				<div style="width:0%;height:100%;background:#CCFF00;border-radius:1px;animation:loadbar 0.8s ease-out forwards;" />
+			</div>
+		</div>
+	</div>
+
+	<style is:inline>
+		@keyframes pulse {
+			0%, 100% { opacity: 0.4; }
+			50% { opacity: 1; }
+		}
+		@keyframes loadbar {
+			0% { width: 0%; }
+			100% { width: 100%; }
+		}
+	</style>
+
+	<script is:inline>
+		setTimeout(function () {
+			window.location.replace('/en/');
+		}, 500);
+	</script>
+</Layout>
 
