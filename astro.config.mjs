@@ -14,6 +14,19 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    build: {
+      // Inline CSS smaller than 10KB to reduce render-blocking requests
+      cssCodeSplit: true,
+      // Optimize chunk splitting for better caching
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'framer': ['framer-motion'],
+            'react-vendor': ['react', 'react-dom'],
+          },
+        },
+      },
+    },
   },
 
   i18n: {

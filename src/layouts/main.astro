@@ -122,8 +122,17 @@ const resolvedDescription = description ?? t(lang, 'meta.description');
 		</style>
 
 		<!-- ═══ CLOUDFLARE TURNSTILE (explicit render — activated by ContactModal) ═══ -->
-		<!-- Note: If you see Cloudflare beacon.min.js integrity errors, 
-		     disable Rocket Loader in Cloudflare Dashboard > Speed > Optimization -->
+		<!--
+			CLOUDFLARE WEB ANALYTICS FIX:
+			If you see beacon.min.js CORS/integrity errors in console:
+			1. Go to Cloudflare Dashboard > Analytics & Logs > Web Analytics
+			2. Click the gear icon for lyrixdigital.com
+			3. Either disable Web Analytics OR
+			4. Re-enable it (this refreshes the integrity hash)
+			
+			Alternatively, disable Rocket Loader:
+			Cloudflare Dashboard > Speed > Optimization > Rocket Loader = OFF
+		-->
 		<script type="module">
 			const script = document.createElement('script');
 			script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';

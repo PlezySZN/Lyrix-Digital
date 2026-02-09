@@ -146,3 +146,37 @@ video {
     animation: none;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   LAYOUT CONTAINMENT — Prevents Forced Reflows
+═══════════════════════════════════════════════════════════ */
+
+/*
+  CSS Containment isolates layout calculations within each section.
+  This prevents DOM changes in one section from causing reflows
+  in other parts of the page.
+*/
+section,
+main > * {
+  contain: layout style;
+}
+
+/*
+  Lucide SVG optimization — flatten rendering and reduce paint costs.
+  Lucide icons are inline SVGs. Adding these properties helps the
+  browser optimize their rendering.
+*/
+.lucide,
+svg[class*="lucide"] {
+  contain: strict;
+  /* Prevent icons from triggering layout recalc */
+}
+
+/*
+  Fixed position elements should never trigger document reflow.
+*/
+.fixed,
+[style*="position: fixed"],
+[style*="position:fixed"] {
+  contain: layout;
+}

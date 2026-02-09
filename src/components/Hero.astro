@@ -5,15 +5,15 @@
  *
  * LCP-Optimized Hero Section.
  * - SSR-rendered <h1> for crawlers + screen readers
- * - Oswald font preloaded to eliminate FOIT (Flash of Invisible Text)
+ * - Translations resolved at build time (not bundled in client JS)
  * - CSS containment on the hero to isolate layout/paint
- * - Optional background image slot via <OptimizedImage priority>
  * - React island hydrates interactivity after first paint
  * ═══════════════════════════════════════════════════════════
  */
 
 import type { Lang } from '../i18n/ui';
 import { t } from '../i18n/utils';
+import { pickTranslations, heroKeys, statusBarKeys } from '../i18n/translations';
 import HeroContent from './HeroContent';
 import StatusBar from './StatusBar';
 import ContactModal from './ContactModal';
@@ -21,6 +21,10 @@ import ProjectModal from './ProjectModal';
 
 interface Props { lang?: Lang; }
 const { lang = 'en' } = Astro.props;
+
+// Resolve translations at build time — not bundled in client JS
+const heroT = pickTranslations(lang, [...heroKeys]);
+const statusBarT = pickTranslations(lang, [...statusBarKeys]);
 ---
 
 {/*
@@ -31,9 +35,9 @@ const { lang = 'en' } = Astro.props;
 */}
 
 <header
-  className="relative"
+  class="relative"
   aria-label={lang === 'es' ? 'Sección principal' : 'Hero section'}
-  style={{ contain: 'layout style paint' } as any}
+  style="contain: layout style paint;"
 >
   <!--
     SSR-rendered h1 — crawlable by all bots (Googlebot, Bingbot, social scrapers).
@@ -81,8 +85,9 @@ const { lang = 'en' } = Astro.props;
   />
   <p class="sr-only">{t(lang, 'hero.subtitle')}</p>
 
-  <!-- React Island: Spotlight Hero with Finder Navigation -->
-  <HeroContent {lang} client:load />
+  <!-- React Island: Hero with Finder Navigation -->
+  <!-- Translations passed as props (resolved at build time) -->
+  <HeroContent translations={heroT} client:load />
 </header>
 
 <!--
@@ -90,6 +95,6 @@ const { lang = 'en' } = Astro.props;
   `contain: layout|paint` creates a new containing block that traps
   `position: fixed` descendants. These need viewport-level positioning.
 -->
-<StatusBar {lang} client:load />
+<StatusBar translations={statusBarT} {lang} client:load />
 <ContactModal {lang} client:idle />
 <ProjectModal {lang} client:idle />

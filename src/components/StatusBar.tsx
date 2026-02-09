@@ -29,7 +29,7 @@ import {
   type WindowId,
   type WindowState,
 } from '../stores/windowStore';
-import { useTranslations } from '../i18n/utils';
+import type { StatusBarTranslations } from '../i18n/translations';
 import type { Lang } from '../i18n/ui';
 
 // ─── ICON MAP ───
@@ -119,8 +119,12 @@ function DockItem({ id, state }: { id: WindowId; state: WindowState }) {
 
 // ─── MAIN STATUS BAR ───
 
-export default function StatusBar({ lang = 'en' }: { lang?: Lang }) {
-  const t = useTranslations(lang);
+interface StatusBarProps {
+  translations: StatusBarTranslations;
+  lang?: Lang;
+}
+
+export default function StatusBar({ translations: t, lang = 'en' }: StatusBarProps) {
   const windows = useStore($windows);
 
   // Language switcher — swaps /es/ <-> /en/ in the URL
@@ -153,7 +157,7 @@ export default function StatusBar({ lang = 'en' }: { lang?: Lang }) {
           </span>
           <div className="h-3 w-px bg-white/10 hidden md:block" />
           <span className="text-xs text-white/30 hidden md:inline">
-            {t('statusbar.ready')}
+            {t['statusbar.ready']}
           </span>
         </div>
 
@@ -203,7 +207,7 @@ export default function StatusBar({ lang = 'en' }: { lang?: Lang }) {
             className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-200"
           >
             <MessageCircle className="w-3.5 h-3.5 text-white/60" />
-            <span className="text-xs text-white/60">{t('statusbar.contact')}</span>
+            <span className="text-xs text-white/60">{t['statusbar.contact']}</span>
           </motion.button>
         </div>
       </div>

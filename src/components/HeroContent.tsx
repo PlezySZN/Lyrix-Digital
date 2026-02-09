@@ -3,6 +3,9 @@
  * SPOTLIGHT HERO — LYRIX OS
  * macOS-inspired window with text-scramble headline
  * and a single "Master Node" CTA folder
+ * 
+ * PERFORMANCE: Translations passed as props from Astro (SSR)
+ * to avoid bundling full i18n dictionary in client JS.
  * ═══════════════════════════════════════════════════════════
  */
 
@@ -10,8 +13,7 @@ import { useState, useRef, useEffect, useCallback, type MouseEvent } from 'react
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { FolderOpen, ArrowRight } from 'lucide-react';
 import { openContactModal } from '../stores/modalStore';
-import { useTranslations } from '../i18n/utils';
-import type { Lang } from '../i18n/ui';
+import type { HeroTranslations } from '../i18n/translations';
 
 // ─── TEXT SCRAMBLE HOOK ───
 // Decrypts text character-by-character from random glyphs
@@ -19,11 +21,12 @@ import type { Lang } from '../i18n/ui';
 const GLYPHS = 'X#01!>_░▒▓█▀▄';
 
 function useTextScramble(text: string, { delay = 0, duration = 1200, trigger = true } = {}) {
-  const [display, setDisplay] = useState('');
+  // CLS FIX: Initialize with actual text to prevent layout shift from empty → text
+  const [display, setDisplay] = useState(text);
   const frameRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   useEffect(() => {
-    if (!trigger) { setDisplay(''); return; }
+    if (!trigger) { setDisplay(text); return; }
 
     const chars = text.split('');
     const total = chars.length;
@@ -67,10 +70,15 @@ interface Particle {
   y: number;
 }
 
+// ─── PROPS ───
+
+interface HeroContentProps {
+  translations: HeroTranslations;
+}
+
 // ─── MAIN COMPONENT ───
 
-export default function HeroContent({ lang = 'en' }: { lang?: Lang }) {
-  const t = useTranslations(lang);
+export default function HeroContent({ translations: t }: HeroContentProps) {
   const [particles, setParticles] = useState<Particle[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLDivElement>(null);
@@ -78,7 +86,7 @@ export default function HeroContent({ lang = 'en' }: { lang?: Lang }) {
   const particleIdRef = useRef(0);
 
   // Scramble headline text — delay reduced for faster LCP
-  const scrambledHeadline = useTextScramble(t('hero.headline'), {
+  const scrambledHeadline = useTextScramble(t['hero.headline'], {
     delay: 100,
     duration: 1200,
     trigger: isInView,
@@ -134,7 +142,7 @@ export default function HeroContent({ lang = 'en' }: { lang?: Lang }) {
           </div>
           <div className="flex-1 text-center">
             <span className="text-xs font-medium text-white/60 tracking-wide">
-              {t('hero.finder')}
+              {t['hero.finder']}
             </span>
           </div>
           <div className="w-14" />
@@ -195,29 +203,30 @@ export default function HeroContent({ lang = 'en' }: { lang?: Lang }) {
                 fontDisplay: 'swap' as const,
               }}
             >
-              {scrambledHeadline || t('hero.headline')}
+              {scrambledHeadline || t['hero.headline']}
             </motion.div>
           </motion.div>
 
           {/* ─── SUBTITLE ─── */}
+          {/* CLS FIX: No initial animation - content visible immediately */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.8, delay: 0.9 }}
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 1 }}
             className="text-center text-sm sm:text-base md:text-lg text-white/50 max-w-2xl leading-relaxed mb-14 md:mb-20 px-4"
           >
-            {t('hero.subtitle')}
+            {t['hero.subtitle']}
           </motion.p>
 
           {/* ─── MASTER NODE — Single CTA Folder ─── */}
+          {/* CLS FIX: No initial animation - prevent layout shifts */}
           <motion.div
-            initial={{ opacity: 0, y: 40, scale: 0.92 }}
-            animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 40, scale: 0.92 }}
-            transition={{ duration: 0.8, delay: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 1 }}
           >
             <motion.button
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.15, ease: 'easeOut' }}
               onClick={() => openContactModal()}
               className="group relative cursor-pointer"
             >
@@ -248,19 +257,19 @@ export default function HeroContent({ lang = 'en' }: { lang?: Lang }) {
                 <div className="px-5 py-5">
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-base md:text-lg font-bold text-white tracking-wide group-hover:text-[#CCFF00] transition-colors duration-300">
-                      {t('hero.cta')}
+                      {t['hero.cta']}
                     </span>
                     <ArrowRight className="w-5 h-5 text-white/40 group-hover:text-[#CCFF00] group-hover:translate-x-1 transition-all duration-300" />
                   </div>
                   <p className="text-xs text-white/30 font-mono mt-2">
-                    {t('hero.cta.hint')}
+                    {t['hero.cta.hint']}
                   </p>
                 </div>
 
                 {/* Footer bar */}
                 <div className="flex items-center justify-between px-5 py-3 bg-white/2 border-t border-white/5">
                   <span className="text-[11px] text-white/25 font-mono">
-                    {t('hero.cta.meta')}
+                    {t['hero.cta.meta']}
                   </span>
                   <span className="text-[11px] text-white/25 font-mono">
                     Type: Project

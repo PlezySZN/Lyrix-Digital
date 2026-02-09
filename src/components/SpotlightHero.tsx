@@ -106,13 +106,13 @@ export default function SpotlightHero({ lang = 'en' }: { lang?: Lang }) {
     visible: { transition: { staggerChildren: 0.15, delayChildren: 0.3 } },
   };
   // LCP & Performance: Use only compositor-friendly properties (opacity, transform)
-  // filter: blur() is non-composited and causes expensive paint operations
+  // Use CSS-compatible easing to avoid "unsupported timing parameters" warning
   const wordVariants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] as const },
+      transition: { duration: 0.8, ease: 'easeOut' as const },
     },
   };
 
