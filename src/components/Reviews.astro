@@ -13,4 +13,6 @@ interface Props { lang?: Lang; }
 const { lang = 'en' } = Astro.props;
 ---
 
+<div class="cwv-defer">
 <ReviewsComponent lang={lang} client:visible={true} />
+</div>

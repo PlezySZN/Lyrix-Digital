@@ -78,3 +78,47 @@ body {
 .animate-marquee {
   animation: marquee 60s linear infinite;
 }
+
+/* ═══════════════════════════════════════════════════════════
+   CORE WEB VITALS OPTIMIZATIONS
+═══════════════════════════════════════════════════════════ */
+
+/*
+  content-visibility: auto  — tells the browser to skip layout/paint
+  for off-screen sections until they're near the viewport.
+  This dramatically reduces initial rendering work (INP + LCP).
+  contain-intrinsic-size prevents CLS by reserving estimated space.
+*/
+.cwv-defer {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
+}
+
+/*
+  Prevent CLS from images that haven't loaded yet.
+  Works alongside width/height attributes on <img> / <Image>.
+*/
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/*
+  Reduce motion for users who prefer it.
+  Critical for accessibility AND reduces paint work.
+*/
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-marquee {
+    animation: none;
+  }
+}

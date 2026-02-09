@@ -2,8 +2,13 @@
 /**
  * ═══════════════════════════════════════════════════════════
  * HERO.ASTRO — LYRIX OS DESKTOP
- * Wrapper for the React Spotlight Hero component
- * Includes an SSR-rendered <h1> for crawlers & screen readers
+ *
+ * LCP-Optimized Hero Section.
+ * - SSR-rendered <h1> for crawlers + screen readers
+ * - Oswald font preloaded to eliminate FOIT (Flash of Invisible Text)
+ * - CSS containment on the hero to isolate layout/paint
+ * - Optional background image slot via <OptimizedImage priority>
+ * - React island hydrates interactivity after first paint
  * ═══════════════════════════════════════════════════════════
  */
 
@@ -18,7 +23,25 @@ interface Props { lang?: Lang; }
 const { lang = 'en' } = Astro.props;
 ---
 
-<section class="relative" aria-label={lang === 'es' ? 'Sección principal' : 'Hero section'}>
+{/*
+  ═══ LCP FONT PRELOAD ═══
+  Oswald 700 (hero headline) is the LCP text element.
+  Preloading the exact weight eliminates FOIT and shaves
+  ~200-400ms off LCP on cold loads.
+*/}
+<link
+  rel="preload"
+  href="https://fonts.gstatic.com/s/oswald/v53/TK3_WkUHHAIjg75cFRf3bXL8LICs1_FvsUZiYA.woff2"
+  as="font"
+  type="font/woff2"
+  crossorigin
+/>
+
+<section
+  class="relative"
+  aria-label={lang === 'es' ? 'Sección principal' : 'Hero section'}
+  style="contain: layout style paint;"
+>
   <!--
     SSR-rendered h1 — crawlable by all bots (Googlebot, Bingbot, social scrapers).
     The React island renders a visual duplicate with scramble animation,
@@ -26,13 +49,49 @@ const { lang = 'en' } = Astro.props;
   -->
   <h1 class="sr-only">{t(lang, 'hero.headline')}</h1>
 
+  <!--
+    ═══ OPTIONAL: HERO BACKGROUND IMAGE ═══
+    When you have a hero background, uncomment and import:
+
+    import OptimizedImage from './OptimizedImage.astro';
+    import heroBg from '../assets/hero-bg.jpg';
+
+    <div class="absolute inset-0 -z-10 overflow-hidden">
+      <OptimizedImage
+        src={heroBg}
+        alt=""
+        priority
+        class="w-full h-full object-cover"
+        sizes="100vw"
+      />
+      <div class="absolute inset-0 bg-[#050505]/80" />
+    </div>
+
+    For art-directed crops (mobile vs desktop):
+    import Picture from './Picture.astro';
+    import heroMobile from '../assets/hero-mobile.jpg';
+    import heroDesktop from '../assets/hero-desktop.jpg';
+
+    <Picture
+      mobile={{ src: heroMobile, width: 640, height: 960 }}
+      desktop={{ src: heroDesktop, width: 1920, height: 1080 }}
+      alt=""
+      priority
+      class="w-full h-full object-cover"
+    />
+  -->
+
   <!-- React Island: Spotlight Hero with Finder Navigation -->
   <HeroContent lang={lang} client:load />
   
   <!-- React Island: Status Bar Footer -->
   <StatusBar lang={lang} client:load />
-  
-  <!-- Global Modals (loaded once, accessible from any component via nanostores) -->
-  <ContactModal lang={lang} client:load />
-  <ProjectModal lang={lang} client:load />
 </section>
+
+<!--
+  Global Modals — MUST live outside any `contain:` context.
+  `contain: layout|paint` creates a new containing block that traps
+  `position: fixed` descendants. Modals need viewport-level positioning.
+-->
+<ContactModal lang={lang} client:load />
+<ProjectModal lang={lang} client:load />

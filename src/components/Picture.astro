@@ -1,0 +1,152 @@
+---
+/**
+ * ═══════════════════════════════════════════════════════════
+ * PICTURE — LYRIX OS ART DIRECTION COMPONENT
+ *
+ * Serves different image crops/sources for mobile vs. desktop
+ * using the <picture> element with Astro's getImage() for
+ * automatic format negotiation (AVIF → WebP → fallback).
+ *
+ * This is for ART DIRECTION — different crops at breakpoints.
+ * If you just need responsive sizing, use <OptimizedImage> instead.
+ *
+ * Usage:
+ *   import heroDesktop from '../assets/hero-desktop.jpg';
+ *   import heroMobile from '../assets/hero-mobile.jpg';
+ *
+ *   <Picture
+ *     mobile={{ src: heroMobile, width: 640, height: 800 }}
+ *     desktop={{ src: heroDesktop, width: 1440, height: 600 }}
+ *     alt="Lyrix Digital project showcase"
+ *     priority
+ *   />
+ * ═══════════════════════════════════════════════════════════
+ */
+
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface ImageSource {
+  /** Local import or remote URL */
+  src: ImageMetadata | string;
+  /** Output width for this breakpoint */
+  width: number;
+  /** Output height for this breakpoint */
+  height: number;
+  /** Optional quality override */
+  quality?: number;
+}
+
+interface Props {
+  /** Mobile-first source (< 768px) */
+  mobile: ImageSource;
+  /** Desktop source (>= 768px) */
+  desktop: ImageSource;
+  /** Required alt text */
+  alt: string;
+  /** Optional tablet breakpoint source (>= 640px, < 768px) */
+  tablet?: ImageSource;
+  /** LCP element — sets eager loading + high fetchpriority */
+  priority?: boolean;
+  /** Additional CSS classes on the <img> fallback */
+  class?: string;
+  /** Inline styles */
+  style?: Record<string, string>;
+}
+
+const {
+  mobile,
+  desktop,
+  tablet,
+  alt,
+  priority = false,
+  class: className,
+  style,
+} = Astro.props;
+
+const QUALITY = 80;
+
+// ─── Generate optimized variants ───
+// AVIF (smallest, newest) → WebP (broad support) → original format (fallback)
+
+// Desktop (>= 768px)
+const desktopAvif = await getImage({ src: desktop.src, width: desktop.width, height: desktop.height, format: 'avif', quality: desktop.quality ?? QUALITY });
+const desktopWebp = await getImage({ src: desktop.src, width: desktop.width, height: desktop.height, format: 'webp', quality: desktop.quality ?? QUALITY });
+const desktopFallback = await getImage({ src: desktop.src, width: desktop.width, height: desktop.height, quality: desktop.quality ?? QUALITY });
+
+// Tablet (>= 640px) — falls back to desktop if not provided
+const tabletSource = tablet ?? desktop;
+const tabletAvif = await getImage({ src: tabletSource.src, width: tabletSource.width, height: tabletSource.height, format: 'avif', quality: tabletSource.quality ?? QUALITY });
+const tabletWebp = await getImage({ src: tabletSource.src, width: tabletSource.width, height: tabletSource.height, format: 'webp', quality: tabletSource.quality ?? QUALITY });
+
+// Mobile (< 640px)
+const mobileAvif = await getImage({ src: mobile.src, width: mobile.width, height: mobile.height, format: 'avif', quality: mobile.quality ?? QUALITY });
+const mobileWebp = await getImage({ src: mobile.src, width: mobile.width, height: mobile.height, format: 'webp', quality: mobile.quality ?? QUALITY });
+const mobileFallback = await getImage({ src: mobile.src, width: mobile.width, height: mobile.height, quality: mobile.quality ?? QUALITY });
+
+// Loading attributes
+const loading = priority ? 'eager' : 'lazy';
+const fetchpriority = priority ? 'high' : undefined;
+const decoding = priority ? 'sync' : 'async';
+---
+
+<picture>
+  {/* ── Desktop (>= 768px) ── */}
+  <source
+    media="(min-width: 768px)"
+    srcset={desktopAvif.src}
+    type="image/avif"
+    width={desktop.width}
+    height={desktop.height}
+  />
+  <source
+    media="(min-width: 768px)"
+    srcset={desktopWebp.src}
+    type="image/webp"
+    width={desktop.width}
+    height={desktop.height}
+  />
+
+  {/* ── Tablet (>= 640px) ── */}
+  <source
+    media="(min-width: 640px)"
+    srcset={tabletAvif.src}
+    type="image/avif"
+    width={tabletSource.width}
+    height={tabletSource.height}
+  />
+  <source
+    media="(min-width: 640px)"
+    srcset={tabletWebp.src}
+    type="image/webp"
+    width={tabletSource.width}
+    height={tabletSource.height}
+  />
+
+  {/* ── Mobile (default) ── */}
+  <source
+    srcset={mobileAvif.src}
+    type="image/avif"
+    width={mobile.width}
+    height={mobile.height}
+  />
+  <source
+    srcset={mobileWebp.src}
+    type="image/webp"
+    width={mobile.width}
+    height={mobile.height}
+  />
+
+  {/* ── Fallback <img> ── */}
+  <img
+    src={mobileFallback.src}
+    alt={alt}
+    width={mobile.width}
+    height={mobile.height}
+    loading={loading}
+    decoding={decoding}
+    fetchpriority={fetchpriority}
+    class={className}
+    style={style}
+  />
+</picture>

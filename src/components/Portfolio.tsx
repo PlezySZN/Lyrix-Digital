@@ -240,14 +240,14 @@ export default function ProjectLogs({ lang = 'en' }: { lang?: Lang }) {
                   <ChevronRight className="w-4 h-4 text-white/20 group-hover:text-white/50 group-hover:translate-x-0.5 transition-all duration-200" />
                 </div>
 
-                {/* Mobile Card */}
+                {/* Mobile Card — single tap opens project */}
                 <div
                   className={`
                     md:hidden p-4 border-b border-white/5
                     transition-all duration-200 cursor-pointer
-                    ${hoveredIndex === index ? 'bg-white/4' : ''}
+                    active:bg-white/4
                   `}
-                  onClick={() => setHoveredIndex(hoveredIndex === index ? null : index)}
+                  onClick={() => openProjectModal(project)}
                 >
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm font-mono text-white/30">{project.id}</span>
@@ -263,32 +263,6 @@ export default function ProjectLogs({ lang = 'en' }: { lang?: Lang }) {
                     </span>
                     <span className="text-xs font-mono text-white/40">{project.year}</span>
                   </div>
-
-                  {/* Mobile expanded preview */}
-                  <AnimatePresence>
-                    {hoveredIndex === index && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="overflow-hidden"
-                      >
-                        <div className="mt-3 pt-3 border-t border-white/5">
-                          <p className="text-sm text-white/50 mb-3">{project.description}</p>
-                          <button
-                            onClick={(e) => { e.stopPropagation(); openProjectModal(project); }}
-                            className="w-full aspect-video rounded-lg border border-white/10 flex items-center justify-center hover:border-white/20 transition-colors"
-                            style={{
-                              background: `linear-gradient(135deg, ${project.previewGradient[0]}, ${project.previewGradient[1]})`,
-                            }}
-                          >
-                            <span className="text-xs font-mono text-white/30">{t('logs.preview.tap')}</span>
-                          </button>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
                 </div>
               </motion.div>
             ))}
