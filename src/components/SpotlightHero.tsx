@@ -105,12 +105,13 @@ export default function SpotlightHero({ lang = 'en' }: { lang?: Lang }) {
     hidden: {},
     visible: { transition: { staggerChildren: 0.15, delayChildren: 0.3 } },
   };
+  // LCP & Performance: Use only compositor-friendly properties (opacity, transform)
+  // filter: blur() is non-composited and causes expensive paint operations
   const wordVariants = {
-    hidden: { opacity: 0, y: 30, filter: 'blur(10px)' },
+    hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
-      filter: 'blur(0px)',
       transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] as const },
     },
   };
@@ -213,9 +214,9 @@ export default function SpotlightHero({ lang = 'en' }: { lang?: Lang }) {
               onClick={() => openContactModal()}
               className="group relative cursor-pointer"
             >
-              {/* Breathing neon glow */}
-              <div className="absolute -inset-3 rounded-3xl bg-[#CCFF00]/10 blur-2xl animate-pulse opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="absolute -inset-1 rounded-2xl bg-linear-to-b from-[#CCFF00]/20 to-transparent opacity-0 group-hover:opacity-100 blur-xl transition-all duration-500" />
+              {/* Breathing neon glow — compositor-optimized */}
+              <div className="absolute -inset-3 rounded-3xl bg-[#CCFF00]/10 blur-2xl animate-pulse-perf group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute -inset-1 rounded-2xl bg-linear-to-b from-[#CCFF00]/20 to-transparent opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500" />
 
               {/* Card body — macOS folder style */}
               <div className="relative w-72 sm:w-80 md:w-96 rounded-2xl border border-white/10 bg-white/3 backdrop-blur-md overflow-hidden transition-all duration-300 group-hover:border-[#CCFF00]/30 group-hover:bg-white/6">
@@ -230,7 +231,7 @@ export default function SpotlightHero({ lang = 'en' }: { lang?: Lang }) {
                       Lyrix Digital
                     </span>
                   </div>
-                  <div className="w-2 h-2 rounded-full bg-[#CCFF00] animate-pulse" />
+                  <div className="w-2 h-2 rounded-full bg-[#CCFF00] animate-pulse-perf" />
                 </div>
 
                 {/* Divider */}

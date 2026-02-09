@@ -85,6 +85,29 @@ body {
 ═══════════════════════════════════════════════════════════ */
 
 /*
+  Compositor-optimized animations.
+  Uses only transform and opacity to run on the GPU thread,
+  avoiding expensive layout/paint operations.
+*/
+@keyframes pulse-compositor {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.02); }
+}
+.animate-pulse-perf {
+  animation: pulse-compositor 2s ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+/*
+  Override Tailwind's default animate-pulse to use compositor-friendly properties.
+  Original uses box-shadow which triggers paint. This uses opacity + transform only.
+*/
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+/*
   content-visibility: auto  — tells the browser to skip layout/paint
   for off-screen sections until they're near the viewport.
   This dramatically reduces initial rendering work (INP + LCP).

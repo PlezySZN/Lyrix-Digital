@@ -34,11 +34,15 @@ const resolvedDescription = description ?? t(lang, 'meta.description');
 <html lang={lang} dir="ltr">
 	<head>
 		<!-- ═══ CORE META ═══ -->
-		<meta charSet="utf-8" />
+		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" content={resolvedDescription} />
 		<meta name="generator" content={Astro.generator} />
 		<title>{resolvedTitle}</title>
+
+		<!-- ═══ CRITICAL PRECONNECTS — before any font requests ═══ -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
 		<!-- ═══ FONT ENGINE (astro-font: auto @font-face + swap + size-adjust fallbacks) ═══ -->
 		<!-- preload:false globally — we hand-pick the 2 LCP-critical files below -->
@@ -74,7 +78,6 @@ const resolvedDescription = description ?? t(lang, 'meta.description');
 			]}
 		/>
 		<!-- LCP-critical preloads: only Oswald 700 + Inter 400 (latin) -->
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
 			rel="preload"
 			href="https://fonts.gstatic.com/s/oswald/v57/TK3IWkUHHAIjg75cFRf3bXL8LICs1_Fv40pKlN4NNSeSASz7FmlWHYjMdZwl.woff2"
@@ -93,7 +96,34 @@ const resolvedDescription = description ?? t(lang, 'meta.description');
 		<!-- ═══ SEO ENGINE (Canonical, Hreflang, OG, Twitter, JSON-LD) ═══ -->
 		<SEO lang={lang} title={resolvedTitle} description={resolvedDescription} keywords={keywords} />
 
+		<!-- ═══ CRITICAL CSS: Above-the-fold styles inlined to eliminate render-blocking ═══ -->
+		<style is:inline>
+			/* CLS Prevention: Reserve space for Hero content before hydration */
+			.hero-headline-container {
+				min-height: 72px; /* Mobile fallback */
+			}
+			@media (min-width: 640px) { .hero-headline-container { min-height: 84px; } }
+			@media (min-width: 768px) { .hero-headline-container { min-height: 110px; } }
+			@media (min-width: 1024px) { .hero-headline-container { min-height: 84px; } }
+
+			/* Compositor-optimized pulse animation (transform + opacity only) */
+			@keyframes pulse-compositor {
+				0%, 100% { opacity: 0.6; transform: scale(1); }
+				50% { opacity: 1; transform: scale(1.02); }
+			}
+			.animate-pulse-perf {
+				animation: pulse-compositor 2s ease-in-out infinite;
+				will-change: opacity, transform;
+			}
+
+			/* Critical above-the-fold background — prevents white flash */
+			html { background-color: #050505; }
+			body { background-color: #050505; color: #ffffff; min-height: 100vh; }
+		</style>
+
 		<!-- ═══ CLOUDFLARE TURNSTILE (explicit render — activated by ContactModal) ═══ -->
+		<!-- Note: If you see Cloudflare beacon.min.js integrity errors, 
+		     disable Rocket Loader in Cloudflare Dashboard > Speed > Optimization -->
 		<script type="module">
 			const script = document.createElement('script');
 			script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
@@ -105,7 +135,7 @@ const resolvedDescription = description ?? t(lang, 'meta.description');
 		<!-- ═══ Extra head content from child pages ═══ -->
 		<slot name="head" />
 	</head>
-	<body className="antialiased">
+	<body class="antialiased">
 		<slot />
 	</body>
 </html>

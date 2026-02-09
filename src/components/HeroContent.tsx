@@ -183,14 +183,17 @@ export default function HeroContent({ lang = 'en' }: { lang?: Lang }) {
             variants={containerVariants}
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
-            className="text-center mb-6 min-h-[72px] sm:min-h-[84px] md:min-h-[110px] lg:min-h-[84px]"
+            className="hero-headline-container text-center mb-6 min-h-[72px] sm:min-h-[84px] md:min-h-[110px] lg:min-h-[84px] flex items-center justify-center"
           >
             <motion.div
               role="presentation"
               aria-hidden="true"
               variants={wordVariants}
               className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1]"
-              style={{ fontFamily: 'var(--font-oswald, var(--font-barlow, sans-serif))' }}
+              style={{
+                fontFamily: 'var(--font-oswald, var(--font-barlow, sans-serif))',
+                fontDisplay: 'swap' as const,
+              }}
             >
               {scrambledHeadline || t('hero.headline')}
             </motion.div>
@@ -218,9 +221,9 @@ export default function HeroContent({ lang = 'en' }: { lang?: Lang }) {
               onClick={() => openContactModal()}
               className="group relative cursor-pointer"
             >
-              {/* Breathing neon glow */}
-              <div className="absolute -inset-3 rounded-3xl bg-[#CCFF00]/10 blur-2xl animate-pulse opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="absolute -inset-1 rounded-2xl bg-linear-to-b from-[#CCFF00]/20 to-transparent opacity-0 group-hover:opacity-100 blur-xl transition-all duration-500" />
+              {/* Breathing neon glow — compositor-optimized (transform + opacity only) */}
+              <div className="absolute -inset-3 rounded-3xl bg-[#CCFF00]/10 blur-2xl animate-pulse-perf group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute -inset-1 rounded-2xl bg-linear-to-b from-[#CCFF00]/20 to-transparent opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500" />
 
               {/* Card body — macOS folder style */}
               <div className="relative w-72 sm:w-80 md:w-96 rounded-2xl border border-white/10 bg-white/3 backdrop-blur-md overflow-hidden transition-all duration-300 group-hover:border-[#CCFF00]/30 group-hover:bg-white/6">
@@ -235,7 +238,7 @@ export default function HeroContent({ lang = 'en' }: { lang?: Lang }) {
                       Lyrix Digital
                     </span>
                   </div>
-                  <div className="w-2 h-2 rounded-full bg-[#CCFF00] animate-pulse" />
+                  <div className="w-2 h-2 rounded-full bg-[#CCFF00] animate-pulse-perf" />
                 </div>
 
                 {/* Divider */}

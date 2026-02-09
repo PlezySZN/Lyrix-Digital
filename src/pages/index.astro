@@ -31,19 +31,21 @@ import Layout from '../layouts/main.astro';
 				// INITIALIZING LYRIX OS...
 			</p>
 			<div style="margin-top:24px;width:200px;height:2px;background:rgba(204,255,0,0.15);border-radius:1px;overflow:hidden;margin-left:auto;margin-right:auto;">
-				<div style="width:0%;height:100%;background:#CCFF00;border-radius:1px;animation:loadbar 0.8s ease-out forwards;" />
+				<div style="width:100%;height:100%;background:#CCFF00;border-radius:1px;animation:loadbar 0.8s ease-out forwards;transform-origin:left;" />
 			</div>
 		</div>
 	</div>
 
 	<style is:inline>
+		/* Compositor-optimized: only opacity changes for pulse */
 		@keyframes pulse {
 			0%, 100% { opacity: 0.4; }
 			50% { opacity: 1; }
 		}
+		/* Compositor-optimized: scaleX instead of width for loadbar */
 		@keyframes loadbar {
-			0% { width: 0%; }
-			100% { width: 100%; }
+			0% { transform: scaleX(0); }
+			100% { transform: scaleX(1); }
 		}
 	</style>
 
