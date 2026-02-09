@@ -102,4 +102,4 @@ export function getDockedWindows(): WindowId[] {
 }
 
 /** Get all window IDs for dock rendering (all managed windows) */
-export const ALL_WINDOW_IDS: WindowId[] = ['specs', 'logs', 'deployment', 'telemetry', 'manual'];
+export const ALL_WINDOW_IDS: WindowId[] = ['logs', 'specs', 'telemetry', 'deployment', 'manual'];

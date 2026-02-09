@@ -6,7 +6,7 @@
  */
 
 import { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useInView, useMotionValueEvent } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView, useMotionValueEvent, useMotionValue } from 'framer-motion';
 import { Radar, Code2, Rocket } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import WindowFrame from './WindowFrame';
@@ -122,19 +122,59 @@ export default function Process({ lang = 'en' }: { lang?: Lang }) {
     { id: '03', label: t('deploy.step3.label'), title: t('deploy.step3.title'), description: t('deploy.step3.description'), icon: Rocket },
   ];
 
+  // ─── VISIBILITY GATE ───
+  // Prevents progress from sticking at 100% when the section
+  // is collapsed / minimised / hidden by WindowFrame.
+  const isSectionActiveRef = useRef(false);
+  const [isSectionActive, setIsSectionActive] = useState(false);
+
+  useEffect(() => {
+    isSectionActiveRef.current = isSectionActive;
+  }, [isSectionActive]);
+
+  useEffect(() => {
+    const el = pathSectionRef.current;
+    if (!el) return;
+
+    const check = () => {
+      const active = el.getBoundingClientRect().height > 50;
+      setIsSectionActive(active);
+      isSectionActiveRef.current = active;
+    };
+
+    const io = new IntersectionObserver(() => check(), { threshold: 0 });
+    const ro = new ResizeObserver(() => check());
+    io.observe(el);
+    ro.observe(el);
+
+    return () => { io.disconnect(); ro.disconnect(); };
+  }, []);
+
+  // Reset nodes immediately when section becomes invisible
+  useEffect(() => {
+    if (!isSectionActive) setActiveNodes(0);
+  }, [isSectionActive]);
+
   // Scroll-linked animation for the SVG path
   const { scrollYProgress } = useScroll({
     target: pathSectionRef,
     offset: ['start 0.8', 'end 0.5'],
   });
 
-  const pathProgress = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  // Gated progress: 0 when hidden, follows scroll when visible
+  const visibleProgress = useMotionValue(0);
 
-  // Track which nodes are active based on scroll progress
-  useMotionValueEvent(pathProgress, 'change', (latest) => {
-    if (latest < 0.15) setActiveNodes(0);
-    else if (latest < 0.5) setActiveNodes(1);
-    else if (latest < 0.85) setActiveNodes(2);
+  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
+    if (!isSectionActiveRef.current) {
+      visibleProgress.set(0);
+      return;
+    }
+    const v = Math.max(0, Math.min(1, latest));
+    visibleProgress.set(v);
+
+    if (v < 0.15) setActiveNodes(0);
+    else if (v < 0.5) setActiveNodes(1);
+    else if (v < 0.85) setActiveNodes(2);
     else setActiveNodes(3);
   });
 
@@ -203,7 +243,7 @@ export default function Process({ lang = 'en' }: { lang?: Lang }) {
                   strokeLinecap="round"
                   fill="none"
                   style={{
-                    pathLength: pathProgress,
+                    pathLength: visibleProgress,
                   }}
                   initial={{ pathLength: 0 }}
                 />
@@ -222,7 +262,7 @@ export default function Process({ lang = 'en' }: { lang?: Lang }) {
                   strokeLinecap="round"
                   fill="none"
                   style={{
-                    pathLength: pathProgress,
+                    pathLength: visibleProgress,
                   }}
                   initial={{ pathLength: 0 }}
                 />
@@ -261,7 +301,7 @@ export default function Process({ lang = 'en' }: { lang?: Lang }) {
                   strokeWidth="2"
                   strokeLinecap="round"
                   style={{
-                    pathLength: pathProgress,
+                    pathLength: visibleProgress,
                   }}
                   initial={{ pathLength: 0 }}
                 />
