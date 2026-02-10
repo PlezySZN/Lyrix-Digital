@@ -24,9 +24,9 @@ export const ui = {
     'hero.headline': 'WEBS RÁPIDAS QUE POSICIONAN EN GOOGLE EN PUERTO RICO.',
     'hero.subtitle': 'Sitios hechos con Astro que cargan en menos de 1 segundo — hasta en redes 4G lentas por todo PR. Construidos para ranking en Google, audiencias bilingües y generación real de leads.',
     'hero.finder': 'Lyrix Digital — Agencia de Diseño Web en Puerto Rico',
-    'hero.cta': '> AUDITORÍA_GRATIS_DE_TU_WEB',
-    'hero.cta.hint': 'Mira cómo puntea tu página actual en Google PageSpeed',
-    'hero.cta.meta': 'Auditoría gratis · Sin compromiso · Respuesta en 24h',
+    'hero.cta': '> VER_LO_QUE_PODEMOS_CREAR',
+    'hero.cta.hint': 'Solicita tu proyecto web + video',
+    'hero.cta.meta': 'Consulta gratis · Sin compromiso · Respuesta en 24h',
 
     // ─── SYSTEM SPECS (Services) ───
     'specs.status': 'Servicios Disponibles',
@@ -338,9 +338,9 @@ export const ui = {
     'hero.headline': 'FAST WEBSITES THAT RANK ON GOOGLE IN PUERTO RICO.',
     'hero.subtitle': 'Astro-powered sites that load in under 1 second — even on 4G networks across rural PR. Built for Google rankings, bilingual audiences, and real lead generation.',
     'hero.finder': 'Lyrix Digital — Web Design Agency in Puerto Rico',
-    'hero.cta': '> GET_FREE_SITE_AUDIT',
-    'hero.cta.hint': 'See how your current site scores on Google PageSpeed',
-    'hero.cta.meta': 'Free audit · No obligation · Response within 24h',
+    'hero.cta': '> SEE_WHAT_WE_CAN_BUILD',
+    'hero.cta.hint': 'Request your web + video project',
+    'hero.cta.meta': 'Free consultation · No obligation · Response within 24h',
 
     // ─── SYSTEM SPECS (Services) ───
     'specs.status': 'Services Available',
