@@ -3,11 +3,23 @@
  * OS WINDOW — LYRIX OS v1.2
  * Reusable window frame with Red/Yellow/Green traffic light controls
  * Manages OPEN / COLLAPSED / DOCKED states via windowStore
+ *
+ * IMPORTANT — Children are ALWAYS mounted (never unmounted).
+ * This prevents a class of bugs where child components use
+ * useInView(ref, { once: true }) — if children unmounted and
+ * remounted, the IntersectionObserver would watch a dead DOM
+ * element and isInView would never fire again, leaving content
+ * permanently invisible after a collapse/dock → restore cycle.
+ *
+ * Visibility strategy:
+ *   OPEN      → Window frame + content visible (height: auto)
+ *   COLLAPSED → Title bar visible, content animated to height: 0
+ *   DOCKED    → Entire wrapper hidden via display:none (Tailwind `hidden`)
  * ═══════════════════════════════════════════════════════════
  */
 
 import { useRef, type ReactNode } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useStore } from '@nanostores/react';
 import {
   $windows,
@@ -33,6 +45,10 @@ interface OsWindowProps {
   accent?: boolean;
 }
 
+// ─── EASING ───
+
+const EASE = [0.25, 0.46, 0.45, 0.94] as const;
+
 // ─── COMPONENT ───
 
 export default function WindowFrame({
@@ -49,10 +65,9 @@ export default function WindowFrame({
   const displayTitle = title || meta.title;
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // ─── DOCKED: Render nothing (window is hidden, shows in dock) ───
-  if (state === 'DOCKED') {
-    return <div id={meta.sectionId} />;
-  }
+  // Derived booleans for readability
+  const isOpen = state === 'OPEN';
+  const isDocked = state === 'DOCKED';
 
   // ─── HANDLERS ───
   const handleRed = (e: React.MouseEvent) => {
@@ -71,7 +86,11 @@ export default function WindowFrame({
   };
 
   return (
-    <div id={meta.sectionId} ref={containerRef} className={className}>
+    <div
+      id={meta.sectionId}
+      ref={containerRef}
+      className={`${className} ${isDocked ? 'hidden' : ''}`}
+    >
       {/* ─── GLASSMORPHIC WINDOW FRAME ─── */}
       <div className="relative w-full rounded-xl border border-white/10 bg-[#0a0a0a]/80 backdrop-blur-xl overflow-hidden">
 
@@ -119,7 +138,7 @@ export default function WindowFrame({
               <button
                 onClick={handleGreen}
                 className={`group relative w-3 h-3 rounded-full bg-[#28C840] hover:brightness-125 transition-all ${
-                  state === 'OPEN' ? 'ring-1 ring-[#28C840]/40' : ''
+                  isOpen ? 'ring-1 ring-[#28C840]/40' : ''
                 }`}
                 aria-label="Restore window"
               >
@@ -146,21 +165,20 @@ export default function WindowFrame({
           <div className="w-14" />
         </div>
 
-        {/* ─── CONTENT AREA (animated collapse) ─── */}
-        <AnimatePresence initial={false}>
-          {state === 'OPEN' && (
-            <motion.div
-              key="content"
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="overflow-hidden"
-            >
-              {children}
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* ─── CONTENT AREA ───
+             Children stay mounted at all times to preserve useInView refs.
+             Visibility is controlled purely via height + opacity animation. */}
+        <motion.div
+          initial={false}
+          animate={{
+            height: isOpen ? 'auto' : 0,
+            opacity: isOpen ? 1 : 0,
+          }}
+          transition={{ duration: 0.35, ease: EASE }}
+          className="overflow-hidden"
+        >
+          {children}
+        </motion.div>
       </div>
     </div>
   );
