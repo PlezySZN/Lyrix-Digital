@@ -11,7 +11,7 @@ import { map } from 'nanostores';
 
 export type WindowState = 'OPEN' | 'COLLAPSED' | 'DOCKED';
 
-export type WindowId = 'specs' | 'logs' | 'deployment' | 'telemetry' | 'manual';
+export type WindowId = 'specs' | 'logs' | 'deployment' | 'telemetry' | 'manual' | 'blog';
 
 export interface WindowMeta {
   id: WindowId;
@@ -54,6 +54,12 @@ export const WINDOW_REGISTRY: Record<WindowId, WindowMeta> = {
     icon: 'BookOpen',
     sectionId: 'manual',
   },
+  blog: {
+    id: 'blog',
+    title: 'Knowledge_Base.db',
+    icon: 'Newspaper',
+    sectionId: 'blog-section',
+  },
 };
 
 // ─── STATE ───
@@ -64,6 +70,7 @@ export const $windows = map<Record<WindowId, WindowState>>({
   deployment: 'OPEN',
   telemetry: 'OPEN',
   manual: 'OPEN',
+  blog: 'OPEN',
 });
 
 // ─── ACTIONS ───
@@ -102,4 +109,4 @@ export function getDockedWindows(): WindowId[] {
 }
 
 /** Get all window IDs for dock rendering (all managed windows) */
-export const ALL_WINDOW_IDS: WindowId[] = ['logs', 'specs', 'telemetry', 'deployment', 'manual'];
+export const ALL_WINDOW_IDS: WindowId[] = ['logs', 'specs', 'telemetry', 'deployment', 'manual', 'blog'];

@@ -80,6 +80,13 @@ body {
   animation: marquee 60s linear infinite;
 }
 
+/* Pause marquee on hover/touch for readability */
+.animate-marquee:hover,
+.animate-marquee:active,
+.animate-marquee:focus-within {
+  animation-play-state: paused;
+}
+
 /* ═══════════════════════════════════════════════════════════
    CORE WEB VITALS OPTIMIZATIONS
 ═══════════════════════════════════════════════════════════ */

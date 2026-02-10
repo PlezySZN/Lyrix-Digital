@@ -43,6 +43,8 @@ interface OsWindowProps {
   titleIcon?: ReactNode;
   /** Whether the title bar bg uses accent color (for CTA window) */
   accent?: boolean;
+  /** When true, traffic light dots are bright & clickable. When false, dots are decorational & dimmed. Defaults to true. */
+  interactive?: boolean;
 }
 
 // ─── EASING ───
@@ -58,6 +60,7 @@ export default function WindowFrame({
   className = '',
   titleIcon,
   accent = false,
+  interactive = true,
 }: OsWindowProps) {
   const windows = useStore($windows);
   const state = windows[id];
@@ -105,48 +108,57 @@ export default function WindowFrame({
             }
           `}
         >
-          {/* Traffic Light Buttons */}
+          {/* Traffic Light Buttons — Bright=Clickable, Dimmed=Decorational */}
           <div className="flex items-center gap-1.5">
-            {/* RED — Close / Dock */}
-            <div className="flex items-center justify-center w-6 h-6">
-              <button
-                onClick={handleRed}
-                className="group relative w-3 h-3 rounded-full bg-[#FF5F57] hover:brightness-125 transition-all"
-                aria-label="Close window"
-              >
-                <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-black/60 text-[8px] font-bold leading-none">
-                  ×
-                </span>
-              </button>
-            </div>
-
-            {/* YELLOW — Minimize / Collapse */}
-            <div className="flex items-center justify-center w-6 h-6">
-              <button
-                onClick={handleYellow}
-                className="group relative w-3 h-3 rounded-full bg-[#FEBC2E] hover:brightness-125 transition-all"
-                aria-label="Minimize window"
-              >
-                <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-black/60 text-[8px] font-bold leading-none">
-                  −
-                </span>
-              </button>
-            </div>
-
-            {/* GREEN — Restore / Maximize */}
-            <div className="flex items-center justify-center w-6 h-6">
-              <button
-                onClick={handleGreen}
-                className={`group relative w-3 h-3 rounded-full bg-[#28C840] hover:brightness-125 transition-all ${
-                  isOpen ? 'ring-1 ring-[#28C840]/40' : ''
-                }`}
-                aria-label="Restore window"
-              >
-                <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-black/60 text-[8px] font-bold leading-none">
-                  +
-                </span>
-              </button>
-            </div>
+            {interactive ? (
+              <>
+                {/* RED — Close / Dock */}
+                <div className="flex items-center justify-center w-6 h-6">
+                  <button
+                    onClick={handleRed}
+                    className="group relative w-3 h-3 rounded-full bg-[#FF5F57] cursor-pointer hover:brightness-125 hover:scale-110 transition-all"
+                    aria-label="Close window"
+                  >
+                    <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-black/60 text-[8px] font-bold leading-none">
+                      ×
+                    </span>
+                  </button>
+                </div>
+                {/* YELLOW — Minimize / Collapse */}
+                <div className="flex items-center justify-center w-6 h-6">
+                  <button
+                    onClick={handleYellow}
+                    className="group relative w-3 h-3 rounded-full bg-[#FEBC2E] cursor-pointer hover:brightness-125 hover:scale-110 transition-all"
+                    aria-label="Minimize window"
+                  >
+                    <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-black/60 text-[8px] font-bold leading-none">
+                      −
+                    </span>
+                  </button>
+                </div>
+                {/* GREEN — Restore / Maximize */}
+                <div className="flex items-center justify-center w-6 h-6">
+                  <button
+                    onClick={handleGreen}
+                    className={`group relative w-3 h-3 rounded-full bg-[#28C840] cursor-pointer hover:brightness-125 hover:scale-110 transition-all ${
+                      isOpen ? 'ring-1 ring-[#28C840]/40' : ''
+                    }`}
+                    aria-label="Restore window"
+                  >
+                    <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-black/60 text-[8px] font-bold leading-none">
+                      +
+                    </span>
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Decorational dots — dimmed, non-interactive */}
+                <div className="w-3 h-3 rounded-full bg-[#FF5F57]/50" aria-hidden="true" />
+                <div className="w-3 h-3 rounded-full bg-[#FEBC2E]/50" aria-hidden="true" />
+                <div className="w-3 h-3 rounded-full bg-[#28C840]/50" aria-hidden="true" />
+              </>
+            )}
           </div>
 
           {/* Window Title */}

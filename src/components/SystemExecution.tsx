@@ -119,9 +119,9 @@ export default function SystemExecution({ lang = 'en' }: { lang?: Lang }) {
             {/* ─── TERMINAL TITLE BAR ─── */}
             <div className="flex items-center gap-2 px-6 py-4 bg-lyrix-steel/80 backdrop-blur-xl border-b border-[#CCFF00]/20">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-[#FF5F57]" />
-                <div className="w-3 h-3 rounded-full bg-[#FEBC2E]" />
-                <div className="w-3 h-3 rounded-full bg-[#28C840]" />
+                <div className="w-3 h-3 rounded-full bg-[#FF5F57]/50" />
+                <div className="w-3 h-3 rounded-full bg-[#FEBC2E]/50" />
+                <div className="w-3 h-3 rounded-full bg-[#28C840]/50" />
               </div>
               <div className="flex items-center gap-2 flex-1 justify-center">
                 <Terminal className="w-4 h-4 text-[#CCFF00]/60" />

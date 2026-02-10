@@ -100,7 +100,7 @@ export default function OnboardingHints({ lang = 'en' }: OnboardingHintsProps) {
             <motion.span
               animate={{ opacity: [0.5, 1, 0.5] }}
               transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
-              className="text-[11px] font-mono text-[#FFD700]/70 uppercase tracking-widest whitespace-nowrap"
+              className="text-[11px] font-mono text-[#CCFF00]/70 uppercase tracking-widest whitespace-nowrap"
             >
               LANGUAGE
             </motion.span>
@@ -110,21 +110,21 @@ export default function OnboardingHints({ lang = 'en' }: OnboardingHintsProps) {
               <motion.div
                 animate={{ scale: [1, 1.5, 1], opacity: [0.4, 0, 0.4] }}
                 transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute w-10 h-10 rounded-full bg-[#FFD700]/20"
+                className="absolute w-10 h-10 rounded-full bg-[#CCFF00]/20"
               />
               <motion.div
                 animate={{ y: [0, 4, 0] }}
                 transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
-                className="relative flex items-center justify-center w-10 h-10 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/30 backdrop-blur-sm"
+                className="relative flex items-center justify-center w-10 h-10 rounded-full bg-[#CCFF00]/10 border border-[#CCFF00]/30 backdrop-blur-sm"
               >
-                <Globe className="w-5 h-5 text-[#FFD700]" />
+                <Globe className="w-5 h-5 text-[#CCFF00]" />
               </motion.div>
 
               {/* Downward arrow indicator pointing to StatusBar (Centered relative to globe) */}
               <motion.div
                 animate={{ y: [0, 4, 0] }}
                 transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -bottom-5 left-1/2 -translate-x-1/2 text-[#FFD700]/50 text-lg"
+                className="absolute -bottom-5 left-1/2 -translate-x-1/2 text-[#CCFF00]/50 text-lg"
                 aria-hidden="true"
               >
                 ▼

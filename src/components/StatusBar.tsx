@@ -34,6 +34,7 @@ import {
   Radio,
   BookOpen,
   Globe,
+  Newspaper,
 } from 'lucide-react';
 import { useStore } from '@nanostores/react';
 import { openContactModal } from '../stores/modalStore';
@@ -58,6 +59,7 @@ const ICON_MAP: Record<string, React.ElementType> = {
   Rocket,
   Radio,
   BookOpen,
+  Newspaper,
 };
 
 // ─── DOCK ITEM ───
@@ -181,7 +183,7 @@ export default function StatusBar({ translations: t, lang = 'en' }: StatusBarPro
       <div className="absolute inset-0 bg-black/70 backdrop-blur-xl border-t border-white/5" />
 
       {/* Content */}
-      <div className="relative flex items-center justify-between px-4 md:px-6 py-2.5">
+      <div className="relative flex items-center justify-between px-4 md:px-6 py-3.5">
         {/* ─── LEFT: System Info ─── */}
         <div className="flex items-center gap-3 min-w-0 shrink-0">
           <span className="text-xs font-mono text-white/60 hidden md:inline">
@@ -196,8 +198,8 @@ export default function StatusBar({ translations: t, lang = 'en' }: StatusBarPro
           </span>
         </div>
 
-        {/* ─── CENTER: Window Dock ─── */}
-        <nav aria-label={lang === 'es' ? 'Panel de ventanas' : 'Window dock'} className="flex items-end gap-1.5 md:gap-2 px-3 py-1 rounded-xl bg-white/2 border border-white/5 pt-2.5">
+        {/* ─── CENTER: Window Dock (Absolute center, independent of siblings) ─── */}
+        <nav aria-label={lang === 'es' ? 'Panel de ventanas' : 'Window dock'} className="absolute left-1/2 -translate-x-1/2 flex items-end gap-1.5 md:gap-2 px-3 py-1 rounded-xl bg-white/2 border border-white/5 pt-2.5">
           {ALL_WINDOW_IDS.map((id) => (
             <DockItem key={id} id={id} state={windows[id]} />
           ))}

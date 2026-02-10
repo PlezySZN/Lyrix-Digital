@@ -110,9 +110,9 @@ export default function HeroContent({ translations: t }: HeroContentProps) {
         {/* ─── MACOS TITLE BAR ─── */}
         <div className="sticky top-0 z-50 flex items-center gap-2 px-4 py-3 bg-lyrix-steel/80 backdrop-blur-xl border-b border-white/5">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-[#FF5F57]" />
-            <div className="w-3 h-3 rounded-full bg-[#FEBC2E]" />
-            <div className="w-3 h-3 rounded-full bg-[#28C840]" />
+            <div className="w-3 h-3 rounded-full bg-[#FF5F57]/50" />
+            <div className="w-3 h-3 rounded-full bg-[#FEBC2E]/50" />
+            <div className="w-3 h-3 rounded-full bg-[#28C840]/50" />
           </div>
           <div className="flex-1 text-center">
             <span className="text-xs font-medium text-white/60 tracking-wide">
@@ -236,11 +236,11 @@ export default function HeroContent({ translations: t }: HeroContentProps) {
 
                 {/* CTA label */}
                 <div className="px-5 py-5">
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-base md:text-lg font-bold text-white tracking-wide group-hover:text-[#CCFF00] transition-colors duration-300">
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="flex-1 font-mono text-base md:text-lg font-bold text-white tracking-wide group-hover:text-[#CCFF00] transition-colors duration-300">
                       {t['hero.cta']}
                     </span>
-                    <ArrowRight className="w-5 h-5 text-white/40 group-hover:text-[#CCFF00] group-hover:translate-x-1 transition-all duration-300" />
+                    <ArrowRight className="w-5 h-5 flex-shrink-0 text-white/40 group-hover:text-[#CCFF00] group-hover:translate-x-1 transition-all duration-300" />
                   </div>
                   <p className="text-xs text-white/30 font-mono mt-2">
                     {t['hero.cta.hint']}

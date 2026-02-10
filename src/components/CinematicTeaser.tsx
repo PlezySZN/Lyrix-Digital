@@ -79,12 +79,12 @@ export default function CinematicTeaser({ lang = 'en' }: { lang?: Lang }) {
           </div>
 
           {/* Bottom info bar */}
-          <div className="flex items-center justify-between px-4 md:px-6 py-3 border-t border-white/5 bg-white/2">
-            <div className="flex items-center gap-2">
-              <Film className="w-3.5 h-3.5 text-white/40" />
-              <span className="text-[11px] font-mono text-white/40">{t('teaser.title')}</span>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 px-4 md:px-6 py-3 border-t border-white/5 bg-white/2">
+            <div className="flex items-center gap-2 min-w-0">
+              <Film className="w-3.5 h-3.5 flex-shrink-0 text-white/40" />
+              <span className="text-[11px] font-mono text-white/40 truncate">{t('teaser.title')}</span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-shrink-0">
               <span className="text-[11px] font-mono text-white/30">{t('teaser.format')}</span>
               <div className="w-1.5 h-1.5 rounded-full bg-yellow-500 animate-pulse" />
               <span className="text-[11px] font-mono text-yellow-500/70">{t('teaser.status')}</span>
