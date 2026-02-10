@@ -1,0 +1,18 @@
+---
+/**
+ * ═══════════════════════════════════════════════════════════
+ * PROCESS SECTION — LYRIX OS
+ * Astro wrapper → React island (hydrated on visible)
+ * ═══════════════════════════════════════════════════════════
+ */
+
+import type { Lang } from '../../i18n/ui';
+import ProcessComponent from '../Process';
+
+interface Props { lang?: Lang; }
+const { lang = 'en' } = Astro.props;
+---
+
+<div class="cwv-defer">
+  <ProcessComponent lang={lang} client:visible />
+</div>

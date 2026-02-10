@@ -10,57 +10,18 @@
  */
 
 import { useState, useRef, useEffect, useCallback, type MouseEvent } from 'react';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FolderOpen, ArrowRight } from 'lucide-react';
 import { openContactModal } from '../stores/modalStore';
 import type { HeroTranslations } from '../i18n/translations';
 
-// ─── TEXT SCRAMBLE HOOK ───
-// Decrypts text character-by-character from random glyphs
-
-const GLYPHS = 'X#01!>_░▒▓█▀▄';
-
-function useTextScramble(text: string, { delay = 0, duration = 1200, trigger = true } = {}) {
-  // CLS FIX: Initialize with actual text to prevent layout shift from empty → text
-  const [display, setDisplay] = useState(text);
-  const frameRef = useRef<ReturnType<typeof setTimeout>>(undefined);
-
-  useEffect(() => {
-    if (!trigger) { setDisplay(text); return; }
-
-    const chars = text.split('');
-    const total = chars.length;
-    const perChar = duration / total;
-    let revealed = 0;
-
-    const startTimeout = setTimeout(() => {
-      // Tick: reveal one more real character per interval
-      const tick = () => {
-        revealed++;
-        const out = chars.map((ch, i) => {
-          if (i < revealed) return ch;
-          return GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
-        }).join('');
-        setDisplay(out);
-
-        if (revealed < total) {
-          frameRef.current = setTimeout(tick, perChar);
-        }
-      };
-
-      // Initial scrambled state
-      setDisplay(chars.map(() => GLYPHS[Math.floor(Math.random() * GLYPHS.length)]).join(''));
-      frameRef.current = setTimeout(tick, perChar);
-    }, delay);
-
-    return () => {
-      clearTimeout(startTimeout);
-      clearTimeout(frameRef.current);
-    };
-  }, [text, delay, duration, trigger]);
-
-  return display;
-}
+// ─── HOVER COLOR PALETTE ───
+// Vivid colors for the per-character hover effect
+const HOVER_COLORS = [
+  '#CCFF00', '#FF00FF', '#00FFFF', '#FF3366', '#FFD700',
+  '#00FF88', '#FF6600', '#7B68EE', '#FF1493', '#00BFFF',
+  '#39FF14', '#FF4500', '#DA70D6', '#FF0040', '#00FFAB',
+];
 
 // ─── PARTICLE ───
 
@@ -81,16 +42,25 @@ interface HeroContentProps {
 export default function HeroContent({ translations: t }: HeroContentProps) {
   const [particles, setParticles] = useState<Particle[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
-  const headlineRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(headlineRef, { once: true, margin: '-100px' });
   const particleIdRef = useRef(0);
 
-  // Scramble headline text — delay reduced for faster LCP
-  const scrambledHeadline = useTextScramble(t['hero.headline'], {
-    delay: 100,
-    duration: 1200,
-    trigger: isInView,
-  });
+  // ─── PER-CHARACTER HOVER COLOR ───
+  const [hoveredChar, setHoveredChar] = useState<number | null>(null);
+  const [charColor, setCharColor] = useState('#CCFF00');
+
+  const handleCharHover = useCallback((index: number) => {
+    setHoveredChar(index);
+    setCharColor(HOVER_COLORS[Math.floor(Math.random() * HOVER_COLORS.length)]);
+  }, []);
+
+  // Rapid color cycling while a character is hovered
+  useEffect(() => {
+    if (hoveredChar === null) return;
+    const interval = setInterval(() => {
+      setCharColor(HOVER_COLORS[Math.floor(Math.random() * HOVER_COLORS.length)]);
+    }, 80);
+    return () => clearInterval(interval);
+  }, [hoveredChar]);
 
   // Particle trail effect
   const handleMouseMove = useCallback((e: MouseEvent<HTMLDivElement>) => {
@@ -108,22 +78,7 @@ export default function HeroContent({ translations: t }: HeroContentProps) {
     return () => clearTimeout(timer);
   }, [particles]);
 
-  // Staggered reveal variants
-  const containerVariants = {
-    hidden: {},
-    visible: { transition: { staggerChildren: 0.15, delayChildren: 0.3 } },
-  };
-  // LCP FIX: headline starts VISIBLE (opacity: 1) — no fade-in blocking
-  // Lighthouse. The text-scramble effect provides the visual reveal.
-  const wordVariants = {
-    hidden: { opacity: 1, y: 0, filter: 'blur(0px)' },
-    visible: {
-      opacity: 1,
-      y: 0,
-      filter: 'blur(0px)',
-      transition: { duration: 0.15 },
-    },
-  };
+
 
   return (
     <div className="min-h-screen w-full bg-lyrix-dark p-4 md:p-8">
@@ -170,11 +125,12 @@ export default function HeroContent({ translations: t }: HeroContentProps) {
                 animate={{ opacity: 0, scale: 0.2 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.6, ease: 'easeOut' }}
-                className="absolute w-2 h-2 rounded-full bg-white"
+                className="absolute w-3 h-3 rounded-full bg-white"
                 style={{
-                  left: particle.x - 4,
-                  top: particle.y - 4,
-                  boxShadow: '0 0 8px 2px rgba(255, 255, 255, 0.4)',
+                  left: particle.x - 6,
+                  top: particle.y - 6,
+                  boxShadow: '0 0 12px 4px rgba(255, 255, 255, 0.5)',
+                  mixBlendMode: 'difference',
                 }}
               />
             ))}
@@ -184,37 +140,34 @@ export default function HeroContent({ translations: t }: HeroContentProps) {
         {/* ─── CONTENT CONTAINER ─── */}
         <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-8rem)] px-6 py-20">
 
-          {/* ─── HEADLINE (Scramble) ─── */}
+          {/* ─── HEADLINE (Hover-Color) ─── */}
           {/* CLS fix: explicit min-h per breakpoint locks the box before fonts load */}
-          <motion.div
-            ref={headlineRef}
-            variants={containerVariants}
-            initial="hidden"
-            animate={isInView ? 'visible' : 'hidden'}
+          <div
             className="hero-headline-container text-center mb-6 min-h-[72px] sm:min-h-[84px] md:min-h-[110px] lg:min-h-[84px] flex items-center justify-center"
           >
-            <div className="relative inline-block">
-              <span
-                aria-hidden="true"
-                className="invisible block text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1]"
-                style={{ fontFamily: 'var(--font-oswald, var(--font-barlow, sans-serif))' }}
-              >
-                {t['hero.headline']}
-              </span>
-              <motion.div
-                role="presentation"
-                aria-hidden="true"
-                variants={wordVariants}
-                className="absolute inset-0 text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1]"
-                style={{
-                  fontFamily: 'var(--font-oswald, var(--font-barlow, sans-serif))',
-                  fontDisplay: 'swap' as const,
-                }}
-              >
-                {scrambledHeadline || t['hero.headline']}
-              </motion.div>
+            <div
+              role="presentation"
+              aria-hidden="true"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1] cursor-default select-none"
+              style={{ fontFamily: 'var(--font-oswald, var(--font-barlow, sans-serif))' }}
+              onMouseLeave={() => setHoveredChar(null)}
+            >
+              {t['hero.headline'].split('').map((char, i) => (
+                <span
+                  key={i}
+                  onMouseEnter={() => handleCharHover(i)}
+                  className="inline-block transition-colors duration-[50ms]"
+                  style={{
+                    color: hoveredChar === i ? charColor : undefined,
+                    textShadow: hoveredChar === i ? `0 0 20px ${charColor}, 0 0 40px ${charColor}40` : 'none',
+                    minWidth: char === ' ' ? '0.25em' : undefined,
+                  }}
+                >
+                  {char}
+                </span>
+              ))}
             </div>
-          </motion.div>
+          </div>
 
           {/* ─── SUBTITLE ─── */}
           {/* CLS FIX: No initial animation - content visible immediately */}

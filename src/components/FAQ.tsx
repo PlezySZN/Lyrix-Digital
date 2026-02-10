@@ -11,16 +11,9 @@ import { ChevronRight, ChevronDown } from 'lucide-react';
 import WindowFrame from './WindowFrame';
 import { useTranslations } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
+import type { KnowledgeEntry } from '../types';
 
 // ─── DATA ───
-
-interface KnowledgeEntry {
-  id: string;
-  question: string;
-  answer: string;
-  category: string;
-  _response: string;
-}
 
 const knowledgeIds = ['Q001', 'Q002', 'Q003', 'Q004', 'Q005', 'Q006', 'Q007', 'Q008'] as const;
 

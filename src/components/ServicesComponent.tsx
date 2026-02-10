@@ -12,6 +12,7 @@ import ServiceCard from './ServiceCard';
 import WindowFrame from './WindowFrame';
 import { useTranslations } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
+import type { ServiceModule } from '../types';
 
 export default function Services({ lang = 'en' }: { lang?: Lang }) {
   const t = useTranslations(lang);

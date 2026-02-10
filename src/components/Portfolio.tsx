@@ -1,138 +1,102 @@
 /**
  * ═══════════════════════════════════════════════════════════
  * PROJECT LOGS — LYRIX OS
- * Portfolio as a database list view with hover preview cards
+ * Portfolio as a database list view with hover preview cards.
+ * Data sourced from `src/data/projects.ts`.
  * ═══════════════════════════════════════════════════════════
  */
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { ExternalLink, ChevronRight } from 'lucide-react';
 import { openProjectModal } from '../stores/modalStore';
+import { getProjects } from '../data/projects';
 import WindowFrame from './WindowFrame';
+import NoSignalPlaceholder from './NoSignalPlaceholder';
 import { useTranslations } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
+import type { Project } from '../types';
 
-// ─── DATA ───
+// ─── FLOATING PREVIEW CARD (rendered via portal) ───
 
-interface Project {
-  id: string;
-  client: string;
-  type: string;
-  typeColor: string;
-  status: string;
-  year: string;
-  description: string;
-  previewGradient: [string, string];
-  previews?: Array<{
-    type: 'gradient' | 'image';
-    background: [string, string] | string;
-    label: string;
-  }>;
+function FloatingPreview({
+  project,
+  mousePos,
+}: {
+  project: Project;
+  mousePos: { x: number; y: number };
+}) {
+  // Use the first real image if available, otherwise gradient
+  const hasImage = project.images && project.images.length > 0 && project.images[0];
+
+  return createPortal(
+    <motion.div
+      initial={{ opacity: 0, scale: 0.92 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.92 }}
+      transition={{ duration: 0.2, ease: 'easeOut' }}
+      className="hidden md:block fixed z-9999 pointer-events-none"
+      style={{
+        left: Math.min(mousePos.x + 20, (typeof window !== 'undefined' ? window.innerWidth : 1200) - 380),
+        top: mousePos.y - 100,
+      }}
+    >
+      <div className="w-80 rounded-xl border border-white/10 bg-lyrix-carbon/95 backdrop-blur-2xl shadow-2xl shadow-black/50 overflow-hidden">
+        {/* Preview Image Area */}
+        {hasImage ? (
+          <div className="w-full aspect-video overflow-hidden">
+            <img
+              src={project.images![0]}
+              alt={project.client}
+              className="w-full h-full object-cover"
+            />
+          </div>
+        ) : (
+          <NoSignalPlaceholder
+            gradient={project.previewGradient}
+            label="preview.render"
+          />
+        )}
+
+        {/* Preview Details */}
+        <div className="p-4">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-mono text-white/60">{project.id}</span>
+            <span className={`text-xs font-mono ${project.typeColor}`}>
+              [{project.type}]
+            </span>
+          </div>
+          <h4 className="text-sm font-semibold text-white mb-1.5">
+            {project.client}
+          </h4>
+          <p className="text-xs text-white/50 leading-relaxed line-clamp-2">
+            {project.description}
+          </p>
+        </div>
+      </div>
+    </motion.div>,
+    document.body,
+  );
 }
-
-// Structural data only (non-translatable).
-// Translatable fields (type, status, description, preview labels) are resolved inside the component.
-const projectStructure = [
-  {
-    id: '#001',
-    client: 'Solar Elite PR',
-    typeColor: 'text-blue-400',
-    year: '2025',
-    previewGradient: ['#1a1a2e', '#16213e'] as [string, string],
-    previewGradients: [
-      ['#1a1a2e', '#16213e'],
-      ['#0f1419', '#1a2328'],
-      ['#1a1a0e', '#2e2116'],
-    ] as [string, string][],
-  },
-  {
-    id: '#002',
-    client: 'Bad Bunny Trap',
-    typeColor: 'text-purple-400',
-    year: '2025',
-    previewGradient: ['#2d1b69', '#11001c'] as [string, string],
-    previewGradients: [
-      ['#2d1b69', '#11001c'],
-      ['#4a1c69', '#2d0a3c'],
-      ['#1b2d69', '#001c11'],
-    ] as [string, string][],
-  },
-  {
-    id: '#003',
-    client: 'Cafe Boricua',
-    typeColor: 'text-amber-400',
-    year: '2024',
-    previewGradient: ['#1a120b', '#2d1f10'] as [string, string],
-    previewGradients: [
-      ['#1a120b', '#2d1f10'],
-      ['#2d1f10', '#1a120b'],
-      ['#2d2010', '#1a1f0b'],
-    ] as [string, string][],
-  },
-  {
-    id: '#004',
-    client: 'Torres Roofing Co.',
-    typeColor: 'text-blue-400',
-    year: '2024',
-    previewGradient: ['#0a1a0a', '#0f2b0f'] as [string, string],
-    previewGradients: [
-      ['#0a1a0a', '#0f2b0f'],
-      ['#1a0a0a', '#2b0f0f'],
-      ['#0a0a1a', '#0f0f2b'],
-      ['#1a1a0a', '#2b2b0f'],
-    ] as [string, string][],
-  },
-  {
-    id: '#005',
-    client: 'Neon District Studio',
-    typeColor: 'text-pink-400',
-    year: '2025',
-    previewGradient: ['#1a0a1a', '#2b0f2b'] as [string, string],
-    previewGradients: [
-      ['#1a0a1a', '#2b0f2b'],
-      ['#0a1a1a', '#0f2b2b'],
-      ['#1a1a0a', '#2b2b0f'],
-    ] as [string, string][],
-  },
-];
 
 // ─── COMPONENT ───
 
 export default function ProjectLogs({ lang = 'en' }: { lang?: Lang }) {
   const t = useTranslations(lang);
-
-  // Build translated project entries from structural data + i18n dictionary
-  const projects: Project[] = projectStructure.map((p, i) => {
-    const n = i + 1;
-    const previewLabels = p.previewGradients.map((_, j) =>
-      t(`logs.p${n}.preview${j + 1}` as any)
-    );
-    return {
-      ...p,
-      type: t(`logs.p${n}.type` as any),
-      status: t(`logs.p${n}.status` as any),
-      description: t(`logs.p${n}.description` as any),
-      previews: p.previewGradients.map((grad, j) => ({
-        type: 'gradient' as const,
-        background: grad,
-        label: previewLabels[j],
-      })),
-    };
-  });
+  const projects = getProjects(lang);
 
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: '-80px' });
+  const [mounted, setMounted] = useState(false);
+
+  // Portal needs document.body — only available after mount
+  useEffect(() => { setMounted(true); }, []);
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    setMousePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
+    setMousePos({ x: e.clientX, y: e.clientY });
   };
 
   return (
@@ -232,8 +196,8 @@ export default function ProjectLogs({ lang = 'en' }: { lang?: Lang }) {
 
                   {/* Status */}
                   <span className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                    <span className="text-xs font-mono text-green-400/80">{project.status}</span>
+                    <span className={`w-1.5 h-1.5 rounded-full ${project.comingSoon ? 'bg-yellow-500' : 'bg-green-500'}`} />
+                    <span className={`text-xs font-mono ${project.comingSoon ? 'text-yellow-400/80' : 'text-green-400/80'}`}>{project.status}</span>
                   </span>
 
                   {/* Year */}
@@ -264,8 +228,8 @@ export default function ProjectLogs({ lang = 'en' }: { lang?: Lang }) {
                   <h3 className="text-base font-medium text-white/80 mb-1">{project.client}</h3>
                   <div className="flex items-center justify-between">
                     <span className="flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                      <span className="text-xs font-mono text-green-400/80">{project.status}</span>
+                      <span className={`w-1.5 h-1.5 rounded-full ${project.comingSoon ? 'bg-yellow-500' : 'bg-green-500'}`} />
+                      <span className={`text-xs font-mono ${project.comingSoon ? 'text-yellow-400/80' : 'text-green-400/80'}`}>{project.status}</span>
                     </span>
                     <span className="text-xs font-mono text-white/60">{project.year}</span>
                   </div>
@@ -287,64 +251,18 @@ export default function ProjectLogs({ lang = 'en' }: { lang?: Lang }) {
         </div>
       </motion.div>
 
-      {/* ─── FLOATING PREVIEW CARD (Desktop only) ─── */}
-      <AnimatePresence>
-        {hoveredIndex !== null && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.92 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.92 }}
-            transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="hidden md:block fixed z-50 pointer-events-none"
-            style={{
-              left: Math.min(mousePos.x + 20, window.innerWidth - 380),
-              top: mousePos.y - 100,
-            }}
-          >
-            <div className="w-80 rounded-xl border border-white/10 bg-lyrix-carbon/95 backdrop-blur-2xl shadow-black/50 overflow-hidden">
-              {/* Preview Image Area */}
-              <div
-                className="w-full aspect-video flex items-center justify-center relative"
-                style={{
-                  background: `linear-gradient(135deg, ${projects[hoveredIndex].previewGradient[0]}, ${projects[hoveredIndex].previewGradient[1]})`,
-                }}
-              >
-                {/* Placeholder grid overlay */}
-                <div
-                  className="absolute inset-0 opacity-20"
-                  style={{
-                    backgroundImage: `
-                      linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)
-                    `,
-                    backgroundSize: '20px 20px',
-                  }}
-                />
-                <div className="relative flex flex-col items-center gap-2">
-                  <ExternalLink className="w-6 h-6 text-white/30" />
-                  <span className="text-xs font-mono text-white/60">preview.render</span>
-                </div>
-              </div>
-
-              {/* Preview Details */}
-              <div className="p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-mono text-white/60">{projects[hoveredIndex].id}</span>
-                  <span className={`text-xs font-mono ${projects[hoveredIndex].typeColor}`}>
-                    [{projects[hoveredIndex].type}]
-                  </span>
-                </div>
-                <h4 className="text-sm font-semibold text-white mb-1.5">
-                  {projects[hoveredIndex].client}
-                </h4>
-                <p className="text-xs text-white/50 leading-relaxed">
-                  {projects[hoveredIndex].description}
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* ─── FLOATING PREVIEW CARD (Portal → document.body, escapes stacking contexts) ─── */}
+      {mounted && (
+        <AnimatePresence>
+          {hoveredIndex !== null && (
+            <FloatingPreview
+              key="preview"
+              project={projects[hoveredIndex]}
+              mousePos={mousePos}
+            />
+          )}
+        </AnimatePresence>
+      )}
     </section>
     </WindowFrame>
   );

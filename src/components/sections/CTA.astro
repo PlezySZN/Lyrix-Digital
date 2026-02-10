@@ -1,0 +1,18 @@
+---
+/**
+ * ═══════════════════════════════════════════════════════════
+ * CTA SECTION — LYRIX OS
+ * Astro wrapper → React island (hydrated on visible)
+ * ═══════════════════════════════════════════════════════════
+ */
+
+import type { Lang } from '../../i18n/ui';
+import CTAComponent from '../CTA';
+
+interface Props { lang?: Lang; }
+const { lang = 'en' } = Astro.props;
+---
+
+<div class="cwv-defer">
+  <CTAComponent lang={lang} client:visible />
+</div>

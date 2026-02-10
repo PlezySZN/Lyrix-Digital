@@ -1,12 +1,13 @@
 /**
  * ═══════════════════════════════════════════════════════════
- * MODAL STORE — LYRIX OS v1.1
+ * MODAL STORE — LYRIX OS v1.2
  * Global state management for modals using nanostores
  * ═══════════════════════════════════════════════════════════
  */
 
 import { atom } from 'nanostores';
 import type { Lang } from '../i18n/ui';
+import type { Project } from '../types';
 
 // ─── GLOBAL LANGUAGE STATE ───
 
@@ -52,30 +53,14 @@ export function closeContactModal() {
 
 // ─── PROJECT MODAL ───
 
-export interface ProjectData {
-  id: string;
-  client: string;
-  type: string;
-  typeColor: string;
-  status: string;
-  year: string;
-  description: string;
-  previewGradient: [string, string];
-  previews?: Array<{
-    type: 'gradient' | 'image';
-    background: [string, string] | string;
-    label: string;
-  }>;
-}
-
 /** Whether the Project Modal is open */
 export const $projectModalOpen = atom(false);
 
 /** The active project to display in the modal */
-export const $activeProject = atom<ProjectData | null>(null);
+export const $activeProject = atom<Project | null>(null);
 
 /** Open the project modal with a specific project */
-export function openProjectModal(project: ProjectData) {
+export function openProjectModal(project: Project) {
   $activeProject.set(project);
   $projectModalOpen.set(true);
 }

@@ -1,0 +1,18 @@
+---
+/**
+ * ═══════════════════════════════════════════════════════════
+ * FAQ SECTION — LYRIX OS
+ * Astro wrapper → React island (hydrated on visible)
+ * ═══════════════════════════════════════════════════════════
+ */
+
+import type { Lang } from '../../i18n/ui';
+import FAQComponent from '../FAQ';
+
+interface Props { lang?: Lang; }
+const { lang = 'en' } = Astro.props;
+---
+
+<div class="cwv-defer">
+  <FAQComponent lang={lang} client:visible />
+</div>

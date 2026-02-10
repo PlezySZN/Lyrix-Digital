@@ -8,16 +8,12 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import type { LucideIcon } from 'lucide-react';
-
-interface Spec {
-  label: string;
-  value: string;
-}
+import type { ServiceSpec } from '../types';
 
 interface SpecModuleProps {
   icon: LucideIcon;
   title: string;
-  specs: Spec[];
+  specs: ServiceSpec[];
   description: string;
   isOptional?: boolean;
   delay?: number;

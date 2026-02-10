@@ -12,16 +12,7 @@ import type { LucideIcon } from 'lucide-react';
 import WindowFrame from './WindowFrame';
 import { useTranslations } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
-
-// ─── DATA ───
-
-interface StepNode {
-  id: string;
-  label: string;
-  title: string;
-  description: string;
-  icon: LucideIcon;
-}
+import type { ProcessStep } from '../types';
 
 // ─── NODE COMPONENT ───
 
@@ -31,7 +22,7 @@ function ProcessNode({
   delay,
   isInView,
 }: {
-  step: StepNode;
+  step: ProcessStep;
   isActive: boolean;
   delay: number;
   isInView: boolean;
@@ -110,7 +101,7 @@ export default function Process({ lang = 'en' }: { lang?: Lang }) {
   const [activeNodes, setActiveNodes] = useState<number>(0);
 
   // i18n step data
-  const steps: StepNode[] = [
+  const steps: ProcessStep[] = [
     { id: '01', label: t('deploy.step1.label'), title: t('deploy.step1.title'), description: t('deploy.step1.description'), icon: Radar },
     { id: '02', label: t('deploy.step2.label'), title: t('deploy.step2.title'), description: t('deploy.step2.description'), icon: Code2 },
     { id: '03', label: t('deploy.step3.label'), title: t('deploy.step3.title'), description: t('deploy.step3.description'), icon: Rocket },

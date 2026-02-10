@@ -10,21 +10,11 @@ import { motion, useInView } from 'framer-motion';
 import WindowFrame from './WindowFrame';
 import { useTranslations } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
+import type { Review } from '../types';
 
 // ─── DATA ───
 
-interface TelemetryPacket {
-  id: string;
-  source: string;
-  signal: number;
-  latency: string;
-  payload: string;
-  user: string;
-  role: string;
-  clientType: string;
-}
-
-const packets: TelemetryPacket[] = [
+const packets: Review[] = [
   {
     id: 'PKT_001',
     source: 'San Juan, PR',
@@ -89,7 +79,7 @@ const packets: TelemetryPacket[] = [
 
 // ─── PACKET COMPONENT ───
 
-function DataPacket({ packet }: { packet: TelemetryPacket }) {
+function DataPacket({ packet }: { packet: Review }) {
   // Calculate stars from signal (signal/100 * 5)
   const stars = ((packet.signal / 100) * 5).toFixed(1);
 

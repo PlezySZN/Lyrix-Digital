@@ -1,7 +1,9 @@
 /**
  * ═══════════════════════════════════════════════════════════
- * PROJECT MODAL — LYRIX OS v1.1
- * "File Properties" window displaying project details
+ * PROJECT MODAL — LYRIX OS v2.0
+ * "File Properties" window displaying project details.
+ * Uses shared `Project` type from `src/types`.
+ * Smart image fallback via NoSignalPlaceholder.
  * ═══════════════════════════════════════════════════════════
  */
 
@@ -14,8 +16,11 @@ import {
   $activeProject,
   closeProjectModal,
 } from '../stores/modalStore';
+import NoSignalPlaceholder from './NoSignalPlaceholder';
+import ProjectImage from './ProjectImage';
 import { useTranslations } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
+import type { ProjectPreview } from '../types';
 
 export default function ProjectModal({ lang = 'en' }: { lang?: Lang }) {
   const t = useTranslations(lang);
@@ -55,7 +60,7 @@ export default function ProjectModal({ lang = 'en' }: { lang?: Lang }) {
   const previews = project.previews || [
     { type: 'gradient' as const, background: project.previewGradient, label: 'Preview' }
   ];
-  const currentPreview = previews[currentImageIndex];
+  const currentPreview: ProjectPreview = previews[currentImageIndex];
   
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % previews.length);
@@ -132,33 +137,24 @@ export default function ProjectModal({ lang = 'en' }: { lang?: Lang }) {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.98 }}
                 transition={{ duration: 0.3 }}
-                className="w-full aspect-video relative overflow-hidden"
-                style={{
-                  background: currentPreview.type === 'gradient' 
-                    ? `linear-gradient(135deg, ${(currentPreview.background as [string, string])[0]}, ${(currentPreview.background as [string, string])[1]})`
-                    : currentPreview.background as string,
-                }}
+                className="w-full relative overflow-hidden"
               >
-              {/* Grid overlay */}
-              <div
-                className="absolute inset-0 opacity-20"
-                style={{
-                  backgroundImage: `
-                    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)
-                  `,
-                  backgroundSize: '25px 25px',
-                }}
-              />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <ExternalLink className="w-8 h-8 text-white/25 mx-auto mb-2" />
-                    <span className="text-xs font-mono text-white/30">{currentPreview.label}</span>
-                  </div>
-                </div>
+                {currentPreview.type === 'image' ? (
+                  <ProjectImage
+                    src={currentPreview.background as string}
+                    alt={`${project.client} — ${currentPreview.label}`}
+                    gradient={project.previewGradient}
+                    label={currentPreview.label}
+                  />
+                ) : (
+                  <NoSignalPlaceholder
+                    gradient={currentPreview.background as [string, string]}
+                    label={currentPreview.label}
+                  />
+                )}
 
                 {/* Type badge overlay */}
-                <div className="absolute top-4 right-4">
+                <div className="absolute top-4 right-4 z-10">
                   <span className={`text-xs font-mono px-2.5 py-1 rounded-lg bg-black/50 border border-white/10 backdrop-blur ${project.typeColor}`}>
                     [{project.type}]
                   </span>
@@ -210,8 +206,8 @@ export default function ProjectModal({ lang = 'en' }: { lang?: Lang }) {
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-xs font-mono text-white/30">{project.id}</span>
                   <span className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                    <span className="text-xs font-mono text-green-400/80">{project.status}</span>
+                    <span className={`w-1.5 h-1.5 rounded-full ${project.comingSoon ? 'bg-yellow-500' : 'bg-green-500'}`} />
+                    <span className={`text-xs font-mono ${project.comingSoon ? 'text-yellow-400/80' : 'text-green-400/80'}`}>{project.status}</span>
                   </span>
                 </div>
                 <h2 className="text-2xl font-semibold text-white tracking-tight">
@@ -257,9 +253,6 @@ export default function ProjectModal({ lang = 'en' }: { lang?: Lang }) {
 
               {/* ─── ACTION BUTTONS ─── */}
               <div className="flex gap-3">
-                <span id={viewLiveNoteId} className="sr-only">
-                  {lang === 'es' ? 'Proximamente' : 'Coming soon'}
-                </span>
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
@@ -268,16 +261,36 @@ export default function ProjectModal({ lang = 'en' }: { lang?: Lang }) {
                 >
                   {t('project.close')}
                 </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  disabled
-                  aria-describedby={viewLiveNoteId}
-                  className="flex-1 py-3 rounded-lg bg-[#CCFF00]/50 text-black/50 text-sm font-mono font-bold cursor-not-allowed transition-shadow duration-300 flex items-center justify-center gap-2"
-                >
-                  <ExternalLink className="w-4 h-4" />
-                  {t('project.viewLive')}
-                </motion.button>
+
+                {project.liveUrl ? (
+                  <motion.a
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 py-3 rounded-lg bg-[#CCFF00] text-black text-sm font-mono font-bold transition-shadow duration-300 hover:shadow-lg hover:shadow-[#CCFF00]/20 flex items-center justify-center gap-2"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    {t('project.viewLive')}
+                  </motion.a>
+                ) : (
+                  <>
+                    <span id={viewLiveNoteId} className="sr-only">
+                      {lang === 'es' ? 'Proximamente' : 'Coming soon'}
+                    </span>
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      disabled
+                      aria-describedby={viewLiveNoteId}
+                      className="flex-1 py-3 rounded-lg bg-[#CCFF00]/50 text-black/50 text-sm font-mono font-bold cursor-not-allowed transition-shadow duration-300 flex items-center justify-center gap-2"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      {t('project.viewLive')}
+                    </motion.button>
+                  </>
+                )}
               </div>
             </div>
           </motion.div>

@@ -1,0 +1,18 @@
+---
+/**
+ * ═══════════════════════════════════════════════════════════
+ * SERVICES SECTION — LYRIX OS
+ * Astro wrapper → React island (hydrated on visible)
+ * ═══════════════════════════════════════════════════════════
+ */
+
+import type { Lang } from '../../i18n/ui';
+import ServicesComponent from '../ServicesComponent';
+
+interface Props { lang?: Lang; }
+const { lang = 'en' } = Astro.props;
+---
+
+<div class="cwv-defer">
+  <ServicesComponent lang={lang} client:visible />
+</div>
