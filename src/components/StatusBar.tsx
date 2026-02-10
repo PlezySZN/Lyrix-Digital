@@ -238,6 +238,7 @@ export default function StatusBar({ translations: t, lang = 'en' }: StatusBarPro
             whileTap={{ scale: 0.95 }}
             href="tel:+17876644109"
             className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#CCFF00]/10 border border-[#CCFF00]/20 hover:bg-[#CCFF00]/20 hover:border-[#CCFF00]/30 transition-all duration-200"
+            aria-label={t['statusbar.call']}
           >
             <Phone className="w-3.5 h-3.5 text-[#CCFF00]" />
             <span className="text-xs font-mono text-[#CCFF00] hidden sm:inline">{t['statusbar.call']}</span>
