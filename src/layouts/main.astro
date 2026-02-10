@@ -35,6 +35,11 @@ const resolvedDescription = description ?? t(lang, 'meta.description');
 
 <html lang={lang} dir="ltr" translate="no" class="notranslate">
 	<head>
+    {/* ─── HARD LOCK TRANSLATION (Nuclear Option) ─── */}
+    <script is:inline>
+      document.documentElement.setAttribute('translate', 'no');
+    </script>
+
 		<!-- ═══ CORE META ═══ -->
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
