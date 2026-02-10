@@ -235,7 +235,7 @@ export default function CTA({ lang = 'en' }: { lang?: Lang }) {
           </div>
         </motion.div>
 
-        {/* ─── FOOTER METADATA ─── */}
+        {/* ─── FOOTER METADATA — Visible trust signals (E-E-A-T) ─── */}
         <motion.footer
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
@@ -243,14 +243,25 @@ export default function CTA({ lang = 'en' }: { lang?: Lang }) {
           className="mt-12 text-center"
           role="contentinfo"
         >
+          {/* ─── BUSINESS TRUST BAR ─── */}
+          <div className="mb-4 flex flex-wrap items-center justify-center gap-2 text-xs font-mono text-white/30">
+            <a href="tel:+17876644109" className="hover:text-[#CCFF00]/60 transition-colors">
+              {t('cta.phone')}
+            </a>
+            <span aria-hidden="true">·</span>
+            <span>{t('cta.address')}</span>
+            <span aria-hidden="true">·</span>
+            <a href="https://instagram.com/lyrix" target="_blank" rel="noopener noreferrer" className="hover:text-[#CCFF00]/60 transition-colors">
+              {t('cta.social')}
+            </a>
+          </div>
+          {/* ─── LEGAL ─── */}
           <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 text-xs font-mono text-white/20">
             <span>{t('cta.copyright')}</span>
             <span className="hidden md:inline" aria-hidden="true">|</span>
             <span>{t('cta.privacy')}</span>
             <span className="hidden md:inline" aria-hidden="true">|</span>
             <span>{t('cta.terms')}</span>
-            <span className="hidden md:inline" aria-hidden="true">|</span>
-            <span>{t('cta.social')}</span>
           </div>
         </motion.footer>
       </div>

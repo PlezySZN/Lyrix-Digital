@@ -165,7 +165,7 @@ const organizationSchema = {
     caption: BRAND,
   },
   image: { '@id': `${SITE}/#logo` },
-  description: 'Premium Web Design Agency in Puerto Rico — Desarrollo Web, Cinematic Media & Digital Marketing for high-end contractors and professionals.',
+  description: 'Web Design & Development Agency in Puerto Rico. We build fast Astro-powered websites, produce 4K drone video, and run bilingual SEO campaigns for contractors and service businesses. Based in Vega Alta, PR.',
   areaServed: [
     { '@type': 'City', name: 'San Juan' },
     { '@type': 'City', name: 'Vega Alta' },
@@ -226,8 +226,8 @@ const serviceSchema = (type === 'service' || isHomePage) ? {
   name: BRAND,
   url: SITE,
   description: lang === 'es'
-    ? 'Agencia Premium de Desarrollo Web en Puerto Rico. Diseño Web de alto calibre, Cinematic Media, SEO y Marketing Digital para contratistas y profesionales.'
-    : 'Premium Web Design Agency in Puerto Rico. High-end Desarrollo Web, Cinematic Media, SEO & Digital Marketing for contractors and professionals.',
+    ? 'Agencia de Diseño Web en Puerto Rico. Sitios rápidos con Astro, video 4K con drone, SEO local y marketing digital para contratistas y profesionales.'
+    : 'Web Design Agency in Puerto Rico. Fast Astro-powered websites, 4K drone video, local SEO & digital marketing for contractors and professionals.',
   priceRange: '$$$',
   image: OG_IMAGE_URL,
   logo: { '@id': `${SITE}/#logo` },
@@ -276,19 +276,19 @@ const serviceSchema = (type === 'service' || isHomePage) ? {
       '@type': 'Review',
       author: { '@type': 'Person', name: 'Carlos R.' },
       reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
-      reviewBody: 'El despliegue fue inmediato. La arquitectura Lyrix aumentó nuestros leads un 300% en la primera semana.',
+      reviewBody: 'Our old WordPress site took 6+ seconds to load. The Astro rebuild loads in under a second and we started getting quote requests the same week it went live.',
     },
     {
       '@type': 'Review',
       author: { '@type': 'Person', name: 'Ana L.' },
       reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
-      reviewBody: 'No more Facebook dependency. We own our digital presence and rank #1 locally for every key term.',
+      reviewBody: 'We stopped depending on Facebook and Instagram for leads. Our site ranks on the first page of Google for our main services in the San Juan metro area.',
     },
     {
       '@type': 'Review',
       author: { '@type': 'Person', name: 'Roberto C.' },
       reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
-      reviewBody: 'Zero downtime since deployment. The infrastructure is military-grade and converts at 18%.',
+      reviewBody: 'Site has been live for 8 months with zero downtime. Loads fast even when we share links on WhatsApp groups and traffic spikes.',
     },
   ],
   hasOfferCatalog: {
@@ -299,10 +299,10 @@ const serviceSchema = (type === 'service' || isHomePage) ? {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: lang === 'es' ? 'Diseño y Desarrollo Web Premium' : 'Premium Web Design & Development',
+          name: lang === 'es' ? 'Diseño y Desarrollo Web con Astro' : 'Astro Web Design & Development',
           description: lang === 'es'
-            ? 'Sitios web de alto rendimiento para contratistas y profesionales en Puerto Rico.'
-            : 'High-performance websites for contractors and professionals in Puerto Rico.',
+            ? 'Sitios web rápidos construidos con Astro y desplegados en Cloudflare Edge para contratistas y profesionales en Puerto Rico. 95+ Google PageSpeed.'
+            : 'Fast websites built with Astro and deployed to Cloudflare Edge for contractors and professionals in Puerto Rico. 95+ Google PageSpeed.',
         },
       },
       {
