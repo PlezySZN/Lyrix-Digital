@@ -46,4 +46,4 @@ Your competitors who invest in a professional website are eating your lunch. The
 
 ---
 
-*Ready to build your authority system? [Request a quote](/en/#cta-section) — response in under 24 hours.*
+*Ready to build your authority system? [Request a quote](/#cta-section) — response in under 24 hours.*

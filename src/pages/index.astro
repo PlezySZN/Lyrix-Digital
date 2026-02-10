@@ -1,9 +1,10 @@
 ---
 /**
  * ═══════════════════════════════════════════════════════════
- * ROOT INDEX — LYRIX OS DEFAULT LOCALE
- * Serves the English landing page without a redirect to
- * improve performance and avoid extra hops.
+ * ROOT INDEX — LYRIX OS DEFAULT LOCALE (ENGLISH)
+ * Serves the English landing page at "/" — the canonical
+ * homepage. No /en/ prefix, no redirect hops.
+ * Spanish lives at /es/ via [lang]/index.astro.
  * ═══════════════════════════════════════════════════════════
  */
 
@@ -21,16 +22,17 @@ import CTA from '../components/sections/CTA.astro';
 import CinematicTeaser from '../components/CinematicTeaser';
 import Pricing from '../components/Pricing';
 import Blog from '../components/sections/Blog.astro';
+import OnboardingHints from '../components/OnboardingHints';
 
 const lang: Lang = 'en';
 const keywords = 'web design puerto rico, web development PR, digital agency puerto rico, website creation, web design san juan, drone video production PR, SEO puerto rico, digital marketing PR';
 ---
 
-<Layout lang={lang} keywords={keywords} canonicalPath="/en/">
+<Layout lang={lang} keywords={keywords}>
 	<Navigation lang={lang} client:idle />
 	<Hero lang={lang} />
 
-	<main id="main-content">
+	<main id="main-content" class="flex flex-col gap-4 md:gap-8">
 		<TrustedBy lang={lang} client:visible />
 		<Portfolio lang={lang} />
 		<Services lang={lang} />
@@ -42,5 +44,6 @@ const keywords = 'web design puerto rico, web development PR, digital agency pue
 		<FAQ lang={lang} />
 		<CTA lang={lang} />
 	</main>
+	<OnboardingHints lang={lang} client:idle />
 </Layout>
 

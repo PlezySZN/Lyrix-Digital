@@ -46,6 +46,7 @@ import {
   type WindowId,
   type WindowState,
 } from '../stores/windowStore';
+import { dismissHints } from '../stores/sidebarHintStore';
 import type { StatusBarTranslations } from '../i18n/translations';
 import type { Lang } from '../i18n/ui';
 
@@ -144,15 +145,29 @@ interface StatusBarProps {
 export default function StatusBar({ translations: t, lang = 'en' }: StatusBarProps) {
   const windows = useStore($windows);
 
-  // Language switcher — swaps /es/ <-> /en/ in the URL
+  // Language switcher — EN lives at root (/), ES at /es/
   const otherLang: Lang = lang === 'es' ? 'en' : 'es';
   const handleLangSwitch = () => {
-    const currentPath = window.location.pathname;
-    const hasLangPrefix = currentPath === `/${lang}` || currentPath.startsWith(`/${lang}/`);
-    const newPath = hasLangPrefix
-      ? currentPath.replace(`/${lang}`, `/${otherLang}`)
-      : `/${otherLang}/`;
-    window.location.href = newPath || `/${otherLang}/`;
+    const path = window.location.pathname;
+
+    // Homepage navigation: EN ↔ ES
+    const isRootHome = path === '/' || path === '';
+    const isEsHome = /^\/es\/?$/.test(path);
+    const isEnHome = /^\/en\/?$/.test(path);
+
+    if (isRootHome || isEsHome || isEnHome) {
+      window.location.href = otherLang === 'en' ? '/' : '/es/';
+      return;
+    }
+
+    // Subpages: swap /lang/ prefix
+    const hasLangPrefix = path.startsWith(`/${lang}/`) || path === `/${lang}`;
+    if (hasLangPrefix) {
+      window.location.href = path.replace(`/${lang}`, `/${otherLang}`);
+    } else {
+      // Fallback (root subpath without prefix — shouldn't normally happen)
+      window.location.href = otherLang === 'en' ? '/' : `/${otherLang}/`;
+    }
   };
 
   return (
@@ -208,6 +223,7 @@ export default function StatusBar({ translations: t, lang = 'en' }: StatusBarPro
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleLangSwitch}
+            onMouseEnter={() => dismissHints()}
             className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-200"
           >
             <Globe className="w-3 h-3 text-[#CCFF00]/60" />

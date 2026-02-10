@@ -17,7 +17,8 @@ export function t(lang: Lang, key: keyof typeof ui[typeof defaultLang]): string 
 
 /**
  * Extract the current language from a URL pathname.
- * e.g. "/es/about" -> "es", "/en/" -> "en", "/" -> "es"
+ * Root ("/") resolves to 'en' (default locale served at root).
+ * e.g. "/es/about" -> "es", "/en/" -> "en", "/" -> "en"
  */
 export function getLangFromUrl(url: URL): Lang {
   const [, langSegment] = url.pathname.split('/');
@@ -27,11 +28,21 @@ export function getLangFromUrl(url: URL): Lang {
 
 /**
  * Get a URL path for the opposite language.
- * e.g. if current is "/es/", returns "/en/" and vice versa.
+ * Accounts for EN root: homepage "/" ↔ "/es/",
+ * subpages "/en/blog/…" ↔ "/es/blog/…".
  */
 export function getOtherLangUrl(currentUrl: URL, currentLang: Lang): string {
   const otherLang: Lang = currentLang === 'es' ? 'en' : 'es';
-  return currentUrl.pathname.replace(`/${currentLang}`, `/${otherLang}`);
+  const path = currentUrl.pathname;
+
+  // Homepage: EN at root, ES at /es/
+  const isHome = path === '/' || path === '' || /^\/(en|es)\/?$/.test(path);
+  if (isHome) {
+    return otherLang === 'en' ? '/' : '/es/';
+  }
+
+  // Subpages: swap prefix
+  return path.replace(`/${currentLang}`, `/${otherLang}`);
 }
 
 /**

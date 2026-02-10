@@ -109,7 +109,7 @@ function DataPacket({ packet, t }: { packet: ReviewData; t: (key: string) => str
 
   return (
     <div
-      className="relative shrink-0 w-80 md:w-96 p-5 rounded-xl border border-white/10 bg-white/2 backdrop-blur-sm"
+      className="relative shrink-0 w-80 md:w-96 p-5 rounded-xl border border-white/10 bg-white/2 backdrop-blur-sm hover:bg-white/4 hover:border-white/15 transition-all duration-200 cursor-default"
     >
       {/* Header - Packet Metadata */}
       <div className="flex items-center justify-between mb-4 pb-2 border-b border-white/5">

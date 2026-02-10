@@ -3,7 +3,7 @@
  * ═══════════════════════════════════════════════════════════
  * LYRIX OS — LANDING PAGE (i18n)
  * Dark Mode Operating System Aesthetic
- * Route: /es/ or /en/
+ * Route: /es/ (English served at root /)
  * ═══════════════════════════════════════════════════════════
  */
 
@@ -22,11 +22,13 @@ import CTA from '../../components/sections/CTA.astro';
 import CinematicTeaser from '../../components/CinematicTeaser';
 import Pricing from '../../components/Pricing';
 import Blog from '../../components/sections/Blog.astro';
+import OnboardingHints from '../../components/OnboardingHints';
 
 export function getStaticPaths() {
+  // Only Spanish gets a /es/ prefix route.
+  // English is served at the root (/) via src/pages/index.astro.
   return [
     { params: { lang: 'es' } },
-    { params: { lang: 'en' } },
   ];
 }
 
@@ -42,7 +44,7 @@ const keywords = lang === 'es'
 	<!-- Banner landmark (implicit role="banner" as direct child of <body>) -->
 	<Hero lang={lang} />
 
-	<main id="main-content">
+	<main id="main-content" class="flex flex-col gap-4 md:gap-8">
 		<TrustedBy lang={lang} client:visible />
 		<Portfolio lang={lang}/>
 		<Services lang={lang}/>
@@ -54,4 +56,5 @@ const keywords = lang === 'es'
 		<FAQ lang={lang}/>
 		<CTA lang={lang}/>
 	</main>
+	<OnboardingHints lang={lang} client:idle />
 </Layout>

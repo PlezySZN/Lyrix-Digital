@@ -121,24 +121,40 @@ const inLanguage  = lang === 'es' ? 'es-PR' : 'en-US';
 const ogType = type === 'article' ? 'article' : 'website';
 
 /* ─── Hreflang Alternates ─────────────────────────────── */
+// English homepage lives at root (/), not /en/.
+// All other EN pages keep the /en/ prefix (e.g. /en/blog/…, /en/san-juan/).
+// Spanish always uses /es/ prefix.
+
+const isRootPath   = currentPath === '/' || currentPath === '';
+const isEsHomePath = /^\/es\/?$/.test(currentPath);
+const isEnPrefixedHome = /^\/en\/?$/.test(currentPath);
+
+const enPath = (isRootPath || isEsHomePath || isEnPrefixedHome)
+  ? '/'
+  : (lang === 'es' ? currentPath.replace('/es/', '/en/') : currentPath);
+
+const esPath = (isRootPath || isEsHomePath || isEnPrefixedHome)
+  ? '/es/'
+  : (lang === 'en' ? currentPath.replace('/en/', '/es/') : currentPath);
 
 const hreflangs = [
-  { lang: 'en', href: new URL(currentPath.replace(`/${lang}/`, '/en/'), SITE).href },
-  { lang: 'es', href: new URL(currentPath.replace(`/${lang}/`, '/es/'), SITE).href },
+  { lang: 'en', href: new URL(enPath, SITE).href },
+  { lang: 'es', href: new URL(esPath, SITE).href },
 ];
 // x-default → English variant (matches defaultLocale in astro.config)
+// MUST point to root "/" for English homepage
 const xDefaultHref = hreflangs.find(h => h.lang === 'en')!.href;
 
 /* ─── Determine if Home Page (for conditional schemas) ── */
 
-const isHomePage = /^\/(en|es)\/?$/.test(currentPath);
+const isHomePage = isRootPath || isEsHomePath || isEnPrefixedHome;
 
 /* ─── Breadcrumb Generation ───────────────────────────── */
 
 const resolvedBreadcrumbs: BreadcrumbItem[] = breadcrumbs ?? [
   {
     name: lang === 'es' ? 'Inicio' : 'Home',
-    url: `${SITE}/${lang}/`,
+    url: lang === 'es' ? `${SITE}/es/` : `${SITE}/`,
   },
 ];
 

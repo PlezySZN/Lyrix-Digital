@@ -24,7 +24,7 @@ import {
   Newspaper,
 } from 'lucide-react';
 import type { Lang } from '../i18n/ui';
-import { markSidebarOpened } from '../stores/sidebarHintStore';
+import { markSidebarOpened, dismissHints } from '../stores/sidebarHintStore';
 
 // ─── NAV ITEMS ───
 
@@ -173,7 +173,8 @@ function DesktopSidebar({ lang }: { lang: Lang }) {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.2 }}
-            onClick={() => { setIsOpen(true); markSidebarOpened(); }}
+            onClick={() => { setIsOpen(true); markSidebarOpened(); dismissHints(); }}
+            onMouseEnter={() => dismissHints()}
             className="group flex items-center justify-center w-8 h-20 rounded-r-xl
                        bg-black/70 backdrop-blur-xl border border-l-0 border-white/10
                        hover:bg-white/5 hover:border-[#CCFF00]/20

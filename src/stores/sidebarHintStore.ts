@@ -27,6 +27,20 @@ const STORAGE_KEY = 'lyrix-sidebar-opened';
 export const $sidebarOpened = atom<boolean>(false);
 
 /**
+ * Transient state for "Interaction Kill-Switch".
+ * If user interacts with relevant UI (Language toggle, Sidebar toggle),
+ * we dismiss the onboarding hints immediately.
+ */
+export const $hintsDismissed = atom<boolean>(false);
+
+/**
+ * Dismiss onboarding hints for this session (interaction detected).
+ */
+export function dismissHints() {
+  $hintsDismissed.set(true);
+}
+
+/**
  * Call once from a useEffect to read the persisted value
  * from localStorage. Returns the hydrated value.
  */

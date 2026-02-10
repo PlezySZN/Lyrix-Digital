@@ -33,13 +33,14 @@ const resolvedTitle = title ?? t(lang, 'meta.title');
 const resolvedDescription = description ?? t(lang, 'meta.description');
 ---
 
-<html lang={lang} dir="ltr">
+<html lang={lang} dir="ltr" translate="no" class="notranslate">
 	<head>
 		<!-- ═══ CORE META ═══ -->
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" content={resolvedDescription} />
 		<meta name="generator" content={Astro.generator} />
+    <meta name="google" content="notranslate" />
 		<title>{resolvedTitle}</title>
 
 		<!-- ═══ CRITICAL PRECONNECTS — before any font requests ═══ -->

@@ -50,4 +50,4 @@ This isn't magic — it's engineering. We use:
 
 ---
 
-*Want a website that scores perfect? [Let's talk](/en/#cta-section).*
+*Want a website that scores perfect? [Let's talk](/#cta-section).*
