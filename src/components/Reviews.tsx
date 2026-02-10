@@ -1,7 +1,21 @@
 /**
  * ═══════════════════════════════════════════════════════════
  * CLIENT TELEMETRY — LYRIX OS
- * Testimonials as infinite scrolling data packets
+ *
+ * Testimonials displayed as infinite-scrolling "data packets."
+ * Each review is styled as a network telemetry packet with
+ * source location, signal strength, latency, and a payload (the review).
+ *
+ * Infinite scroll technique:
+ *   The reviews array is duplicated (rendered twice) inside a
+ *   CSS marquee animation. When the first set scrolls out of
+ *   view, the duplicate seamlessly takes its place, creating
+ *   an infinite loop without JavaScript intervention.
+ *   Animation class: .animate-marquee in global.css (60s linear infinite)
+ *
+ * Star rendering:
+ *   signal field (0-5) determines the star display.
+ *   Full stars use ★, empty stars use ☆.
  * ═══════════════════════════════════════════════════════════
  */
 
@@ -10,17 +24,27 @@ import { motion, useInView } from 'framer-motion';
 import WindowFrame from './WindowFrame';
 import { useTranslations } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
-import type { Review } from '../types';
 
 // ─── DATA ───
 
-const packets: Review[] = [
+interface ReviewData {
+  id: string;
+  source: string;
+  signal: number;
+  latency: string;
+  payloadKey: string;
+  user: string;
+  role: string;
+  clientType: string;
+}
+
+const packets: ReviewData[] = [
   {
     id: 'PKT_001',
     source: 'San Juan, PR',
     signal: 100,
     latency: '12ms',
-    payload: 'El despliegue fue inmediato. La arquitectura Lyrix aumentó nuestros leads un 300% en la primera semana.',
+    payloadKey: 'telemetry.r1',
     user: 'Carlos R.',
     role: 'CEO',
     clientType: 'CONTRACTOR',
@@ -30,7 +54,7 @@ const packets: Review[] = [
     source: 'Bayamón, PR',
     signal: 98,
     latency: '8ms',
-    payload: 'Visual identity is now industry standard. Every client mentions how professional we look compared to competition.',
+    payloadKey: 'telemetry.r2',
     user: 'Maria S.',
     role: 'Creative Director',
     clientType: 'ARTIST',
@@ -40,7 +64,7 @@ const packets: Review[] = [
     source: 'Ponce, PR',
     signal: 95,
     latency: '15ms',
-    payload: 'La mejor inversión del Q4. El ROI fue inmediato y el sistema maneja el tráfico pico sin problemas.',
+    payloadKey: 'telemetry.r3',
     user: 'José M.',
     role: 'Owner',
     clientType: 'RETAIL',
@@ -50,7 +74,7 @@ const packets: Review[] = [
     source: 'Carolina, PR',
     signal: 100,
     latency: '9ms',
-    payload: 'No more Facebook dependency. We own our digital presence and rank #1 locally for every key term.',
+    payloadKey: 'telemetry.r4',
     user: 'Ana L.',
     role: 'Marketing Lead',
     clientType: 'CONTRACTOR',
@@ -60,7 +84,7 @@ const packets: Review[] = [
     source: 'Caguas, PR',
     signal: 97,
     latency: '11ms',
-    payload: 'The photography elevated our brand beyond recognition. Bookings increased 400% after launch.',
+    payloadKey: 'telemetry.r5',
     user: 'David P.',
     role: 'Founder',
     clientType: 'HOSPITALITY',
@@ -70,7 +94,7 @@ const packets: Review[] = [
     source: 'Arecibo, PR',
     signal: 100,
     latency: '7ms',
-    payload: 'Zero downtime since deployment. The infrastructure is military-grade and converts at 18%.',
+    payloadKey: 'telemetry.r6',
     user: 'Roberto C.',
     role: 'Director',
     clientType: 'CONTRACTOR',
@@ -79,7 +103,7 @@ const packets: Review[] = [
 
 // ─── PACKET COMPONENT ───
 
-function DataPacket({ packet }: { packet: Review }) {
+function DataPacket({ packet, t }: { packet: ReviewData; t: (key: string) => string }) {
   // Calculate stars from signal (signal/100 * 5)
   const stars = ((packet.signal / 100) * 5).toFixed(1);
 
@@ -113,7 +137,7 @@ function DataPacket({ packet }: { packet: Review }) {
             <span className="text-2xl text-[#CCFF00]">★</span>
           </div>
           <span className="text-sm font-mono text-white/50">
-            {packet.signal}% satisfaction
+            {packet.signal}% {t('telemetry.satisfaction')}
           </span>
         </div>
       </div>
@@ -121,7 +145,7 @@ function DataPacket({ packet }: { packet: Review }) {
       {/* Payload - The Testimonial */}
       <blockquote className="mb-4">
         <p className="text-sm text-white/70 leading-relaxed italic">
-          "{packet.payload}"
+          "{t(packet.payloadKey)}"
         </p>
       </blockquote>
 
@@ -211,7 +235,8 @@ export default function Reviews({ lang = 'en' }: { lang?: Lang }) {
               {duplicatedPackets.map((packet, index) => (
                 <DataPacket 
                   key={`${packet.id}-${index}`}
-                  packet={packet} 
+                  packet={packet}
+                  t={t}
                 />
               ))}
             </div>

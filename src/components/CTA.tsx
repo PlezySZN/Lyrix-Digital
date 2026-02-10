@@ -90,7 +90,7 @@ export default function CTA({ lang = 'en' }: { lang?: Lang }) {
   const statusText = useTypewriter(statusMessages);
 
   return (
-    <section ref={containerRef} className="relative w-full bg-lyrix-carbon py-16 md:py-24" aria-label={lang === 'es' ? 'Contacto' : 'Contact'}>
+    <section id="cta-section" ref={containerRef} className="relative w-full bg-lyrix-carbon py-16 md:py-24" aria-label={lang === 'es' ? 'Contacto' : 'Contact'}>
       {/* ─── BACKGROUND GRID PATTERN ─── */}
       <div
         className="absolute inset-0 opacity-20"

@@ -1,22 +1,41 @@
 /**
  * ═══════════════════════════════════════════════════════════
  * SPOTLIGHT HERO — LYRIX OS
- * macOS-inspired window with text-scramble headline
- * and a single "Master Node" CTA folder
- * 
- * PERFORMANCE: Translations passed as props from Astro (SSR)
- * to avoid bundling full i18n dictionary in client JS.
+ *
+ * macOS-inspired window with interactive text headline and CTA folder.
+ *
+ * Key features:
+ * 1. Per-character hover color cycling — hovering a letter triggers
+ *    rapid color cycling through HOVER_COLORS at 80ms intervals.
+ * 2. Mouse particle trail — white glowing dots follow the cursor
+ *    within the container, fading after 400ms.
+ * 3. Sidebar hint arrow — a pulsing neon chevron + "Menu" label
+ *    that appears on desktop (lg:) pointing to the sidebar. It
+ *    disappears permanently once the user opens the sidebar.
+ *    Uses `sidebarHintStore` with localStorage persistence.
+ *
+ * PERFORMANCE:
+ * - Translations are passed as props from Astro (SSR) to avoid
+ *   bundling the full i18n dictionary in the client JS bundle.
+ * - CLS prevention: explicit min-h per breakpoint on the headline
+ *   container locks the layout before fonts load.
+ * - No initial animations (opacity:1) on subtitle and CTA to prevent
+ *   layout shifts during hydration.
  * ═══════════════════════════════════════════════════════════
  */
 
 import { useState, useRef, useEffect, useCallback, type MouseEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FolderOpen, ArrowRight } from 'lucide-react';
+import { FolderOpen, ArrowRight, ChevronLeft } from 'lucide-react';
 import { openContactModal } from '../stores/modalStore';
+import { $sidebarOpened, hydrateSidebarHint } from '../stores/sidebarHintStore';
+import { useStore } from '@nanostores/react';
 import type { HeroTranslations } from '../i18n/translations';
 
 // ─── HOVER COLOR PALETTE ───
-// Vivid colors for the per-character hover effect
+// 15 vivid colors used for the per-character hover effect.
+// When a user hovers a letter, a random color is picked and
+// then rapidly cycled at 80ms intervals until mouse leaves.
 const HOVER_COLORS = [
   '#CCFF00', '#FF00FF', '#00FFFF', '#FF3366', '#FFD700',
   '#00FF88', '#FF6600', '#7B68EE', '#FF1493', '#00BFFF',
@@ -25,6 +44,7 @@ const HOVER_COLORS = [
 
 // ─── PARTICLE ───
 
+/** Represents a single particle in the mouse trail effect */
 interface Particle {
   id: number;
   x: number;
@@ -33,6 +53,7 @@ interface Particle {
 
 // ─── PROPS ───
 
+/** HeroContent receives pre-resolved translation strings from Hero.astro */
 interface HeroContentProps {
   translations: HeroTranslations;
 }
@@ -43,6 +64,28 @@ export default function HeroContent({ translations: t }: HeroContentProps) {
   const [particles, setParticles] = useState<Particle[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const particleIdRef = useRef(0);
+
+  // ─── SIDEBAR HINT STATE (hydration-safe) ───
+  // `showHint` starts false on both server and client to avoid mismatch.
+  // After React mounts (useEffect), we check localStorage:
+  //   - If sidebar was opened before → keep showHint false (never show)
+  //   - If sidebar was never opened  → set showHint true (animate in)
+  // When the user opens the sidebar, the store updates and we hide the hint.
+  const sidebarOpened = useStore($sidebarOpened);
+  const [showHint, setShowHint] = useState(false);
+
+  useEffect(() => {
+    // Hydrate the store from localStorage (client-only, runs once)
+    const wasOpened = hydrateSidebarHint();
+    if (!wasOpened) {
+      setShowHint(true); // sidebar never opened → show the hint
+    }
+  }, []);
+
+  // React to sidebar being opened (dismiss hint permanently)
+  useEffect(() => {
+    if (sidebarOpened) setShowHint(false);
+  }, [sidebarOpened]);
 
   // ─── PER-CHARACTER HOVER COLOR ───
   const [hoveredChar, setHoveredChar] = useState<number | null>(null);
@@ -114,6 +157,45 @@ export default function HeroContent({ translations: t }: HeroContentProps) {
             backgroundSize: '40px 40px',
           }}
         />
+
+        {/* ─── SIDEBAR HINT ARROW (desktop only, disappears forever once sidebar is opened) ─── */}
+        <AnimatePresence>
+          {showHint && (
+            <motion.div
+              key="sidebar-hint"
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -30, transition: { duration: 0.4 } }}
+              transition={{ delay: 1.5, duration: 0.6 }}
+              className="hidden lg:flex absolute left-4 top-1/2 -translate-y-1/2 z-20 items-center gap-2 pointer-events-none"
+            >
+              {/* Pulsing glow ring */}
+              <div className="relative flex items-center justify-center">
+                <motion.div
+                  animate={{ scale: [1, 1.5, 1], opacity: [0.4, 0, 0.4] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                  className="absolute w-10 h-10 rounded-full bg-[#CCFF00]/20"
+                />
+                <motion.div
+                  animate={{ x: [0, -6, 0] }}
+                  transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
+                  className="relative flex items-center justify-center w-10 h-10 rounded-full bg-[#CCFF00]/10 border border-[#CCFF00]/30 backdrop-blur-sm"
+                >
+                  <ChevronLeft className="w-5 h-5 text-[#CCFF00]" />
+                </motion.div>
+              </div>
+
+              {/* Label */}
+              <motion.span
+                animate={{ opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+                className="text-[11px] font-mono text-[#CCFF00]/70 uppercase tracking-widest whitespace-nowrap"
+              >
+                Menu
+              </motion.span>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* ─── PARTICLE TRAIL ─── */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">

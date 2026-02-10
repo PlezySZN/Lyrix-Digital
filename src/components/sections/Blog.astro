@@ -1,0 +1,134 @@
+---
+/**
+ * ═══════════════════════════════════════════════════════════
+ * BLOG PREVIEW SECTION — LYRIX OS
+ *
+ * Displays the latest 3 blog posts on the main landing page.
+ * Posts are fetched from the Astro Content Collection at build
+ * time, filtered by current language and sorted by date.
+ *
+ * This component is purely server-rendered (no client JS) —
+ * it generates static HTML with links to individual blog posts.
+ *
+ * Props:
+ *   lang — Current language ('en' | 'es') used to filter
+ *          posts and resolve i18n translation strings.
+ *
+ * Design:
+ *   - Dark industrial cards matching the Lyrix OS aesthetic
+ *   - Tag badges, reading time estimate, formatted dates
+ *   - "View All" CTA linking to the full blog index page
+ * ═══════════════════════════════════════════════════════════
+ */
+
+import { getCollection } from 'astro:content';
+import { t } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+
+/* ─── Fetch & Filter Posts ───
+   getCollection('blog') returns all markdown files in src/content/blog/.
+   We filter by language and exclude drafts, then sort newest-first.
+   Only the latest 3 are shown; the rest live on /[lang]/blog/.
+*/
+const allPosts = await getCollection('blog', ({ data }) => {
+  return data.lang === lang && !data.draft;
+});
+
+const posts = allPosts
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3); // Show only latest 3
+---
+
+{/* ─── BLOG SECTION WRAPPER ─── */}
+<section id="blog-section" class="relative py-20 md:py-28 bg-lyrix-dark overflow-hidden">
+
+  {/* ── Subtle grid background ── */}
+  <div class="absolute inset-0 pointer-events-none" style="background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px); background-size: 60px 60px;" />
+
+  <div class="relative z-10 max-w-6xl mx-auto px-4 md:px-8">
+
+    {/* ── Section Header ── */}
+    <div class="mb-12">
+      {/* Neon label badge */}
+      <div class="inline-flex items-center gap-2 mb-4 px-3 py-1.5 rounded-lg bg-[#CCFF00]/10 border border-[#CCFF00]/20">
+        <div class="w-1.5 h-1.5 rounded-full bg-[#CCFF00] animate-pulse" />
+        <span class="text-xs font-mono font-bold text-[#CCFF00] uppercase tracking-widest">
+          {t(lang, 'blog.section.label')}
+        </span>
+      </div>
+      {/* Heading */}
+      <h2 class="text-3xl md:text-4xl font-bold text-white tracking-tight mb-2 font-[family-name:var(--font-oswald)] uppercase">
+        {t(lang, 'blog.heading')}
+      </h2>
+      {/* Subtitle */}
+      <p class="text-sm text-white/50 max-w-xl">
+        {t(lang, 'blog.subtitle')}
+      </p>
+    </div>
+
+    {/* ── Posts Grid ── */}
+    {posts.length > 0 && (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        {posts.map((post) => {
+          /* ── Per-post calculations ── */
+          const formattedDate = new Date(post.data.date).toLocaleDateString(
+            lang === 'es' ? 'es-PR' : 'en-US',
+            { year: 'numeric', month: 'short', day: 'numeric' }
+          );
+          const wordCount = post.body ? post.body.split(/\s+/).length : 0;
+          const readingTime = Math.max(1, Math.ceil(wordCount / 200));
+
+          return (
+            <a
+              href={`/${lang}/blog/${post.slug}/`}
+              class="group flex flex-col p-6 rounded-xl border border-white/5 bg-white/2 hover:border-[#CCFF00]/20 hover:bg-[#CCFF00]/2 transition-all duration-300"
+            >
+              {/* Tags */}
+              <div class="flex flex-wrap gap-2 mb-3">
+                {post.data.tags.slice(0, 3).map((tag: string) => (
+                  <span class="px-2 py-0.5 rounded bg-white/5 text-[10px] font-mono text-white/40 uppercase tracking-wider">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              {/* Title */}
+              <h3 class="text-lg font-semibold text-white group-hover:text-[#CCFF00] transition-colors duration-200 mb-2 tracking-tight leading-snug">
+                {post.data.title}
+              </h3>
+
+              {/* Description */}
+              <p class="text-sm text-white/50 leading-relaxed mb-4 line-clamp-2 flex-1">
+                {post.data.description}
+              </p>
+
+              {/* Meta row */}
+              <div class="flex items-center justify-between mt-auto pt-3 border-t border-white/5">
+                <div class="flex items-center gap-3 text-xs font-mono text-white/30">
+                  <span>{formattedDate}</span>
+                  <span>{readingTime} {t(lang, 'blog.minRead')}</span>
+                </div>
+                <span class="text-xs font-mono text-[#CCFF00]/60 group-hover:text-[#CCFF00] transition-colors duration-200">
+                  {t(lang, 'blog.readMore')} →
+                </span>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    )}
+
+    {/* ── View All CTA ── */}
+    <div class="text-center">
+      <a
+        href={`/${lang}/blog/`}
+        class="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-white/10 bg-white/3 text-sm font-mono text-white/60 hover:text-[#CCFF00] hover:border-[#CCFF00]/30 hover:bg-[#CCFF00]/5 transition-all duration-300"
+      >
+        {t(lang, 'blog.viewAll')} →
+      </a>
+    </div>
+  </div>
+</section>

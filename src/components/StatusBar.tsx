@@ -1,14 +1,31 @@
 /**
  * ═══════════════════════════════════════════════════════════
  * STATUS BAR — LYRIX OS v1.2
- * macOS-inspired fixed footer with Window Dock system
- * Left: System info | Center: Window Dock | Right: System Tray
+ *
+ * macOS-inspired fixed footer bar with three zones:
+ *   Left:   System info (phone + contact button, WiFi/battery icons)
+ *   Center: Window Dock — shows docked/minimized windows as icons.
+ *           Clicking a docked icon restores the window and scrolls to its section.
+ *   Right:  System Tray (language switcher, status indicators)
+ *
+ * The Dock reads from windowStore ($windows):
+ *   - OPEN → window icon not shown in dock (it's visible on page)
+ *   - COLLAPSED → shown in dock with yellow dot indicator
+ *   - DOCKED → shown in dock with red dot indicator
+ *
+ * ICON_MAP maps WindowId strings to Lucide icon components.
+ * This avoids importing icons dynamically and keeps the bundle predictable.
+ *
+ * IMPORTANT: This component MUST live outside any `contain: layout|paint`
+ * ancestor because it uses `position: fixed` for viewport-level pinning.
+ * See Hero.astro for the contain boundary notes.
  * ═══════════════════════════════════════════════════════════
  */
 
 import { motion } from 'framer-motion';
 import {
   MessageCircle,
+  Phone,
   Wifi,
   Battery,
   Cpu,
@@ -204,7 +221,7 @@ export default function StatusBar({ translations: t, lang = 'en' }: StatusBarPro
             </span>
           </motion.button>
 
-          {/* Contact button */}
+          {/* Contact button — desktop only */}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -214,6 +231,17 @@ export default function StatusBar({ translations: t, lang = 'en' }: StatusBarPro
             <MessageCircle className="w-3.5 h-3.5 text-white/60" />
             <span className="text-xs text-white/60">{t['statusbar.contact']}</span>
           </motion.button>
+
+          {/* Call button — always visible, replaces contact on mobile */}
+          <motion.a
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            href="tel:+17876644109"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#CCFF00]/10 border border-[#CCFF00]/20 hover:bg-[#CCFF00]/20 hover:border-[#CCFF00]/30 transition-all duration-200"
+          >
+            <Phone className="w-3.5 h-3.5 text-[#CCFF00]" />
+            <span className="text-xs font-mono text-[#CCFF00] hidden sm:inline">{t['statusbar.call']}</span>
+          </motion.a>
         </div>
       </div>
     </motion.footer>

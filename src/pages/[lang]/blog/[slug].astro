@@ -1,0 +1,27 @@
+---
+/**
+ * ═══════════════════════════════════════════════════════════
+ * BLOG POST PAGE — LYRIX OS
+ * Route: /[lang]/blog/[slug]/ — Renders individual MD posts
+ * ═══════════════════════════════════════════════════════════
+ */
+
+import { getCollection } from 'astro:content';
+import type { Lang } from '../../../i18n/ui';
+import BlogPostLayout from '../../../layouts/blog-post.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { lang: post.data.lang, slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<BlogPostLayout frontmatter={post.data}>
+  <Content />
+</BlogPostLayout>

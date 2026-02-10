@@ -1,0 +1,132 @@
+---
+/**
+ * ═══════════════════════════════════════════════════════════
+ * BLOG INDEX — LYRIX OS
+ * Route: /[lang]/blog/ — Lists all posts in the right language
+ * ═══════════════════════════════════════════════════════════
+ */
+
+import { getCollection } from 'astro:content';
+import { getLangFromUrl } from '../../../i18n/utils';
+import type { Lang } from '../../../i18n/ui';
+import Layout from '../../../layouts/main.astro';
+import { ArrowRight, Calendar, Clock, FileText } from 'lucide-react';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'en' } },
+    { params: { lang: 'es' } },
+  ];
+}
+
+const lang = getLangFromUrl(Astro.url) as Lang;
+
+const allPosts = await getCollection('blog', ({ data }) => {
+  return data.lang === lang && !data.draft;
+});
+
+// Sort by date descending
+const posts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const pageTitle = lang === 'es'
+  ? 'Blog — Lyrix Digital | Insights de Diseño Web en Puerto Rico'
+  : 'Blog — Lyrix Digital | Web Design Insights in Puerto Rico';
+
+const pageDesc = lang === 'es'
+  ? 'Artículos sobre diseño web, SEO, marketing digital y estrategias de conversión para contratistas en Puerto Rico.'
+  : 'Articles on web design, SEO, digital marketing, and conversion strategies for contractors in Puerto Rico.';
+
+const heading = lang === 'es' ? 'ARCHIVOS DEL SISTEMA' : 'SYSTEM ARCHIVES';
+const subtitle = lang === 'es'
+  ? 'Inteligencia de mercado y estrategias digitales para contratistas en Puerto Rico.'
+  : 'Market intelligence and digital strategies for contractors in Puerto Rico.';
+const readMore = lang === 'es' ? 'LEER MÁS' : 'READ MORE';
+const noPosts = lang === 'es' ? 'No hay artículos todavía.' : 'No articles yet.';
+const backLabel = lang === 'es' ? '← Volver al Inicio' : '← Back to Home';
+---
+
+<Layout lang={lang} title={pageTitle} description={pageDesc}>
+  <main class="min-h-screen bg-lyrix-dark pt-20 pb-16 px-4 md:px-8">
+    <div class="max-w-4xl mx-auto">
+      {/* Back link */}
+      <a
+        href={`/${lang}/`}
+        class="inline-flex items-center gap-2 mb-8 text-sm font-mono text-white/40 hover:text-[#CCFF00] transition-colors duration-200"
+      >
+        {backLabel}
+      </a>
+
+      {/* Header */}
+      <header class="mb-12">
+        <div class="inline-flex items-center gap-2 mb-4 px-3 py-1.5 rounded-lg bg-[#CCFF00]/10 border border-[#CCFF00]/20">
+          <span class="text-xs font-mono font-bold text-[#CCFF00] uppercase tracking-widest">BLOG</span>
+        </div>
+        <h1 class="text-3xl md:text-4xl font-bold text-white tracking-tight mb-2 font-[family-name:var(--font-oswald)] uppercase">
+          {heading}
+        </h1>
+        <p class="text-sm text-white/50 max-w-xl">
+          {subtitle}
+        </p>
+      </header>
+
+      {/* Posts Grid */}
+      {posts.length === 0 ? (
+        <p class="text-white/40 font-mono text-sm">{noPosts}</p>
+      ) : (
+        <div class="flex flex-col gap-4">
+          {posts.map((post) => {
+            const formattedDate = new Date(post.data.date).toLocaleDateString(
+              lang === 'es' ? 'es-PR' : 'en-US',
+              { year: 'numeric', month: 'short', day: 'numeric' }
+            );
+            const wordCount = post.body ? post.body.split(/\s+/).length : 0;
+            const readingTime = Math.max(1, Math.ceil(wordCount / 200));
+            const readLabel = lang === 'es' ? 'min' : 'min';
+
+            return (
+              <a
+                href={`/${lang}/blog/${post.slug}/`}
+                class="group block p-6 rounded-xl border border-white/5 bg-white/2 hover:border-[#CCFF00]/20 hover:bg-[#CCFF00]/2 transition-all duration-300"
+              >
+                {/* Tags */}
+                <div class="flex flex-wrap gap-2 mb-3">
+                  {post.data.tags.slice(0, 3).map((tag: string) => (
+                    <span class="px-2 py-0.5 rounded bg-white/5 text-[10px] font-mono text-white/40 uppercase tracking-wider">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Title */}
+                <h2 class="text-lg md:text-xl font-semibold text-white group-hover:text-[#CCFF00] transition-colors duration-200 mb-2 tracking-tight">
+                  {post.data.title}
+                </h2>
+
+                {/* Description */}
+                <p class="text-sm text-white/50 leading-relaxed mb-4 line-clamp-2">
+                  {post.data.description}
+                </p>
+
+                {/* Meta row */}
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-4 text-xs font-mono text-white/30">
+                    <span class="flex items-center gap-1">{formattedDate}</span>
+                    <span>{readingTime} {readLabel}</span>
+                  </div>
+                  <span class="text-xs font-mono text-[#CCFF00]/60 group-hover:text-[#CCFF00] transition-colors duration-200 flex items-center gap-1">
+                    {readMore} →
+                  </span>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Entry count */}
+      <div class="mt-8 pt-4 border-t border-white/5 text-xs font-mono text-white/20">
+        {posts.length} {lang === 'es' ? 'entradas encontradas' : 'entries found'}
+      </div>
+    </div>
+  </main>
+</Layout>

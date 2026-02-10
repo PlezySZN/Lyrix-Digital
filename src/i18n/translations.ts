@@ -71,6 +71,7 @@ export const heroKeys = [
 export const statusBarKeys = [
   'statusbar.ready',
   'statusbar.contact',
+  'statusbar.call',
 ] as const;
 
 export const ctaKeys = [

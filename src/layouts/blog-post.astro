@@ -1,0 +1,97 @@
+---
+/**
+ * ═══════════════════════════════════════════════════════════
+ * BLOG POST LAYOUT — LYRIX OS
+ * Dark industrial typography for long-form content
+ * ═══════════════════════════════════════════════════════════
+ */
+
+import type { Lang } from '../i18n/ui';
+import Layout from './main.astro';
+
+interface Props {
+  frontmatter: {
+    title: string;
+    description: string;
+    date: Date;
+    author: string;
+    lang: Lang;
+    tags: string[];
+    image?: string;
+  };
+}
+
+const { frontmatter } = Astro.props;
+const lang = frontmatter.lang;
+const formattedDate = new Date(frontmatter.date).toLocaleDateString(
+  lang === 'es' ? 'es-PR' : 'en-US',
+  { year: 'numeric', month: 'long', day: 'numeric' }
+);
+
+const backLabel = lang === 'es' ? '← Volver al Blog' : '← Back to Blog';
+const backHref = `/${lang}/blog/`;
+const readLabel = lang === 'es' ? 'min de lectura' : 'min read';
+
+// Rough reading time calc
+const slotContent = await Astro.slots.render('default');
+const wordCount = slotContent.split(/\s+/).length;
+const readingTime = Math.max(1, Math.ceil(wordCount / 200));
+---
+
+<Layout lang={lang} title={frontmatter.title} description={frontmatter.description}>
+  <main class="min-h-screen bg-lyrix-dark pt-20 pb-16 px-4 md:px-8">
+    <article class="max-w-3xl mx-auto">
+      {/* Back link */}
+      <a
+        href={backHref}
+        class="inline-flex items-center gap-2 mb-8 text-sm font-mono text-white/40 hover:text-[#CCFF00] transition-colors duration-200"
+      >
+        {backLabel}
+      </a>
+
+      {/* Post Header */}
+      <header class="mb-12 pb-8 border-b border-white/5">
+        {/* Tags */}
+        <div class="flex flex-wrap gap-2 mb-4">
+          {frontmatter.tags.map((tag: string) => (
+            <span class="px-2 py-1 rounded bg-white/5 border border-white/10 text-[10px] font-mono text-white/50 uppercase tracking-wider">
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight mb-4 font-[family-name:var(--font-oswald)] uppercase">
+          {frontmatter.title}
+        </h1>
+
+        <p class="text-base md:text-lg text-white/50 leading-relaxed mb-6">
+          {frontmatter.description}
+        </p>
+
+        {/* Meta row */}
+        <div class="flex flex-wrap items-center gap-4 text-xs font-mono text-white/30">
+          <span>{frontmatter.author}</span>
+          <span class="w-px h-3 bg-white/10" />
+          <span>{formattedDate}</span>
+          <span class="w-px h-3 bg-white/10" />
+          <span>{readingTime} {readLabel}</span>
+        </div>
+      </header>
+
+      {/* Post Content */}
+      <div class="prose-lyrix">
+        <slot />
+      </div>
+
+      {/* Post Footer */}
+      <footer class="mt-16 pt-8 border-t border-white/5">
+        <a
+          href={backHref}
+          class="inline-flex items-center gap-2 text-sm font-mono text-white/40 hover:text-[#CCFF00] transition-colors duration-200"
+        >
+          {backLabel}
+        </a>
+      </footer>
+    </article>
+  </main>
+</Layout>

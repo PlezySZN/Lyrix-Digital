@@ -1,7 +1,22 @@
 /**
  * ═══════════════════════════════════════════════════════════
  * SPEC MODULE — LYRIX OS
- * Individual service card styled as system hardware spec
+ *
+ * Individual service card styled as a "system hardware spec."
+ * Each card displays a service icon, title, description, and
+ * a list of spec lines with a terminal-style typewriter effect.
+ *
+ * Key behaviors:
+ * - useTypewriter hook: Simulates terminal typing with a
+ *   configurable start delay and per-character interval (35ms).
+ *   The hook uses setTimeout for the initial delay then setInterval
+ *   for the typing loop. Both are cleaned up on unmount.
+ * - SpecLine subcomponent: Renders a spec label:value row with
+ *   the typewriter effect applied to the value portion.
+ * - Cards animate in via Framer Motion with staggered delay.
+ *
+ * isOptional flag: When true, renders an "★ Optional" badge
+ * in the card header (used for premium add-on services).
  * ═══════════════════════════════════════════════════════════
  */
 

@@ -263,6 +263,34 @@ const serviceSchema = (type === 'service' || isHomePage) ? {
     'Digital Marketing',
   ],
   knowsLanguage: ['es', 'en'],
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.9',
+    bestRating: '5',
+    worstRating: '1',
+    ratingCount: '6',
+    reviewCount: '6',
+  },
+  review: [
+    {
+      '@type': 'Review',
+      author: { '@type': 'Person', name: 'Carlos R.' },
+      reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
+      reviewBody: 'El despliegue fue inmediato. La arquitectura Lyrix aumentó nuestros leads un 300% en la primera semana.',
+    },
+    {
+      '@type': 'Review',
+      author: { '@type': 'Person', name: 'Ana L.' },
+      reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
+      reviewBody: 'No more Facebook dependency. We own our digital presence and rank #1 locally for every key term.',
+    },
+    {
+      '@type': 'Review',
+      author: { '@type': 'Person', name: 'Roberto C.' },
+      reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
+      reviewBody: 'Zero downtime since deployment. The infrastructure is military-grade and converts at 18%.',
+    },
+  ],
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
     name: lang === 'es' ? 'Servicios Digitales Premium' : 'Premium Digital Services',

@@ -180,3 +180,136 @@ svg[class*="lucide"] {
 [style*="position:fixed"] {
   contain: layout;
 }
+
+/* ═══════════════════════════════════════════════════════════
+   BLOG PROSE — Dark Industrial Typography
+═══════════════════════════════════════════════════════════ */
+
+.prose-lyrix {
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+.prose-lyrix h2 {
+  color: #ffffff;
+  font-family: var(--font-oswald, 'Oswald', sans-serif);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
+}
+
+.prose-lyrix h3 {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.prose-lyrix p {
+  margin-bottom: 1.25rem;
+}
+
+.prose-lyrix strong {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+}
+
+.prose-lyrix a {
+  color: #CCFF00;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity 0.2s;
+}
+
+.prose-lyrix a:hover {
+  opacity: 0.8;
+}
+
+.prose-lyrix ul,
+.prose-lyrix ol {
+  margin-bottom: 1.25rem;
+  padding-left: 1.5rem;
+}
+
+.prose-lyrix li {
+  margin-bottom: 0.5rem;
+}
+
+.prose-lyrix ul li::marker {
+  color: rgba(204, 255, 0, 0.5);
+}
+
+.prose-lyrix ol li::marker {
+  color: rgba(204, 255, 0, 0.5);
+  font-weight: 600;
+}
+
+.prose-lyrix blockquote {
+  border-left: 3px solid rgba(204, 255, 0, 0.3);
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
+}
+
+.prose-lyrix code {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  padding: 0.15em 0.4em;
+  font-size: 0.875em;
+  font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, monospace;
+}
+
+.prose-lyrix pre {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}
+
+.prose-lyrix pre code {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.prose-lyrix table {
+  width: 100%;
+  margin: 1.5rem 0;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.prose-lyrix th {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.prose-lyrix td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.prose-lyrix hr {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 2.5rem 0;
+}
+
+.prose-lyrix img {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 1.5rem 0;
+}

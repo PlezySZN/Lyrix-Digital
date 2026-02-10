@@ -1,8 +1,20 @@
 /**
  * ═══════════════════════════════════════════════════════════
  * PROJECT LOGS — LYRIX OS
- * Portfolio as a database list view with hover preview cards.
- * Data sourced from `src/data/projects.ts`.
+ *
+ * Portfolio section displayed as a "database list view" with hover
+ * preview cards. Data sourced from `src/data/projects.ts`.
+ *
+ * Architecture:
+ * - FloatingPreview — Renders a project preview card at the cursor
+ *   position via React Portal (avoids overflow:hidden clipping).
+ *   Viewport clamping ensures the card stays fully visible.
+ * - Main list — Table-style rows with hover state tracking.
+ *   Mouse position updates drive the FloatingPreview position.
+ * - Clicking a project opens ProjectModal via nanostores.
+ *
+ * The portal pattern is necessary because the WindowFrame parent
+ * has overflow:hidden, which would clip the preview card.
  * ═══════════════════════════════════════════════════════════
  */
 
@@ -18,8 +30,19 @@ import { useTranslations } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
 import type { Project } from '../types';
 
-// ─── FLOATING PREVIEW CARD (rendered via portal) ───
+// ─── FLOATING PREVIEW CARD (rendered via React Portal) ───
 
+/**
+ * Renders a hover-preview card at the mouse position.
+ * Uses createPortal to render outside the component tree
+ * (directly on document.body) to avoid overflow clipping.
+ *
+ * Position is clamped to viewport edges so the 280×200px card
+ * never extends beyond the visible area.
+ *
+ * @param project  - The project data to preview
+ * @param mousePos - Current cursor position (clientX/clientY)
+ */
 function FloatingPreview({
   project,
   mousePos,
