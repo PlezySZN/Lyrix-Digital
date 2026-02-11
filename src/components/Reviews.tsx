@@ -242,6 +242,11 @@ export default function Reviews({ lang = 'en' }: { lang?: Lang }) {
             </div>
           </motion.div>
 
+          {/* ─── TOUCH HINT (mobile only) ─── */}
+          <p className="mt-4 text-center text-xs font-mono text-white/40 sm:hidden">
+            {t('telemetry.footer.touchHint')}
+          </p>
+
           {/* ─── STATUS BAR ─── */}
           <motion.div
             initial={{ opacity: 0 }}

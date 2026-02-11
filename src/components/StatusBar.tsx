@@ -193,13 +193,13 @@ export default function StatusBar({ translations: t, lang = 'en' }: StatusBarPro
             LX 1.2
           </span>
           <div className="h-3 w-px bg-white/10 hidden md:block" />
-          <span className="text-xs text-white/30 hidden md:inline">
+          <span className="text-xs text-white/60 hidden md:inline">
             {t['statusbar.ready']}
           </span>
         </div>
 
         {/* ─── CENTER: Window Dock (Absolute center, independent of siblings) ─── */}
-        <nav aria-label={lang === 'es' ? 'Panel de ventanas' : 'Window dock'} className="absolute left-1/2 -translate-x-1/2 flex items-end gap-1.5 md:gap-2 px-3 py-1 rounded-xl bg-white/2 border border-white/5 pt-2.5">
+        <nav aria-label={lang === 'es' ? 'Panel de ventanas' : 'Window dock'} className="sm:absolute sm:left-1/2 sm:-translate-x-1/2 flex items-end gap-1.5 md:gap-2 px-3 py-1 rounded-xl bg-white/2 border border-white/5 pt-2.5">
           {ALL_WINDOW_IDS.map((id) => (
             <DockItem key={id} id={id} state={windows[id]} />
           ))}
@@ -218,7 +218,7 @@ export default function StatusBar({ translations: t, lang = 'en' }: StatusBarPro
             <span className="text-xs font-mono">100%</span>
           </div>
 
-          <div className="h-3 w-px bg-white/10" />
+          <div className="h-3 w-px bg-white/10 hidden sm:block" />
 
           {/* Language Toggle */}
           <motion.button
@@ -233,9 +233,9 @@ export default function StatusBar({ translations: t, lang = 'en' }: StatusBarPro
               {lang === 'es' ? 'Cambiar a Ingles' : 'Switch to Espanol'}
             </span>
             <span className="text-xs font-mono" aria-hidden="true">
-              <span className={lang === 'es' ? 'text-[#CCFF00]' : 'text-white/40'}>ES</span>
-              <span className="text-white/20 mx-0.5">/</span>
-              <span className={lang === 'en' ? 'text-[#CCFF00]' : 'text-white/40'}>EN</span>
+              <span className={lang === 'es' ? 'text-[#CCFF00]' : 'text-white/60'}>ES</span>
+              <span className="text-white/40 mx-0.5">/</span>
+              <span className={lang === 'en' ? 'text-[#CCFF00]' : 'text-white/60'}>EN</span>
             </span>
           </motion.button>
 
@@ -255,7 +255,7 @@ export default function StatusBar({ translations: t, lang = 'en' }: StatusBarPro
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             href="tel:+17876644109"
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#CCFF00]/10 border border-[#CCFF00]/20 hover:bg-[#CCFF00]/20 hover:border-[#CCFF00]/30 transition-all duration-200"
+            className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#CCFF00]/10 border border-[#CCFF00]/20 hover:bg-[#CCFF00]/20 hover:border-[#CCFF00]/30 transition-all duration-200"
             aria-label={t['statusbar.call']}
           >
             <Phone className="w-3.5 h-3.5 text-[#CCFF00]" />

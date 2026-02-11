@@ -22,6 +22,7 @@ import {
   ChevronRight,
   DollarSign,
   Newspaper,
+  Phone,
 } from 'lucide-react';
 import type { Lang } from '../i18n/ui';
 import { markSidebarOpened, dismissHints } from '../stores/sidebarHintStore';
@@ -270,18 +271,31 @@ function MobileHeader({ lang }: { lang: Lang }) {
           <span className="text-xs font-mono font-bold text-white/80 tracking-wider">LYRIX OS</span>
         </div>
 
-        {/* Hamburger */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-200"
-          aria-label={isOpen ? 'Close menu' : 'Open menu'}
-        >
-          {isOpen ? (
-            <X className="w-4 h-4 text-white/70" />
-          ) : (
-            <Menu className="w-4 h-4 text-white/70" />
-          )}
-        </button>
+        {/* Right group: Call + Hamburger */}
+        <div className="flex items-center gap-2">
+          {/* Call CTA */}
+          <a
+            href="tel:+17876644109"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#CCFF00]/10 border border-[#CCFF00]/20 hover:bg-[#CCFF00]/20 transition-all duration-200"
+            aria-label={lang === 'es' ? 'Llamar' : 'Call'}
+          >
+            <Phone className="w-3.5 h-3.5 text-[#CCFF00]" />
+            <span className="text-xs font-mono text-[#CCFF00]">{lang === 'es' ? 'Llamar' : 'Call'}</span>
+          </a>
+
+          {/* Hamburger */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-200"
+            aria-label={isOpen ? 'Close menu' : 'Open menu'}
+          >
+            {isOpen ? (
+              <X className="w-4 h-4 text-white/70" />
+            ) : (
+              <Menu className="w-4 h-4 text-white/70" />
+            )}
+          </button>
+        </div>
       </motion.div>
 
       {/* Dropdown menu */}
