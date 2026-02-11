@@ -94,7 +94,7 @@ export default function OnboardingHints({ lang = 'en' }: OnboardingHintsProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.6, delay: 1.4 }}
-            className="fixed bottom-20 right-16 sm:right-[13.7rem] md:right-[14.6rem] z-60 flex items-center gap-2 pointer-events-none"
+            className="fixed bottom-20 right-7 sm:right-[13.7rem] md:right-[14.6rem] z-60 flex items-center gap-2 pointer-events-none"
           >
             {/* Label */}
             <motion.span

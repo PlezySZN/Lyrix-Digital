@@ -198,8 +198,8 @@ export default function StatusBar({ translations: t, lang = 'en' }: StatusBarPro
           </span>
         </div>
 
-        {/* ─── CENTER: Window Dock (Absolute center, independent of siblings) ─── */}
-        <nav aria-label={lang === 'es' ? 'Panel de ventanas' : 'Window dock'} className="sm:absolute sm:left-1/2 sm:-translate-x-1/2 flex items-end gap-1.5 md:gap-2 px-3 py-1 rounded-xl bg-white/2 border border-white/5 pt-2.5">
+        {/* ─── CENTER: Window Dock ─── */}
+        <nav aria-label={lang === 'es' ? 'Panel de ventanas' : 'Window dock'} className="flex items-end gap-1.5 md:gap-2 px-3 py-1 rounded-xl bg-white/2 border border-white/5 pt-2.5">
           {ALL_WINDOW_IDS.map((id) => (
             <DockItem key={id} id={id} state={windows[id]} />
           ))}
