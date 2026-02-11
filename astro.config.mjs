@@ -19,6 +19,7 @@
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
 import cloudflare from '@astrojs/cloudflare';
+import partytown from '@astrojs/partytown';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 
@@ -75,5 +76,13 @@ export default defineConfig({
   /* ─── Integrations ───
      - react(): Enables React islands (client:idle / client:visible)
      - sitemap(): Auto-generates sitemap-index.xml at build time */
-  integrations: [react(), sitemap()],
+  integrations: [
+    react(),
+    sitemap(),
+    partytown({
+      config: {
+        forward: ['dataLayer.push'],
+      },
+    }),
+  ],
 });

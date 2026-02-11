@@ -128,10 +128,22 @@ const resolvedDescription = description ?? t(lang, 'meta.description');
 			body { background-color: #050505; color: #ffffff; min-height: 100vh; }
 		</style>
 
+		<!-- ═══ GTM via Partytown (off main-thread) ═══ -->
+		<script type="text/partytown">
+			(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+			new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+			j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+			'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+			})(window,document,'script','dataLayer','GTM-5DDTZZ3G');
+		</script>
+
 		<!-- ═══ Extra head content from child pages ═══ -->
 		<slot name="head" />
 	</head>
 	<body class="antialiased">
+		<!-- GTM noscript fallback (no JS impact) -->
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDTZZ3G"
+		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		<slot />
 	</body>
 </html>
