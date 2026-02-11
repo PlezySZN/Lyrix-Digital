@@ -64,6 +64,12 @@ const resolvedTitle = !title
     : (title.length <= MAX_TITLE_LENGTH ? title : rawTitle.slice(0, MAX_TITLE_LENGTH - 1) + '\u2026');
 
 const resolvedDescription = description ?? t(lang, 'meta.description');
+
+/* ─── Description length guard (≤155 chars for full SERP display) ─── */
+const MAX_DESC_LENGTH = 155;
+const safeDescription = resolvedDescription.length <= MAX_DESC_LENGTH
+  ? resolvedDescription
+  : resolvedDescription.slice(0, MAX_DESC_LENGTH - 1) + '\u2026';
 ---
 
 <html lang={lang} dir="ltr" translate="no" class="notranslate">
@@ -80,7 +86,7 @@ const resolvedDescription = description ?? t(lang, 'meta.description');
 		<meta name="theme-color" content="#050505" />
 
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="description" content={resolvedDescription} />
+		<meta name="description" content={safeDescription} />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="google" content="notranslate" />
 		<title>{resolvedTitle}</title>
@@ -137,13 +143,14 @@ const resolvedDescription = description ?? t(lang, 'meta.description');
 			as="font"
 			type="font/woff2"
 			crossorigin
+			fetchpriority="high"
 		/>
 
 		<!-- ═══ SEO ENGINE (Canonical, Hreflang, OG, Twitter, JSON-LD) ═══ -->
 		<SEO
 			lang={lang}
 			title={resolvedTitle}
-			description={resolvedDescription}
+			description={safeDescription}
 			keywords={keywords}
 			canonicalPath={canonicalPath}
 			type={type}

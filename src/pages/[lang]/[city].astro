@@ -43,11 +43,16 @@ const cityData = CITIES.find((c) => c.slug === citySlug)!;
 const pageTitle = lang === 'es' ? cityData.titleEs : cityData.titleEn;
 const pageDesc = lang === 'es' ? cityData.descriptionEs : cityData.descriptionEn;
 const pageKeywords = lang === 'es' ? cityData.keywordsEs : cityData.keywordsEn;
+
+// City-specific H1 for SEO — unique keyword-rich headline per city page
+const cityHeadline = lang === 'es'
+  ? `DISEÑO WEB PROFESIONAL EN ${cityData.nameEs.toUpperCase()}, PUERTO RICO`
+  : `PROFESSIONAL WEB DESIGN IN ${cityData.nameEn.toUpperCase()}, PUERTO RICO`;
 ---
 
 <Layout lang={lang} title={pageTitle} description={pageDesc} keywords={pageKeywords}>
 	<Navigation lang={lang} client:idle />
-	<Hero lang={lang} />
+	<Hero lang={lang} headline={cityHeadline} />
 
 	<main id="main-content">
 		<TrustedBy lang={lang} client:visible />

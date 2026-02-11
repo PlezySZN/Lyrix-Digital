@@ -8,12 +8,14 @@
 
 import type { Lang } from '../i18n/ui';
 import Layout from './main.astro';
+import { getCollection } from 'astro:content';
 
 interface Props {
   frontmatter: {
     title: string;
     description: string;
     date: Date;
+    lastUpdated?: Date;
     author: string;
     lang: Lang;
     tags: string[];
@@ -28,6 +30,14 @@ const formattedDate = new Date(frontmatter.date).toLocaleDateString(
   { year: 'numeric', month: 'long', day: 'numeric' }
 );
 
+const formattedLastUpdated = frontmatter.lastUpdated
+  ? new Date(frontmatter.lastUpdated).toLocaleDateString(
+      lang === 'es' ? 'es-PR' : 'en-US',
+      { year: 'numeric', month: 'long', day: 'numeric' }
+    )
+  : null;
+const updatedLabel = lang === 'es' ? 'Actualizado' : 'Updated';
+
 const backLabel = lang === 'es' ? '← Volver al Blog' : '← Back to Blog';
 const backHref = `/${lang}/blog/`;
 const readLabel = lang === 'es' ? 'min de lectura' : 'min read';
@@ -36,6 +46,42 @@ const readLabel = lang === 'es' ? 'min de lectura' : 'min read';
 const slotContent = await Astro.slots.render('default');
 const wordCount = slotContent.split(/\s+/).length;
 const readingTime = Math.max(1, Math.ceil(wordCount / 200));
+
+/* ─── AUTHOR DATA (E-E-A-T signal) ─── */
+const AUTHORS: Record<string, { name: string; role: Record<string, string>; bio: Record<string, string>; url: string }> = {
+  'Lyrix Digital': {
+    name: 'Lyrix Digital',
+    role: {
+      en: 'Web Design Agency — Puerto Rico',
+      es: 'Agencia de Diseño Web — Puerto Rico',
+    },
+    bio: {
+      en: 'Lyrix Digital builds high-performance Astro-powered websites, produces 4K drone video, and runs bilingual SEO campaigns for businesses across Puerto Rico. Based in Vega Alta, PR.',
+      es: 'Lyrix Digital construye sitios web de alto rendimiento con Astro, produce video 4K con drone, y ejecuta campañas SEO bilingües para negocios en Puerto Rico. Basados en Vega Alta, PR.',
+    },
+    url: 'https://lyrixdigital.com',
+  },
+};
+
+const authorData = AUTHORS[frontmatter.author] ?? AUTHORS['Lyrix Digital'];
+
+/* ─── RELATED POSTS (Smart Interlinking) ─── */
+const allPosts = await getCollection('blog', ({ data }) =>
+  data.lang === lang && !data.draft && data.title !== frontmatter.title
+);
+// Score by shared tags, then sort by date
+const currentTags = new Set(frontmatter.tags);
+const relatedPosts = allPosts
+  .map((post) => ({
+    ...post,
+    score: post.data.tags.filter((t: string) => currentTags.has(t)).length,
+  }))
+  .filter((p) => p.score > 0)
+  .sort((a, b) => b.score - a.score || b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+
+const relatedLabel = lang === 'es' ? 'ARTÍCULOS RELACIONADOS' : 'RELATED ARTICLES';
+const readMoreLabel = lang === 'es' ? 'LEER →' : 'READ →';
 ---
 
 <Layout
@@ -46,7 +92,11 @@ const readingTime = Math.max(1, Math.ceil(wordCount / 200));
   article={{
     headline: frontmatter.title,
     datePublished: new Date(frontmatter.date).toISOString().split('T')[0],
+    dateModified: frontmatter.lastUpdated
+      ? new Date(frontmatter.lastUpdated).toISOString().split('T')[0]
+      : undefined,
     author: frontmatter.author,
+    authorUrl: authorData.url,
     tags: frontmatter.tags,
     wordCount,
     section: 'Blog',
@@ -87,6 +137,12 @@ const readingTime = Math.max(1, Math.ceil(wordCount / 200));
           <span>{frontmatter.author}</span>
           <span class="w-px h-3 bg-white/10" />
           <span>{formattedDate}</span>
+          {formattedLastUpdated && (
+            <>
+              <span class="w-px h-3 bg-white/10" />
+              <span class="text-[#CCFF00]/50">{updatedLabel}: {formattedLastUpdated}</span>
+            </>
+          )}
           <span class="w-px h-3 bg-white/10" />
           <span>{readingTime} {readLabel}</span>
         </div>
@@ -96,6 +152,49 @@ const readingTime = Math.max(1, Math.ceil(wordCount / 200));
       <div class="prose-lyrix">
         <slot />
       </div>
+
+      {/* ═══ AUTHOR BIO — E-E-A-T Signal ═══ */}
+      <aside class="mt-12 p-6 rounded-xl border border-white/5 bg-white/[0.02]" aria-label={lang === 'es' ? 'Sobre el autor' : 'About the author'}>
+        <div class="flex items-start gap-4">
+          <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-[#CCFF00]/10 border border-[#CCFF00]/20 flex items-center justify-center">
+            <span class="text-lg font-bold text-[#CCFF00] font-[family-name:var(--font-oswald)]">
+              {authorData.name.charAt(0)}
+            </span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-semibold text-white tracking-tight">{authorData.name}</p>
+            <p class="text-xs font-mono text-[#CCFF00]/60 mt-0.5">{authorData.role[lang]}</p>
+            <p class="text-sm text-white/50 leading-relaxed mt-2">{authorData.bio[lang]}</p>
+          </div>
+        </div>
+      </aside>
+
+      {/* ═══ RELATED POSTS — Smart Interlinking ═══ */}
+      {relatedPosts.length > 0 && (
+        <nav class="mt-12" aria-label={relatedLabel}>
+          <h2 class="text-sm font-mono font-bold text-[#CCFF00]/60 uppercase tracking-widest mb-4">{relatedLabel}</h2>
+          <div class="flex flex-col gap-3">
+            {relatedPosts.map((post) => {
+              const postDate = new Date(post.data.date).toLocaleDateString(
+                lang === 'es' ? 'es-PR' : 'en-US',
+                { year: 'numeric', month: 'short', day: 'numeric' }
+              );
+              return (
+                <a
+                  href={`/${lang}/blog/${post.slug}/`}
+                  class="group flex items-center justify-between p-4 rounded-lg border border-white/5 bg-white/[0.02] hover:border-[#CCFF00]/20 hover:bg-[#CCFF00]/[0.02] transition-all duration-200"
+                >
+                  <div class="min-w-0 flex-1">
+                    <p class="text-sm font-semibold text-white group-hover:text-[#CCFF00] transition-colors truncate">{post.data.title}</p>
+                    <p class="text-xs font-mono text-white/30 mt-1">{postDate}</p>
+                  </div>
+                  <span class="flex-shrink-0 text-xs font-mono text-white/20 group-hover:text-[#CCFF00]/60 ml-4 transition-colors">{readMoreLabel}</span>
+                </a>
+              );
+            })}
+          </div>
+        </nav>
+      )}
 
       {/* Post Footer */}
       <footer class="mt-16 pt-8 border-t border-white/5">

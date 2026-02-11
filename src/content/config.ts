@@ -33,6 +33,7 @@ const blog = defineCollection({
     title: z.string(),
     description: z.string(),
     date: z.date(),
+    lastUpdated: z.date().optional(),
     author: z.string().default('Lyrix Digital'),
     lang: z.enum(['en', 'es']),
     tags: z.array(z.string()).default([]),

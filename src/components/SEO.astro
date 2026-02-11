@@ -370,6 +370,23 @@ const faqSchema = (isHomePage && !noFaq) ? {
   })),
 } : null;
 
+// ── 7. VideoObject (home page — showcase cinematic production capabilities)
+const videoSchema = isHomePage ? {
+  '@type': 'VideoObject',
+  '@id': `${SITE}/#video`,
+  name: lang === 'es'
+    ? 'Producción Cinematográfica — Lyrix Digital Puerto Rico'
+    : 'Cinematic Media Production — Lyrix Digital Puerto Rico',
+  description: lang === 'es'
+    ? 'Video 4K con drone, edición profesional y contenido visual para negocios en Puerto Rico. Filmado con cámaras de cine y drones con licencia FAA.'
+    : '4K drone video, professional editing & visual content for businesses in Puerto Rico. Filmed with cinema cameras and FAA-licensed drones.',
+  thumbnailUrl: `${SITE}/og-image.png`,
+  uploadDate: '2025-01-15',
+  contentUrl: SITE,
+  embedUrl: SITE,
+  publisher: { '@id': `${SITE}/#organization` },
+} : null;
+
 // ── Assemble @graph payload
 const graphNodes = [
   organizationSchema,
@@ -377,6 +394,7 @@ const graphNodes = [
   webPageSchema,
   breadcrumbSchema,
   ...(serviceSchema ? [serviceSchema] : []),
+  ...(videoSchema ? [videoSchema] : []),
 ].filter(Boolean);
 
 const graphPayload = {

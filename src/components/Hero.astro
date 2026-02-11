@@ -19,12 +19,16 @@ import StatusBar from './StatusBar';
 import ContactModal from './ContactModal';
 import ProjectModal from './ProjectModal';
 
-interface Props { lang?: Lang; }
-const { lang = 'en' } = Astro.props;
+interface Props { lang?: Lang; headline?: string; }
+const { lang = 'en', headline } = Astro.props;
 
 // Resolve translations at build time — not bundled in client JS
 const heroT = pickTranslations(lang, [...heroKeys]);
 const statusBarT = pickTranslations(lang, [...statusBarKeys]);
+
+// If a custom headline is provided (e.g. city pages), use it.
+// Otherwise fall back to the i18n default.
+const resolvedHeadline = headline ?? t(lang, 'hero.headline');
 ---
 
 {/*
@@ -81,7 +85,7 @@ const statusBarT = pickTranslations(lang, [...statusBarKeys]);
        (the React island renders an animated visual duplicate marked aria-hidden) -->
   <h1
     class="sr-only"
-    set:html={t(lang, 'hero.headline')}
+    set:html={resolvedHeadline}
   />
   <p class="sr-only">{t(lang, 'hero.subtitle')}</p>
 
