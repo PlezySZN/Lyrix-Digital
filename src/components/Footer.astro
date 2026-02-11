@@ -85,7 +85,7 @@ const legalLinks = [
         <p class="text-sm text-[#A1A1AA] leading-relaxed max-w-xs">
           {copy.tagline}
         </p>
-        <address class="not-italic mt-4 text-xs text-white/30 leading-relaxed">
+        <address class="not-italic mt-4 text-xs text-[#A1A1AA] leading-relaxed">
           Vega Alta, PR 00692<br />
           <a href="tel:+17876644109" data-track="contact_call" data-source="footer" class="hover:text-[#CCFF00] transition-colors">(787) 664-4109</a><br />
           <a href="mailto:lyrixdigitals@gmail.com" data-track="contact_email" data-source="footer" class="hover:text-[#CCFF00] transition-colors">lyrixdigitals@gmail.com</a>
@@ -187,10 +187,10 @@ const legalLinks = [
 
     {/* ─── Divider ─── */}
     <div class="border-t border-white/5 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p class="text-xs text-white/20 text-center sm:text-left">
+      <p class="text-xs text-[#A1A1AA] text-center sm:text-left">
         &copy; {new Date().getFullYear()} Lyrix Digital. {copy.rights}
       </p>
-      <p class="text-xs text-white/10 font-mono text-center sm:text-right">
+      <p class="text-xs text-white/40 font-mono text-center sm:text-right">
         {copy.builtWith}
       </p>
     </div>
@@ -200,16 +200,18 @@ const legalLinks = [
 <!-- ═══ Footer GTM Event Tracking ═══ -->
 <script>
   document.addEventListener('click', (e) => {
-    const el = (e.target as HTMLElement).closest('[data-track]');
+    const target = e.target instanceof Element ? e.target : null;
+    const el = target ? target.closest('[data-track]') : null;
     if (!el) return;
+
     const event = el.getAttribute('data-track') || '';
     const source = el.getAttribute('data-source') || 'footer';
     const platform = el.getAttribute('data-platform');
+
     window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event,
-      source,
-      ...(platform ? { platform } : {}),
-    });
+    window.dataLayer.push(Object.assign(
+      { event, source },
+      platform ? { platform } : null,
+    ));
   });
 </script>
