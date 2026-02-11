@@ -100,7 +100,7 @@ export default function HeroContent({ translations: t }: HeroContentProps) {
 
 
   return (
-    <div className="min-h-screen w-full bg-lyrix-dark p-4 md:p-8">
+    <div className="min-h-screen w-full bg-lyrix-dark p-4 pt-14 md:p-8 md:pt-8">
       {/* ─── MACOS WINDOW CONTAINER ─── */}
       <div
         ref={containerRef}
@@ -208,7 +208,7 @@ export default function HeroContent({ translations: t }: HeroContentProps) {
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.15, ease: 'easeOut' }}
-              onClick={() => openContactModal()}
+              onClick={() => openContactModal('', 'hero')}
               className="group relative cursor-pointer"
             >
               {/* Breathing neon glow — compositor-optimized (transform + opacity only) */}

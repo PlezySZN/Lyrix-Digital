@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useStore } from '@nanostores/react';
 import { X, Send, Film, Loader2, AlertTriangle } from 'lucide-react';
 import CustomSelect from './CustomSelect';
+import { trackEvent } from '../lib/analytics';
 import {
   $contactModalOpen,
   $contactSubject,
@@ -243,6 +244,13 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
       });
 
       if (!res.ok) throw new Error('API error');
+
+      trackEvent('generate_lead', {
+        sector: sector || 'not_selected',
+        budget: budget || 'not_selected',
+        cinematic,
+        lang,
+      });
 
       setSubmitted(true);
       setTimeout(() => {

@@ -38,6 +38,7 @@ import {
 } from 'lucide-react';
 import { useStore } from '@nanostores/react';
 import { openContactModal } from '../stores/modalStore';
+import { trackEvent } from '../lib/analytics';
 import {
   $windows,
   restoreWindow,
@@ -243,7 +244,7 @@ export default function StatusBar({ translations: t, lang = 'en' }: StatusBarPro
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => openContactModal()}
+            onClick={() => openContactModal('', 'statusbar')}
             className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-200"
           >
             <MessageCircle className="w-3.5 h-3.5 text-white/60" />
@@ -255,6 +256,7 @@ export default function StatusBar({ translations: t, lang = 'en' }: StatusBarPro
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             href="tel:+17876644109"
+            onClick={() => trackEvent('contact_call', { source: 'statusbar' })}
             className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#CCFF00]/10 border border-[#CCFF00]/20 hover:bg-[#CCFF00]/20 hover:border-[#CCFF00]/30 transition-all duration-200"
             aria-label={t['statusbar.call']}
           >

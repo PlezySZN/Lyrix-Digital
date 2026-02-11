@@ -194,7 +194,7 @@ export default function SystemExecution({ lang = 'en' }: { lang?: Lang }) {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => openContactModal()}
+                  onClick={() => openContactModal('', 'cta_section')}
                   className="group relative w-full overflow-hidden rounded-xl bg-[#CCFF00] text-black font-bold text-base md:text-lg lg:text-xl py-4 md:py-6 px-6 md:px-8 transition-all duration-300 hover:shadow-2xl hover:shadow-[#CCFF00]/25"
                 >
                   {/* Button glow effect */}
@@ -242,14 +242,14 @@ export default function SystemExecution({ lang = 'en' }: { lang?: Lang }) {
           className="mt-12 text-center"
           role="contentinfo"
         >
-          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 text-xs font-mono text-white/20">
+          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 text-xs font-mono text-white/20 pb-16">
             <span>{t('cta.copyright')}</span>
             <span className="hidden md:inline" aria-hidden="true">|</span>
-            <span>{t('cta.privacy')}</span>
+            <a href={`/${lang}/privacy/`} className="hover:text-[#CCFF00]/60 transition-colors">{t('cta.privacy')}</a>
             <span className="hidden md:inline" aria-hidden="true">|</span>
-            <span>{t('cta.terms')}</span>
+            <a href={`/${lang}/terms/`} className="hover:text-[#CCFF00]/60 transition-colors">{t('cta.terms')}</a>
             <span className="hidden md:inline" aria-hidden="true">|</span>
-            <span>{t('cta.social')}</span>
+            <a href="https://instagram.com/lyrixdigital" target="_blank" rel="noopener noreferrer" className="hover:text-[#CCFF00]/60 transition-colors">{t('cta.social')}</a>
           </div>
         </motion.footer>
       </div>

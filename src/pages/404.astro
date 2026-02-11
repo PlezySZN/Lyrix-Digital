@@ -1,0 +1,70 @@
+---
+/**
+ * ═══════════════════════════════════════════════════════════
+ * 404 — FILE NOT FOUND — LYRIX OS
+ * Terminal-themed bilingual 404 page.
+ * Cloudflare Pages auto-serves 404.html for missing routes.
+ * ═══════════════════════════════════════════════════════════
+ */
+
+import Layout from '../layouts/main.astro';
+---
+
+<Layout lang="en" title="404 — File Not Found" description="The requested page was not found.">
+	<Fragment slot="head">
+		<meta name="robots" content="noindex, nofollow" />
+	</Fragment>
+
+	<main id="main-content" class="min-h-screen bg-lyrix-dark flex items-center justify-center px-4">
+		<div class="text-center max-w-lg">
+
+			{/* ─── ERROR BADGE ─── */}
+			<div class="inline-flex items-center gap-2 mb-6 px-3 py-1.5 rounded-lg bg-red-500/10 border border-red-500/20">
+				<span class="w-2 h-2 rounded-full bg-red-500 animate-pulse-perf"></span>
+				<span class="text-xs font-mono font-bold text-red-400 uppercase tracking-widest">ERROR 404</span>
+			</div>
+
+			{/* ─── HEADLINE ─── */}
+			<h1
+				class="text-5xl md:text-7xl font-extrabold text-white tracking-tight mb-6 uppercase"
+				style="font-family: var(--font-oswald, 'Oswald', sans-serif);"
+			>
+				FILE NOT FOUND
+			</h1>
+
+			{/* ─── BILINGUAL MESSAGE ─── */}
+			<p class="text-sm text-white/50 font-mono mb-1">
+				The requested path does not exist in this system.
+			</p>
+			<p class="text-sm text-white/50 font-mono mb-10">
+				La ruta solicitada no existe en este sistema.
+			</p>
+
+			{/* ─── NAVIGATION ─── */}
+			<div class="flex flex-col sm:flex-row gap-3 justify-center">
+				<a
+					href="/"
+					class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-[#CCFF00]/20 bg-[#CCFF00]/5 text-sm font-mono font-bold text-[#CCFF00] hover:bg-[#CCFF00]/10 transition-all duration-200"
+				>
+					← HOME
+				</a>
+				<a
+					href="/es/"
+					class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-white/10 bg-white/5 text-sm font-mono font-bold text-white/60 hover:bg-white/10 transition-all duration-200"
+				>
+					← INICIO
+				</a>
+			</div>
+
+			{/* ─── TERMINAL DECORATION ─── */}
+			<div class="mt-16 text-left max-w-xs mx-auto">
+				<p class="text-[11px] font-mono text-white/15 leading-relaxed">
+					<span class="text-[#CCFF00]/30">lyrix@system</span> <span class="text-white/20">~</span> $ cat /requested/path<br />
+					cat: No such file or directory<br />
+					<span class="text-[#CCFF00]/30">lyrix@system</span> <span class="text-white/20">~</span> $ <span class="inline-block w-2 h-3.5 bg-white/30 animate-pulse-perf ml-0.5 align-middle"></span>
+				</p>
+			</div>
+
+		</div>
+	</main>
+</Layout>

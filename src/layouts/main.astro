@@ -10,6 +10,7 @@ import '../styles/global.css';
 import { t } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
 import SEO from '../components/SEO.astro';
+import Footer from '../components/Footer.astro';
 import { AstroFont } from 'astro-font';
 
 interface Props {
@@ -90,11 +91,6 @@ const safeDescription = resolvedDescription.length <= MAX_DESC_LENGTH
 		<meta name="generator" content={Astro.generator} />
 		<meta name="google" content="notranslate" />
 		<title>{resolvedTitle}</title>
-
-		{/* ─── HARD LOCK TRANSLATION ─── */}
-		<script is:inline>
-			document.documentElement.setAttribute('translate', 'no');
-		</script>
 
 		<!-- ═══ CRITICAL PRECONNECTS — fonts, GTM, analytics ═══ -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -199,6 +195,18 @@ const safeDescription = resolvedDescription.length <= MAX_DESC_LENGTH
 		<!-- GTM noscript fallback (no JS impact) -->
 		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WTFWPT52"
 		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+		<!-- ═══ Skip-to-content (WCAG 2.1 AA) ═══ -->
+		<a
+			href="#main-content"
+			class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-[#CCFF00] focus:text-[#0a0a0a] focus:font-bold focus:text-sm focus:rounded focus:outline-none focus:ring-2 focus:ring-[#CCFF00]/50"
+		>
+			{lang === 'es' ? 'Saltar al contenido' : 'Skip to content'}
+		</a>
+
 		<slot />
+
+		<!-- ═══ SITE FOOTER ═══ -->
+		<Footer lang={lang} />
 	</body>
 </html>

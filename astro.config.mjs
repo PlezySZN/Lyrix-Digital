@@ -78,7 +78,43 @@ export default defineConfig({
      - sitemap(): Auto-generates sitemap-index.xml at build time */
   integrations: [
     react(),
-    sitemap(),
+    sitemap({
+      /* ─── Sitemap Optimization ───
+         Assign crawl priorities and change frequencies to help
+         search engines allocate crawl budget efficiently.
+         Homepage → highest; city pages → high; blog → medium; legal → low */
+      filter: (page) =>
+        !page.includes('/404'),
+      serialize(item) {
+        const url = item.url;
+        // ── Homepage (EN root or /es/)
+        if (url.endsWith('.com/') || url.endsWith('/es/')) {
+          item.priority = 1.0;
+          item.changefreq = 'weekly';
+        }
+        // ── Blog index
+        else if (url.endsWith('/blog/')) {
+          item.priority = 0.7;
+          item.changefreq = 'weekly';
+        }
+        // ── Individual blog posts
+        else if (url.includes('/blog/')) {
+          item.priority = 0.6;
+          item.changefreq = 'monthly';
+        }
+        // ── Legal pages (privacy, terms)
+        else if (url.includes('/privacy') || url.includes('/terms')) {
+          item.priority = 0.2;
+          item.changefreq = 'yearly';
+        }
+        // ── City landing pages (what remains: /en/san-juan/, /es/bayamon/, etc.)
+        else {
+          item.priority = 0.8;
+          item.changefreq = 'monthly';
+        }
+        return item;
+      },
+    }),
     partytown({
       config: {
         forward: ['dataLayer.push'],

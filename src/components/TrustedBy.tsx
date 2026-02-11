@@ -3,6 +3,7 @@
  * TRUSTED BY — LYRIX OS
  * Client logo strip between Hero and Portfolio
  * Styled as a system authentication / verified partners bar
+ * Features generated SVG monogram logos per client.
  * ═══════════════════════════════════════════════════════════
  */
 
@@ -12,10 +13,41 @@ import { ShieldCheck } from 'lucide-react';
 import { useTranslations } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
 
+/* ─── SVG Monogram Logos ───
+   Each client gets a unique, brand-consistent monogram.
+   Colors pulled from the "Dark Industrial Luxury" palette. */
+
+function SweetVacationsLogo() {
+  return (
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect width="32" height="32" rx="6" fill="#111111" stroke="#CCFF00" strokeWidth="0.5" strokeOpacity="0.3" />
+      <text x="16" y="21" textAnchor="middle" fontFamily="'Oswald', sans-serif" fontWeight="700" fontSize="16" fill="#CCFF00" opacity="0.8">SV</text>
+    </svg>
+  );
+}
+
+function UnidineLogo() {
+  return (
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect width="32" height="32" rx="6" fill="#111111" stroke="#FFD700" strokeWidth="0.5" strokeOpacity="0.3" />
+      <text x="16" y="21" textAnchor="middle" fontFamily="'Oswald', sans-serif" fontWeight="700" fontSize="16" fill="#FFD700" opacity="0.8">U</text>
+    </svg>
+  );
+}
+
+function JuanPlumbingLogo() {
+  return (
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect width="32" height="32" rx="6" fill="#111111" stroke="#CCFF00" strokeWidth="0.5" strokeOpacity="0.3" />
+      <text x="16" y="21" textAnchor="middle" fontFamily="'Oswald', sans-serif" fontWeight="700" fontSize="16" fill="#CCFF00" opacity="0.8">JP</text>
+    </svg>
+  );
+}
+
 const CLIENTS = [
-  { name: 'Sweet Vacations', type: 'APARTMENTS' },
-  { name: 'Unidine Co.', type: 'RESTAURANT' },
-  { name: 'Juan Plumbing Co.', type: 'CONTRACTOR' },
+  { name: 'Sweet Vacations', type: 'APARTMENTS', Logo: SweetVacationsLogo },
+  { name: 'Unidine Co.', type: 'RESTAURANT', Logo: UnidineLogo },
+  { name: 'Juan Plumbing Co.', type: 'CONTRACTOR', Logo: JuanPlumbingLogo },
 ];
 
 export default function TrustedBy({ lang = 'en' }: { lang?: Lang }) {
@@ -53,7 +85,7 @@ export default function TrustedBy({ lang = 'en' }: { lang?: Lang }) {
               transition={{ duration: 0.4, delay: 0.1 + i * 0.1 }}
               className="flex items-center gap-3 px-4 py-2.5 rounded-lg border border-white/5 bg-white/2"
             >
-              <div className="w-1.5 h-1.5 rounded-full bg-[#CCFF00]/60" />
+              <client.Logo />
               <div>
                 <span className="text-sm font-mono font-medium text-white/70 tracking-wide">
                   {client.name}

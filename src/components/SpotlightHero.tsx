@@ -211,7 +211,7 @@ export default function SpotlightHero({ lang = 'en' }: { lang?: Lang }) {
             <motion.button
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
-              onClick={() => openContactModal()}
+              onClick={() => openContactModal('', 'spotlight_hero')}
               className="group relative cursor-pointer"
             >
               {/* Breathing neon glow — compositor-optimized */}

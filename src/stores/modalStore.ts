@@ -8,6 +8,7 @@
 import { atom } from 'nanostores';
 import type { Lang } from '../i18n/ui';
 import type { Project } from '../types';
+import { trackEvent } from '../lib/analytics';
 
 // ─── GLOBAL LANGUAGE STATE ───
 
@@ -31,8 +32,12 @@ export const $contactSubject = atom<string>('');
 /** Active card preset (drives title, sector auto-select, placeholder) */
 export const $contactPreset = atom<ContactPreset>('');
 
-/** Open the contact modal with an optional preset or raw subject string */
-export function openContactModal(presetOrSubject: ContactPreset | string = '') {
+/** Open the contact modal with an optional preset or raw subject string.
+ *  `source` param identifies which CTA triggered the open for GTM attribution. */
+export function openContactModal(
+  presetOrSubject: ContactPreset | string = '',
+  source: string = 'unknown',
+) {
   const presets: ContactPreset[] = ['INDUSTRY', 'CREATIVE', 'PERSONAL'];
   if (presets.includes(presetOrSubject as ContactPreset)) {
     $contactPreset.set(presetOrSubject as ContactPreset);
@@ -42,6 +47,8 @@ export function openContactModal(presetOrSubject: ContactPreset | string = '') {
     $contactSubject.set(presetOrSubject);
   }
   $contactModalOpen.set(true);
+  trackEvent('cta_click', { source });
+  trackEvent('modal_open', { source });
 }
 
 /** Close the contact modal and reset subject */
@@ -49,6 +56,7 @@ export function closeContactModal() {
   $contactModalOpen.set(false);
   $contactSubject.set('');
   $contactPreset.set('');
+  trackEvent('modal_close');
 }
 
 // ─── PROJECT MODAL ───

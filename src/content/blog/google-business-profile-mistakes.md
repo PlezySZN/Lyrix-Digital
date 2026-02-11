@@ -1,7 +1,7 @@
 ---
 title: "5 Google Business Profile Mistakes Costing Puerto Rico Contractors Leads"
 description: "Your Google Business Profile is the first thing customers see. These 5 common mistakes are sending your leads straight to a competitor."
-date: 2026-03-15
+date: 2026-02-11
 author: "Lyrix Digital"
 lang: en
 tags: ["google-business-profile", "local-seo", "contractors", "puerto-rico"]

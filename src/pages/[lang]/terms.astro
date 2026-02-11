@@ -1,0 +1,309 @@
+---
+/**
+ * ═══════════════════════════════════════════════════════════
+ * TERMS OF SERVICE — LYRIX OS
+ * Bilingual (EN/ES) terms of service page.
+ * Route: /en/terms/ and /es/terms/
+ * ═══════════════════════════════════════════════════════════
+ */
+
+import { getLangFromUrl } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
+import Layout from '../../layouts/main.astro';
+
+export function getStaticPaths() {
+	return [
+		{ params: { lang: 'en' } },
+		{ params: { lang: 'es' } },
+	];
+}
+
+const lang = getLangFromUrl(Astro.url) as Lang;
+
+const pageTitle = lang === 'es'
+	? 'Términos de Servicio'
+	: 'Terms of Service';
+
+const pageDesc = lang === 'es'
+	? 'Términos y condiciones de uso del sitio web de Lyrix Digital. Vigente desde febrero 2026.'
+	: 'Terms and conditions for using the Lyrix Digital website. Effective February 2026.';
+
+const backLabel = lang === 'es' ? '← Volver al Inicio' : '← Back to Home';
+const backHref = lang === 'es' ? '/es/' : '/';
+const privacyHref = `/${lang}/privacy/`;
+const privacyLabel = lang === 'es' ? 'Política de Privacidad' : 'Privacy Policy';
+---
+
+<Layout lang={lang} title={pageTitle} description={pageDesc}>
+	<main id="main-content" class="min-h-screen bg-lyrix-dark pt-20 pb-16 px-4 md:px-8">
+		<article class="max-w-3xl mx-auto">
+
+			{/* ─── BACK LINK ─── */}
+			<a href={backHref} class="inline-flex items-center gap-2 mb-8 text-sm font-mono text-white/40 hover:text-[#CCFF00] transition-colors duration-200">
+				{backLabel}
+			</a>
+
+			{/* ─── HEADER ─── */}
+			<header class="mb-12 pb-8 border-b border-white/5">
+				<div class="inline-flex items-center gap-2 mb-4 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10">
+					<span class="text-xs font-mono font-bold text-white/60 uppercase tracking-widest">LEGAL</span>
+				</div>
+				<h1 class="text-3xl md:text-4xl font-bold text-white tracking-tight mb-2 font-[family-name:var(--font-oswald)] uppercase">
+					{lang === 'es' ? 'TÉRMINOS DE SERVICIO' : 'TERMS OF SERVICE'}
+				</h1>
+				<p class="text-sm text-white/30 font-mono">
+					{lang === 'es' ? 'Vigente desde: 11 de febrero de 2026' : 'Effective: February 11, 2026'}
+				</p>
+			</header>
+
+			{/* ═══════════════════════════════════════════════
+			     ENGLISH CONTENT
+			═══════════════════════════════════════════════ */}
+			{lang === 'en' && (
+				<div class="prose-lyrix">
+
+					<p>
+						Please read these Terms of Service carefully before using
+						<a href="https://lyrixdigital.com">lyrixdigital.com</a>,
+						operated by <strong>Lyrix Digital</strong>.
+					</p>
+
+					<h2>1. Acceptance of Terms</h2>
+					<p>
+						By accessing or using our website, you agree to be bound by these Terms.
+						If you do not agree with any part of these Terms, please do not use our site.
+					</p>
+
+					<h2>2. Description of Services</h2>
+					<p>
+						Lyrix Digital is a web design and digital media agency based in Puerto Rico.
+						Through this website, we showcase our portfolio, share industry knowledge via our blog,
+						and accept project inquiries through our contact form.
+					</p>
+					<p>
+						The information presented on this site is for general informational purposes.
+						It does not constitute an offer or commitment to provide services.
+					</p>
+
+					<h2>3. Contact Form and Communications</h2>
+					<p>
+						When you submit our contact form, you are requesting information about our services.
+						Submission does not create a contractual obligation by either party.
+						Any project engagement will be governed by a separate written agreement.
+					</p>
+					<p>
+						We aim to respond to inquiries within 24 business hours but do not guarantee
+						a specific response time.
+					</p>
+
+					<h2>4. Intellectual Property</h2>
+					<p>
+						All content on this website — including but not limited to design, code, text,
+						graphics, logos, images, and video — is the property of Lyrix Digital or its
+						content suppliers and is protected by applicable intellectual property laws.
+					</p>
+					<p>
+						You may not reproduce, distribute, modify, or create derivative works from
+						our site content without prior written permission.
+					</p>
+
+					<h2>5. User Conduct</h2>
+					<p>You agree not to:</p>
+					<ul>
+						<li>Use the site for any unlawful purpose</li>
+						<li>Submit false, misleading, or spam content through our forms</li>
+						<li>Attempt to interfere with site functionality or security</li>
+						<li>Use automated tools to scrape or harvest data from our site</li>
+					</ul>
+
+					<h2>6. Disclaimer of Warranties</h2>
+					<p>
+						This website and its content are provided <strong>"as is"</strong> and <strong>"as available"</strong> without
+						warranties of any kind, either express or implied, including but not limited to
+						implied warranties of merchantability, fitness for a particular purpose, and non-infringement.
+					</p>
+					<p>
+						We do not warrant that the site will be uninterrupted, error-free,
+						or free of harmful components.
+					</p>
+
+					<h2>7. Limitation of Liability</h2>
+					<p>
+						To the maximum extent permitted by applicable law, Lyrix Digital shall not be liable
+						for any indirect, incidental, special, consequential, or punitive damages arising from
+						your use of, or inability to use, the site or its content.
+					</p>
+
+					<h2>8. Third-Party Links</h2>
+					<p>
+						Our site may contain links to third-party websites. We are not responsible for the
+						content, privacy practices, or terms of these external sites. Accessing third-party
+						links is at your own risk.
+					</p>
+
+					<h2>9. Governing Law</h2>
+					<p>
+						These Terms shall be governed by and construed in accordance with the laws of the
+						<strong>Commonwealth of Puerto Rico</strong>, without regard to conflict of law provisions.
+						Any disputes arising under these Terms shall be resolved in the courts located in Puerto Rico.
+					</p>
+
+					<h2>10. Severability</h2>
+					<p>
+						If any provision of these Terms is found to be unenforceable or invalid,
+						the remaining provisions shall continue in full force and effect.
+					</p>
+
+					<h2>11. Changes to These Terms</h2>
+					<p>
+						We reserve the right to modify these Terms at any time. Changes will be posted on
+						this page with an updated effective date. Continued use of the site after changes
+						constitutes acceptance of the new Terms.
+					</p>
+
+					<h2>12. Contact Us</h2>
+					<p>
+						<strong>Lyrix Digital</strong><br />
+						Carr 690 Km 2.0 Cll Luis Palés Matos<br />
+						Vega Alta, PR 00692<br />
+						Email: <a href="mailto:lyrixdigitals@gmail.com">lyrixdigitals@gmail.com</a><br />
+						Phone: <a href="tel:+17876644109">+1 (787) 664-4109</a>
+					</p>
+
+					<hr />
+					<p>See also: <a href={privacyHref}>{privacyLabel}</a></p>
+				</div>
+			)}
+
+			{/* ═══════════════════════════════════════════════
+			     SPANISH CONTENT
+			═══════════════════════════════════════════════ */}
+			{lang === 'es' && (
+				<div class="prose-lyrix">
+
+					<p>
+						Por favor lee estos Términos de Servicio cuidadosamente antes de usar
+						<a href="https://lyrixdigital.com">lyrixdigital.com</a>,
+						operado por <strong>Lyrix Digital</strong>.
+					</p>
+
+					<h2>1. Aceptación de los Términos</h2>
+					<p>
+						Al acceder o usar nuestro sitio web, aceptas estar sujeto a estos Términos.
+						Si no estás de acuerdo con alguna parte de estos Términos, por favor no uses nuestro sitio.
+					</p>
+
+					<h2>2. Descripción de Servicios</h2>
+					<p>
+						Lyrix Digital es una agencia de diseño web y medios digitales con sede en Puerto Rico.
+						A través de este sitio web, mostramos nuestro portafolio, compartimos conocimiento de la
+						industria a través de nuestro blog, y aceptamos consultas de proyectos a través de nuestro
+						formulario de contacto.
+					</p>
+					<p>
+						La información presentada en este sitio es para fines informativos generales.
+						No constituye una oferta ni compromiso de proveer servicios.
+					</p>
+
+					<h2>3. Formulario de Contacto y Comunicaciones</h2>
+					<p>
+						Cuando envías nuestro formulario de contacto, estás solicitando información sobre
+						nuestros servicios. El envío no crea una obligación contractual por ninguna de las partes.
+						Cualquier compromiso de proyecto será gobernado por un acuerdo escrito separado.
+					</p>
+					<p>
+						Nos esforzamos por responder a las consultas dentro de 24 horas hábiles,
+						pero no garantizamos un tiempo de respuesta específico.
+					</p>
+
+					<h2>4. Propiedad Intelectual</h2>
+					<p>
+						Todo el contenido de este sitio web — incluyendo pero no limitado a diseño, código,
+						texto, gráficos, logos, imágenes y video — es propiedad de Lyrix Digital o sus
+						proveedores de contenido y está protegido por las leyes de propiedad intelectual aplicables.
+					</p>
+					<p>
+						No puedes reproducir, distribuir, modificar o crear obras derivadas del contenido
+						de nuestro sitio sin permiso previo por escrito.
+					</p>
+
+					<h2>5. Conducta del Usuario</h2>
+					<p>Aceptas no:</p>
+					<ul>
+						<li>Usar el sitio para propósitos ilegales</li>
+						<li>Enviar contenido falso, engañoso o spam a través de nuestros formularios</li>
+						<li>Intentar interferir con la funcionalidad o seguridad del sitio</li>
+						<li>Usar herramientas automatizadas para extraer datos de nuestro sitio</li>
+					</ul>
+
+					<h2>6. Renuncia de Garantías</h2>
+					<p>
+						Este sitio web y su contenido se proporcionan <strong>"tal cual"</strong> y
+						<strong>"según disponibilidad"</strong> sin garantías de ningún tipo, ya sean expresas o implícitas,
+						incluyendo pero no limitado a garantías implícitas de comerciabilidad, idoneidad para
+						un propósito particular y no infracción.
+					</p>
+					<p>
+						No garantizamos que el sitio será ininterrumpido, libre de errores o libre de
+						componentes dañinos.
+					</p>
+
+					<h2>7. Limitación de Responsabilidad</h2>
+					<p>
+						En la máxima medida permitida por la ley aplicable, Lyrix Digital no será responsable
+						de daños indirectos, incidentales, especiales, consecuentes o punitivos que surjan de
+						tu uso o incapacidad para usar el sitio o su contenido.
+					</p>
+
+					<h2>8. Enlaces de Terceros</h2>
+					<p>
+						Nuestro sitio puede contener enlaces a sitios web de terceros. No somos responsables
+						del contenido, las prácticas de privacidad ni los términos de estos sitios externos.
+						Acceder a enlaces de terceros es bajo tu propio riesgo.
+					</p>
+
+					<h2>9. Legislación Aplicable</h2>
+					<p>
+						Estos Términos se regirán e interpretarán de acuerdo con las leyes del
+						<strong>Estado Libre Asociado de Puerto Rico</strong>, sin considerar disposiciones sobre
+						conflictos de leyes. Cualquier disputa que surja bajo estos Términos será resuelta
+						en los tribunales ubicados en Puerto Rico.
+					</p>
+
+					<h2>10. Divisibilidad</h2>
+					<p>
+						Si alguna disposición de estos Términos se considera inaplicable o inválida,
+						las disposiciones restantes continuarán en pleno vigor y efecto.
+					</p>
+
+					<h2>11. Cambios a Estos Términos</h2>
+					<p>
+						Nos reservamos el derecho de modificar estos Términos en cualquier momento.
+						Los cambios se publicarán en esta página con una fecha de vigencia actualizada.
+						El uso continuado del sitio después de los cambios constituye aceptación de los nuevos Términos.
+					</p>
+
+					<h2>12. Contáctanos</h2>
+					<p>
+						<strong>Lyrix Digital</strong><br />
+						Carr 690 Km 2.0 Cll Luis Palés Matos<br />
+						Vega Alta, PR 00692<br />
+						Email: <a href="mailto:lyrixdigitals@gmail.com">lyrixdigitals@gmail.com</a><br />
+						Teléfono: <a href="tel:+17876644109">+1 (787) 664-4109</a>
+					</p>
+
+					<hr />
+					<p>Ver también: <a href={privacyHref}>{privacyLabel}</a></p>
+				</div>
+			)}
+
+			{/* ─── FOOTER ─── */}
+			<footer class="mt-16 pt-8 border-t border-white/5">
+				<a href={backHref} class="inline-flex items-center gap-2 text-sm font-mono text-white/40 hover:text-[#CCFF00] transition-colors duration-200">
+					{backLabel}
+				</a>
+			</footer>
+
+		</article>
+	</main>
+</Layout>

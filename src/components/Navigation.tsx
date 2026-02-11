@@ -180,7 +180,7 @@ function DesktopSidebar({ lang }: { lang: Lang }) {
                        bg-black/70 backdrop-blur-xl border border-l-0 border-white/10
                        hover:bg-white/5 hover:border-[#CCFF00]/20
                        transition-all duration-200 cursor-pointer"
-            aria-label="Open navigation"
+            aria-label={lang === 'es' ? 'Abrir navegación' : 'Open navigation'}
           >
             <ChevronRight className="w-4 h-4 text-white/40 group-hover:text-[#CCFF00] transition-colors duration-200" />
           </motion.button>
@@ -287,7 +287,7 @@ function MobileHeader({ lang }: { lang: Lang }) {
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-200"
-            aria-label={isOpen ? 'Close menu' : 'Open menu'}
+            aria-label={isOpen ? (lang === 'es' ? 'Cerrar menú' : 'Close menu') : (lang === 'es' ? 'Abrir menú' : 'Open menu')}
           >
             {isOpen ? (
               <X className="w-4 h-4 text-white/70" />

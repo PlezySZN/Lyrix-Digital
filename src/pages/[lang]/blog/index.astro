@@ -46,11 +46,11 @@ const backLabel = lang === 'es' ? '← Volver al Inicio' : '← Back to Home';
 ---
 
 <Layout lang={lang} title={pageTitle} description={pageDesc}>
-  <main class="min-h-screen bg-lyrix-dark pt-20 pb-16 px-4 md:px-8">
+  <main id="main-content" class="min-h-screen bg-lyrix-dark pt-20 pb-16 px-4 md:px-8">
     <div class="max-w-4xl mx-auto">
       {/* Back link */}
       <a
-        href={`/${lang}/`}
+        href={lang === 'en' ? '/' : `/${lang}/`}
         class="inline-flex items-center gap-2 mb-8 text-sm font-mono text-white/40 hover:text-[#CCFF00] transition-colors duration-200"
       >
         {backLabel}

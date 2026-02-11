@@ -91,19 +91,9 @@ body {
    CORE WEB VITALS OPTIMIZATIONS
 ═══════════════════════════════════════════════════════════ */
 
-/*
-  Compositor-optimized animations.
-  Uses only transform and opacity to run on the GPU thread,
-  avoiding expensive layout/paint operations.
-*/
-@keyframes pulse-compositor {
-  0%, 100% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.02); }
-}
-.animate-pulse-perf {
-  animation: pulse-compositor 2s ease-in-out infinite;
-  will-change: opacity, transform;
-}
+/* NOTE: pulse-compositor + .animate-pulse-perf are defined in
+   main.astro inline <style> for critical above-fold delivery.
+   They are NOT duplicated here to avoid redundant CSS. */
 
 /*
   Override Tailwind's default animate-pulse to use compositor-friendly properties.

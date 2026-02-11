@@ -1,7 +1,7 @@
 ---
 title: "5 Errores en Google Business Profile Que Le Cuestan Clientes a Contratistas en Puerto Rico"
 description: "Tu perfil de Google Business es lo primero que ven tus clientes. Estos 5 errores comunes están mandando tus leads directo a la competencia."
-date: 2026-03-15
+date: 2026-02-11
 author: "Lyrix Digital"
 lang: es
 tags: ["google-business-profile", "seo-local", "contratistas", "puerto-rico"]

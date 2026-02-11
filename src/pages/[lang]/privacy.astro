@@ -1,0 +1,396 @@
+---
+/**
+ * ═══════════════════════════════════════════════════════════
+ * PRIVACY POLICY — LYRIX OS
+ * Bilingual (EN/ES) privacy policy page.
+ * Route: /en/privacy/ and /es/privacy/
+ * ═══════════════════════════════════════════════════════════
+ */
+
+import { getLangFromUrl } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
+import Layout from '../../layouts/main.astro';
+
+export function getStaticPaths() {
+	return [
+		{ params: { lang: 'en' } },
+		{ params: { lang: 'es' } },
+	];
+}
+
+const lang = getLangFromUrl(Astro.url) as Lang;
+
+const pageTitle = lang === 'es'
+	? 'Política de Privacidad'
+	: 'Privacy Policy';
+
+const pageDesc = lang === 'es'
+	? 'Cómo Lyrix Digital recopila, usa y protege tu información personal. Política vigente desde febrero 2026.'
+	: 'How Lyrix Digital collects, uses, and protects your personal information. Policy effective February 2026.';
+
+const backLabel = lang === 'es' ? '← Volver al Inicio' : '← Back to Home';
+const backHref = lang === 'es' ? '/es/' : '/';
+const termsHref = `/${lang}/terms/`;
+const termsLabel = lang === 'es' ? 'Términos de Servicio' : 'Terms of Service';
+---
+
+<Layout lang={lang} title={pageTitle} description={pageDesc}>
+	<main id="main-content" class="min-h-screen bg-lyrix-dark pt-20 pb-16 px-4 md:px-8">
+		<article class="max-w-3xl mx-auto">
+
+			{/* ─── BACK LINK ─── */}
+			<a href={backHref} class="inline-flex items-center gap-2 mb-8 text-sm font-mono text-white/40 hover:text-[#CCFF00] transition-colors duration-200">
+				{backLabel}
+			</a>
+
+			{/* ─── HEADER ─── */}
+			<header class="mb-12 pb-8 border-b border-white/5">
+				<div class="inline-flex items-center gap-2 mb-4 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10">
+					<span class="text-xs font-mono font-bold text-white/60 uppercase tracking-widest">LEGAL</span>
+				</div>
+				<h1 class="text-3xl md:text-4xl font-bold text-white tracking-tight mb-2 font-[family-name:var(--font-oswald)] uppercase">
+					{lang === 'es' ? 'POLÍTICA DE PRIVACIDAD' : 'PRIVACY POLICY'}
+				</h1>
+				<p class="text-sm text-white/30 font-mono">
+					{lang === 'es' ? 'Vigente desde: 11 de febrero de 2026' : 'Effective: February 11, 2026'}
+				</p>
+			</header>
+
+			{/* ═══════════════════════════════════════════════
+			     ENGLISH CONTENT
+			═══════════════════════════════════════════════ */}
+			{lang === 'en' && (
+				<div class="prose-lyrix">
+
+					<p>
+						<strong>Lyrix Digital</strong> ("we," "us," or "our") operates the website
+						<a href="https://lyrixdigital.com">lyrixdigital.com</a>. This Privacy Policy explains how
+						we collect, use, and protect your information when you visit our site or submit an inquiry
+						through our contact form.
+					</p>
+
+					<h2>1. Information We Collect</h2>
+
+					<h3>a. Information You Provide</h3>
+					<p>When you use our contact form, we may collect:</p>
+					<ul>
+						<li>Full name</li>
+						<li>Email address</li>
+						<li>Phone number (optional)</li>
+						<li>Business sector</li>
+						<li>Project budget range</li>
+						<li>Service preferences (web, video, maintenance)</li>
+						<li>Your message</li>
+					</ul>
+
+					<h3>b. Information Collected Automatically</h3>
+					<p>We use Google Analytics (via Google Tag Manager, loaded off the main thread) to collect:</p>
+					<ul>
+						<li>IP address (anonymized)</li>
+						<li>Browser type and version</li>
+						<li>Device type and screen size</li>
+						<li>Pages visited and time spent</li>
+						<li>Referral source</li>
+						<li>Approximate geographic location (city level)</li>
+					</ul>
+
+					<h2>2. How We Use Your Information</h2>
+					<ul>
+						<li>To respond to your inquiries and provide project estimates</li>
+						<li>To analyze site usage and improve the user experience</li>
+						<li>To ensure site security via Cloudflare services</li>
+					</ul>
+					<p>We do not sell, rent, or share your personal information with any third party for marketing purposes.</p>
+
+					<h2>3. Third-Party Services</h2>
+					<p>We use the following third-party services that may process your data:</p>
+
+					<table>
+						<thead>
+							<tr>
+								<th>Service</th>
+								<th>Purpose</th>
+								<th>Policy</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Google Analytics</td>
+								<td>Site analytics and usage data</td>
+								<td><a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Privacy</a></td>
+							</tr>
+							<tr>
+								<td>Google Tag Manager</td>
+								<td>Script management (off main thread)</td>
+								<td><a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Privacy</a></td>
+							</tr>
+							<tr>
+								<td>Cloudflare</td>
+								<td>CDN, DNS, security (Turnstile CAPTCHA)</td>
+								<td><a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Privacy</a></td>
+							</tr>
+							<tr>
+								<td>Resend</td>
+								<td>Email delivery for form submissions</td>
+								<td><a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy</a></td>
+							</tr>
+						</tbody>
+					</table>
+
+					<h2>4. Cookies</h2>
+					<p>Our site uses the following cookies:</p>
+
+					<table>
+						<thead>
+							<tr>
+								<th>Cookie</th>
+								<th>Provider</th>
+								<th>Purpose</th>
+								<th>Duration</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>_ga</code></td>
+								<td>Google Analytics</td>
+								<td>Distinguishes unique users</td>
+								<td>2 years</td>
+							</tr>
+							<tr>
+								<td><code>_ga_*</code></td>
+								<td>Google Analytics</td>
+								<td>Maintains session state</td>
+								<td>2 years</td>
+							</tr>
+							<tr>
+								<td><code>cf_clearance</code></td>
+								<td>Cloudflare</td>
+								<td>Security verification</td>
+								<td>30 minutes</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<p>You can disable cookies through your browser settings. Disabling cookies may affect site functionality.</p>
+
+					<h2>5. Data Retention</h2>
+					<ul>
+						<li><strong>Contact form submissions:</strong> retained for the duration of any business relationship plus one (1) year</li>
+						<li><strong>Analytics data:</strong> per Google Analytics default retention settings (14 months)</li>
+						<li>You may request deletion at any time (see Your Rights below)</li>
+					</ul>
+
+					<h2>6. Your Rights</h2>
+					<p>You have the right to:</p>
+					<ul>
+						<li>Access the personal data we hold about you</li>
+						<li>Request correction of inaccurate data</li>
+						<li>Request deletion of your data</li>
+						<li>Opt out of analytics tracking</li>
+					</ul>
+					<p>To exercise any of these rights, contact us at <a href="mailto:lyrixdigitals@gmail.com">lyrixdigitals@gmail.com</a>.</p>
+
+					<h2>7. Data Security</h2>
+					<p>We protect your data through:</p>
+					<ul>
+						<li>HTTPS encryption on all pages</li>
+						<li>Cloudflare Web Application Firewall</li>
+						<li>Static site architecture — no server-side database to breach</li>
+						<li>Spam protection via Cloudflare Turnstile and honeypot fields</li>
+					</ul>
+					<p>No method of transmission over the Internet is 100% secure. While we strive to protect your data, we cannot guarantee absolute security.</p>
+
+					<h2>8. Children's Privacy</h2>
+					<p>Our site is not directed to individuals under 13 years of age. We do not knowingly collect personal information from children.</p>
+
+					<h2>9. Changes to This Policy</h2>
+					<p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated effective date.</p>
+
+					<h2>10. Contact Us</h2>
+					<p>
+						<strong>Lyrix Digital</strong><br />
+						Carr 690 Km 2.0 Cll Luis Palés Matos<br />
+						Vega Alta, PR 00692<br />
+						Email: <a href="mailto:lyrixdigitals@gmail.com">lyrixdigitals@gmail.com</a><br />
+						Phone: <a href="tel:+17876644109">+1 (787) 664-4109</a>
+					</p>
+
+					<hr />
+					<p>See also: <a href={termsHref}>{termsLabel}</a></p>
+				</div>
+			)}
+
+			{/* ═══════════════════════════════════════════════
+			     SPANISH CONTENT
+			═══════════════════════════════════════════════ */}
+			{lang === 'es' && (
+				<div class="prose-lyrix">
+
+					<p>
+						<strong>Lyrix Digital</strong> ("nosotros" o "nuestro") opera el sitio web
+						<a href="https://lyrixdigital.com">lyrixdigital.com</a>. Esta Política de Privacidad
+						explica cómo recopilamos, usamos y protegemos tu información cuando visitas nuestro
+						sitio o envías una consulta a través de nuestro formulario de contacto.
+					</p>
+
+					<h2>1. Información que Recopilamos</h2>
+
+					<h3>a. Información que proporcionas</h3>
+					<p>Cuando usas nuestro formulario de contacto, podemos recopilar:</p>
+					<ul>
+						<li>Nombre completo</li>
+						<li>Correo electrónico</li>
+						<li>Número de teléfono (opcional)</li>
+						<li>Sector de tu negocio</li>
+						<li>Rango de presupuesto del proyecto</li>
+						<li>Preferencias de servicio (web, video, mantenimiento)</li>
+						<li>Tu mensaje</li>
+					</ul>
+
+					<h3>b. Información recopilada automáticamente</h3>
+					<p>Usamos Google Analytics (a través de Google Tag Manager, cargado fuera del hilo principal) para recopilar:</p>
+					<ul>
+						<li>Dirección IP (anonimizada)</li>
+						<li>Tipo y versión de navegador</li>
+						<li>Tipo de dispositivo y tamaño de pantalla</li>
+						<li>Páginas visitadas y tiempo de permanencia</li>
+						<li>Fuente de referencia</li>
+						<li>Ubicación geográfica aproximada (nivel de ciudad)</li>
+					</ul>
+
+					<h2>2. Cómo Usamos Tu Información</h2>
+					<ul>
+						<li>Para responder a tus consultas y proporcionar estimados de proyectos</li>
+						<li>Para analizar el uso del sitio y mejorar la experiencia del usuario</li>
+						<li>Para garantizar la seguridad del sitio mediante los servicios de Cloudflare</li>
+					</ul>
+					<p>No vendemos, alquilamos ni compartimos tu información personal con terceros para fines de marketing.</p>
+
+					<h2>3. Servicios de Terceros</h2>
+					<p>Usamos los siguientes servicios de terceros que pueden procesar tus datos:</p>
+
+					<table>
+						<thead>
+							<tr>
+								<th>Servicio</th>
+								<th>Propósito</th>
+								<th>Política</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Google Analytics</td>
+								<td>Análisis y datos de uso del sitio</td>
+								<td><a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Privacidad</a></td>
+							</tr>
+							<tr>
+								<td>Google Tag Manager</td>
+								<td>Gestión de scripts (fuera del hilo principal)</td>
+								<td><a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Privacidad</a></td>
+							</tr>
+							<tr>
+								<td>Cloudflare</td>
+								<td>CDN, DNS, seguridad (Turnstile CAPTCHA)</td>
+								<td><a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Privacidad</a></td>
+							</tr>
+							<tr>
+								<td>Resend</td>
+								<td>Entrega de correo para envíos del formulario</td>
+								<td><a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">Privacidad</a></td>
+							</tr>
+						</tbody>
+					</table>
+
+					<h2>4. Cookies</h2>
+					<p>Nuestro sitio utiliza las siguientes cookies:</p>
+
+					<table>
+						<thead>
+							<tr>
+								<th>Cookie</th>
+								<th>Proveedor</th>
+								<th>Propósito</th>
+								<th>Duración</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>_ga</code></td>
+								<td>Google Analytics</td>
+								<td>Distingue usuarios únicos</td>
+								<td>2 años</td>
+							</tr>
+							<tr>
+								<td><code>_ga_*</code></td>
+								<td>Google Analytics</td>
+								<td>Mantiene el estado de sesión</td>
+								<td>2 años</td>
+							</tr>
+							<tr>
+								<td><code>cf_clearance</code></td>
+								<td>Cloudflare</td>
+								<td>Verificación de seguridad</td>
+								<td>30 minutos</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<p>Puedes desactivar las cookies a través de la configuración de tu navegador. Desactivar las cookies puede afectar la funcionalidad del sitio.</p>
+
+					<h2>5. Retención de Datos</h2>
+					<ul>
+						<li><strong>Envíos del formulario de contacto:</strong> retenidos durante la relación comercial más un (1) año</li>
+						<li><strong>Datos de analítica:</strong> según la configuración de retención predeterminada de Google Analytics (14 meses)</li>
+						<li>Puedes solicitar la eliminación en cualquier momento (ver Tus Derechos abajo)</li>
+					</ul>
+
+					<h2>6. Tus Derechos</h2>
+					<p>Tienes derecho a:</p>
+					<ul>
+						<li>Acceder a los datos personales que tenemos sobre ti</li>
+						<li>Solicitar la corrección de datos inexactos</li>
+						<li>Solicitar la eliminación de tus datos</li>
+						<li>Optar por no participar en el seguimiento analítico</li>
+					</ul>
+					<p>Para ejercer cualquiera de estos derechos, contáctanos en <a href="mailto:lyrixdigitals@gmail.com">lyrixdigitals@gmail.com</a>.</p>
+
+					<h2>7. Seguridad de Datos</h2>
+					<p>Protegemos tus datos mediante:</p>
+					<ul>
+						<li>Cifrado HTTPS en todas las páginas</li>
+						<li>Firewall de Aplicaciones Web de Cloudflare</li>
+						<li>Arquitectura de sitio estático — sin base de datos del lado del servidor que pueda ser vulnerada</li>
+						<li>Protección contra spam mediante Cloudflare Turnstile y campos honeypot</li>
+					</ul>
+					<p>Ningún método de transmisión por Internet es 100% seguro. Aunque nos esforzamos por proteger tus datos, no podemos garantizar seguridad absoluta.</p>
+
+					<h2>8. Privacidad de Menores</h2>
+					<p>Nuestro sitio no está dirigido a personas menores de 13 años. No recopilamos intencionalmente información personal de niños.</p>
+
+					<h2>9. Cambios a Esta Política</h2>
+					<p>Podemos actualizar esta Política de Privacidad periódicamente. Los cambios se publicarán en esta página con una fecha de vigencia actualizada.</p>
+
+					<h2>10. Contáctanos</h2>
+					<p>
+						<strong>Lyrix Digital</strong><br />
+						Carr 690 Km 2.0 Cll Luis Palés Matos<br />
+						Vega Alta, PR 00692<br />
+						Email: <a href="mailto:lyrixdigitals@gmail.com">lyrixdigitals@gmail.com</a><br />
+						Teléfono: <a href="tel:+17876644109">+1 (787) 664-4109</a>
+					</p>
+
+					<hr />
+					<p>Ver también: <a href={termsHref}>{termsLabel}</a></p>
+				</div>
+			)}
+
+			{/* ─── FOOTER ─── */}
+			<footer class="mt-16 pt-8 border-t border-white/5">
+				<a href={backHref} class="inline-flex items-center gap-2 text-sm font-mono text-white/40 hover:text-[#CCFF00] transition-colors duration-200">
+					{backLabel}
+				</a>
+			</footer>
+
+		</article>
+	</main>
+</Layout>

@@ -194,7 +194,7 @@ export default function Pricing({ lang = 'en' }: { lang?: Lang }) {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => openContactModal()}
+                  onClick={() => openContactModal('', 'pricing')}
                   className={`
                     w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg
                     text-sm font-mono font-medium transition-all duration-200 cursor-pointer

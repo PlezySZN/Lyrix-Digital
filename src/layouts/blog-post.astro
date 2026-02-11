@@ -39,7 +39,7 @@ const formattedLastUpdated = frontmatter.lastUpdated
 const updatedLabel = lang === 'es' ? 'Actualizado' : 'Updated';
 
 const backLabel = lang === 'es' ? '← Volver al Blog' : '← Back to Blog';
-const backHref = `/${lang}/blog/`;
+const backHref = lang === 'en' ? '/en/blog/' : `/${lang}/blog/`;
 const readLabel = lang === 'es' ? 'min de lectura' : 'min read';
 
 // Rough reading time calc
@@ -103,7 +103,7 @@ const readMoreLabel = lang === 'es' ? 'LEER →' : 'READ →';
   }}
   image={frontmatter.image}
 >
-  <main class="min-h-screen bg-lyrix-dark pt-20 pb-16 px-4 md:px-8">
+  <main id="main-content" class="min-h-screen bg-lyrix-dark pt-20 pb-16 px-4 md:px-8">
     <article class="max-w-3xl mx-auto">
       {/* Back link */}
       <a
