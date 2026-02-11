@@ -38,7 +38,21 @@ const wordCount = slotContent.split(/\s+/).length;
 const readingTime = Math.max(1, Math.ceil(wordCount / 200));
 ---
 
-<Layout lang={lang} title={frontmatter.title} description={frontmatter.description}>
+<Layout
+  lang={lang}
+  title={frontmatter.title}
+  description={frontmatter.description}
+  type="article"
+  article={{
+    headline: frontmatter.title,
+    datePublished: new Date(frontmatter.date).toISOString().split('T')[0],
+    author: frontmatter.author,
+    tags: frontmatter.tags,
+    wordCount,
+    section: 'Blog',
+  }}
+  image={frontmatter.image}
+>
   <main class="min-h-screen bg-lyrix-dark pt-20 pb-16 px-4 md:px-8">
     <article class="max-w-3xl mx-auto">
       {/* Back link */}

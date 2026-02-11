@@ -18,6 +18,18 @@ interface Props {
   description?: string;
   keywords?: string;
 	canonicalPath?: string;
+  type?: 'website' | 'article' | 'service';
+  article?: {
+    headline: string;
+    datePublished: string;
+    dateModified?: string;
+    author: string;
+    authorUrl?: string;
+    section?: string;
+    tags?: string[];
+    wordCount?: number;
+  };
+  image?: string;
   children?: unknown;
 }
 
@@ -27,37 +39,63 @@ const {
   description,
   keywords,
 	canonicalPath,
+  type,
+  article,
+  image,
 } = Astro.props;
 
-const resolvedTitle = title ?? t(lang, 'meta.title');
+/* ─── SEO Title Engine ───
+   Pattern: [Page Title] | Lyrix Digital
+   Homepage: uses i18n default (keyword-first, brand last)
+   Subpages: appends brand; drops suffix if >60 chars */
+const BRAND = 'Lyrix Digital';
+const MAX_TITLE_LENGTH = 60;
+
+const rawTitle = title
+  ? (title.includes(BRAND) ? title : `${title} | ${BRAND}`)
+  : t(lang, 'meta.title');
+
+// Homepage i18n defaults are hand-crafted — used verbatim.
+// Subpages: if brand suffix pushes past 60 chars, drop it.
+const resolvedTitle = !title
+  ? rawTitle
+  : rawTitle.length <= MAX_TITLE_LENGTH
+    ? rawTitle
+    : (title.length <= MAX_TITLE_LENGTH ? title : rawTitle.slice(0, MAX_TITLE_LENGTH - 1) + '\u2026');
+
 const resolvedDescription = description ?? t(lang, 'meta.description');
 ---
 
 <html lang={lang} dir="ltr" translate="no" class="notranslate">
 	<head>
-    {/* ─── HARD LOCK TRANSLATION (Nuclear Option) ─── */}
-    <script is:inline>
-      document.documentElement.setAttribute('translate', 'no');
-    </script>
-
 		<!-- ═══ CORE META ═══ -->
 		<meta charset="utf-8" />
+
+		<!-- ═══ FAVICONS (first after charset for GoogleFavicon bot) ═══ -->
+		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+		<link rel="icon" href="/favicon-96x96.png" type="image/png" sizes="96x96" />
+		<link rel="icon" href="/favicon.ico" sizes="48x48" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+		<link rel="manifest" href="/site.webmanifest" />
+		<meta name="theme-color" content="#050505" />
+
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" content={resolvedDescription} />
 		<meta name="generator" content={Astro.generator} />
-    <meta name="google" content="notranslate" />
+		<meta name="google" content="notranslate" />
 		<title>{resolvedTitle}</title>
 
-		<!-- ═══ FAVICONS ═══ -->
-		<link rel="icon" href="/favicon.ico" sizes="48x48" />
-		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-		<link rel="icon" href="/favicon-96x96.png" type="image/png" sizes="96x96" />
-		<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
-		<link rel="manifest" href="/site.webmanifest" />
+		{/* ─── HARD LOCK TRANSLATION ─── */}
+		<script is:inline>
+			document.documentElement.setAttribute('translate', 'no');
+		</script>
 
-		<!-- ═══ CRITICAL PRECONNECTS — before any font requests ═══ -->
+		<!-- ═══ CRITICAL PRECONNECTS — fonts, GTM, analytics ═══ -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link rel="preconnect" href="https://www.googletagmanager.com" />
+		<link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+		<link rel="dns-prefetch" href="https://www.google-analytics.com" />
 
 		<!-- ═══ FONT ENGINE (astro-font: auto @font-face + swap + size-adjust fallbacks) ═══ -->
 		<!-- preload:false globally — we hand-pick the 2 LCP-critical files below -->
@@ -108,6 +146,9 @@ const resolvedDescription = description ?? t(lang, 'meta.description');
 			description={resolvedDescription}
 			keywords={keywords}
 			canonicalPath={canonicalPath}
+			type={type}
+			article={article}
+			image={image}
 		/>
 
 		<!-- ═══ CRITICAL CSS: Above-the-fold styles inlined to eliminate render-blocking ═══ -->

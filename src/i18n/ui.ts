@@ -17,8 +17,8 @@ export const defaultLang: Lang = 'en';
 export const ui = {
   es: {
     // ─── META ───
-    'meta.title': 'Lyrix Digital — Diseño Web y Desarrollo en Puerto Rico | Sitios Astro + Video 4K + SEO Local',
-    'meta.description': 'Agencia de Diseño Web en Puerto Rico. Creamos sitios rápidos con Astro, video 4K con drone y estrategia SEO local para contratistas y profesionales. 95+ en Google PageSpeed. Basados en Vega Alta, PR.',
+    'meta.title': 'Diseño Web Profesional en Puerto Rico | Lyrix Digital',
+    'meta.description': 'Agencia de diseño web en Puerto Rico. Sitios rápidos con Astro, SEO local bilingüe y 95+ en Google PageSpeed para negocios y profesionales. Video 4K con drone disponible. Vega Alta, PR.',
 
     // ─── HERO ───
     'hero.headline': 'WEBS RÁPIDAS QUE POSICIONAN EN GOOGLE EN PUERTO RICO.',
@@ -332,8 +332,8 @@ export const ui = {
 
   en: {
     // ─── META ───
-    'meta.title': 'Lyrix Digital — Web Design & Development in Puerto Rico | Astro Sites + 4K Video + Local SEO',
-    'meta.description': 'Puerto Rico web design agency building fast Astro-powered websites for contractors and service businesses. 95+ Google PageSpeed scores, bilingual SEO (ES/EN), 4K drone video, and Cloudflare edge hosting. Based in Vega Alta, PR.',
+    'meta.title': 'Professional Web Design in Puerto Rico | Lyrix Digital',
+    'meta.description': 'Puerto Rico web design agency. Fast Astro-powered sites, bilingual local SEO (ES/EN), and 95+ Google PageSpeed for businesses and professionals. 4K drone video available. Vega Alta, PR.',
 
     // ─── HERO ───
     'hero.headline': 'FAST WEBSITES THAT RANK ON GOOGLE IN PUERTO RICO.',
