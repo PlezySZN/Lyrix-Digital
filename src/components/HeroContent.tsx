@@ -171,20 +171,32 @@ export default function HeroContent({ translations: t }: HeroContentProps) {
               style={{ fontFamily: 'var(--font-oswald, var(--font-barlow, sans-serif))' }}
               onMouseLeave={() => setHoveredChar(null)}
             >
-              {t['hero.headline'].split('').map((char, i) => (
-                <span
-                  key={i}
-                  onMouseEnter={() => handleCharHover(i)}
-                  className="inline-block transition-colors duration-[50ms]"
-                  style={{
-                    color: hoveredChar === i ? charColor : undefined,
-                    textShadow: hoveredChar === i ? `0 0 20px ${charColor}, 0 0 40px ${charColor}40` : 'none',
-                    minWidth: char === ' ' ? '0.25em' : undefined,
-                  }}
-                >
-                  {char}
-                </span>
-              ))}
+              {(() => {
+                let charIndex = 0;
+                return t['hero.headline'].split(' ').map((word, wi) => (
+                  <span key={wi} className="inline-block whitespace-nowrap">
+                    {word.split('').map((char) => {
+                      const i = charIndex++;
+                      return (
+                        <span
+                          key={i}
+                          onMouseEnter={() => handleCharHover(i)}
+                          className="inline-block transition-colors duration-[50ms]"
+                          style={{
+                            color: hoveredChar === i ? charColor : undefined,
+                            textShadow: hoveredChar === i ? `0 0 20px ${charColor}, 0 0 40px ${charColor}40` : 'none',
+                          }}
+                        >
+                          {char}
+                        </span>
+                      );
+                    })}
+                    {wi < t['hero.headline'].split(' ').length - 1 && (
+                      <span className="inline-block" style={{ minWidth: '0.25em' }}>&nbsp;</span>
+                    )}
+                  </span>
+                ));
+              })()}
             </div>
           </div>
 
