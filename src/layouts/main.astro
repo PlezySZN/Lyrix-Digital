@@ -180,7 +180,19 @@ const safeDescription = resolvedDescription.length <= MAX_DESC_LENGTH
 			body { background-color: #050505; color: #ffffff; min-height: 100vh; }
 		</style>
 
-		<!-- ═══ GTM via Partytown (off main-thread) ═══ -->
+		<!-- ═══ GA4 — Main-thread (engagement tracking needs DOM events) ═══ -->
+		<!-- Partytown can't forward visibilitychange/pagehide to the worker,
+		     so GA4 must run on the main thread for accurate bounce/engagement. -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-9S6JHDLHVB"></script>
+		<script is:inline>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			window.gtag = gtag;
+			gtag('js', new Date());
+			gtag('config', 'G-9S6JHDLHVB', { send_page_view: true });
+		</script>
+
+		<!-- ═══ GTM via Partytown (off main-thread) — custom tags & triggers ═══ -->
 		<script type="text/partytown">
 			(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 			new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
