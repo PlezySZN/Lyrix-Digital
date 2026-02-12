@@ -208,10 +208,18 @@ const legalLinks = [
     const source = el.getAttribute('data-source') || 'footer';
     const platform = el.getAttribute('data-platform');
 
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push(Object.assign(
+    const params = Object.assign(
       { event, source },
       platform ? { platform } : null,
-    ));
+    );
+
+    // GTM dataLayer
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(params);
+
+    // Direct GA4 gtag fallback
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', event, { source, ...(platform ? { platform } : {}) });
+    }
   });
 </script>

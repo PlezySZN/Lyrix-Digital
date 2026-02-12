@@ -36,9 +36,17 @@ export function trackEvent(
   params?: Record<string, string | number | boolean>,
 ) {
   if (typeof window === 'undefined') return;
+
+  // GTM dataLayer (forwarded by Partytown)
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
     event,
     ...params,
   });
+
+  // Direct GA4 gtag call (reliable fallback when Partytown
+  // doesn't forward dataLayer pushes fast enough)
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', event, params);
+  }
 }
