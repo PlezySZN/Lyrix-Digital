@@ -98,6 +98,7 @@ const safeDescription = resolvedDescription.length <= MAX_DESC_LENGTH
 		<link rel="preconnect" href="https://www.googletagmanager.com" />
 		<link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 		<link rel="dns-prefetch" href="https://www.google-analytics.com" />
+		<link rel="dns-prefetch" href="https://static.cloudflareinsights.com" />
 
 		<!-- ═══ FONT ENGINE (astro-font: auto @font-face + swap + size-adjust fallbacks) ═══ -->
 		<!-- preload:false globally — we hand-pick the 2 LCP-critical files below -->
@@ -208,5 +209,8 @@ const safeDescription = resolvedDescription.length <= MAX_DESC_LENGTH
 
 		<!-- ═══ SITE FOOTER ═══ -->
 		<Footer lang={lang} />
+
+		<!-- ═══ Cloudflare Web Analytics (manual — auto-injection disabled) ═══ -->
+		<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ec198f120e38473498deaf5f6feae437"}'></script>
 	</body>
 </html>
