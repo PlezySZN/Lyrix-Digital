@@ -34,7 +34,7 @@ export const contactSchema = z.object({
   maintenance: z.enum(['managed', 'handover', 'undecided'])
     .default('undecided'),
 
-  budget: z.enum(['', '$1K–$3K', '$3K–$5K', '$5K–$10K', '$10K+'])
+  budget: z.enum(['', '$800–$1.5K', '$1.5K–$3K', '$3K–$6K', '$6K–$10K', '$10K+'])
     .optional()
     .default(''),
 
