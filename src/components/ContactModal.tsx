@@ -252,6 +252,14 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
         lang,
       });
 
+      // ─── GA4 direct gtag call (backup — Partytown may not forward dataLayer) ───
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'generate_lead', {
+          event_category: 'form',
+          event_label: 'contact_submission',
+        });
+      }
+
       setSubmitted(true);
       setTimeout(() => {
         setSubmitted(false);
