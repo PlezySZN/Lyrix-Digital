@@ -43,9 +43,7 @@ const copy = {
   rights: isEs
     ? 'Todos los derechos reservados.'
     : 'All rights reserved.',
-  builtWith: isEs
-    ? 'Construido con Astro · Desplegado en Cloudflare Edge'
-    : 'Built with Astro · Deployed on Cloudflare Edge',
+  poweredBy: isEs ? 'Impulsado por Astro' : 'Powered by Astro',
 };
 
 /* ─── Link helpers ─── */
@@ -67,7 +65,7 @@ const legalLinks = [
 ---
 
 <footer
-  class="relative bg-[#0a0a0a] border-t border-white/5 pb-20 pt-12 px-4 md:px-8"
+  class="relative bg-[#0a0a0a] border-t border-white/5 pb-20 pt-12 pb-40 px-4 md:px-8"
   role="contentinfo"
   aria-label={isEs ? 'Pie de página del sitio' : 'Site footer'}
 >
@@ -190,9 +188,14 @@ const legalLinks = [
       <p class="text-xs text-[#A1A1AA] text-center sm:text-left">
         &copy; {new Date().getFullYear()} Lyrix Digital. {copy.rights}
       </p>
-      <p class="text-xs text-[#A1A1AA] font-mono text-center sm:text-right">
-        {copy.builtWith}
-      </p>
+      <a
+        href="https://astro.build"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center rounded-md border border-[#CCFF00]/40 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-[#CCFF00] transition-colors duration-200 hover:bg-[#CCFF00] hover:text-[#0a0a0a]"
+      >
+        {copy.poweredBy}
+      </a>
     </div>
   </div>
 </footer>
