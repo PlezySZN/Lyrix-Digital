@@ -181,7 +181,7 @@ const organizationSchema = {
     caption: BRAND,
   },
   image: { '@id': `${SITE}/#logo` },
-  description: 'Web Design & Development Agency in Puerto Rico. We build fast Astro-powered websites, produce 4K drone video, and run bilingual SEO campaigns for contractors and service businesses. Based in Vega Alta, PR.',
+  description: 'Web Design & Development Agency in Puerto Rico. We build fast Astro-powered websites, produce professional video, and run bilingual SEO campaigns for contractors and service businesses. Based in Vega Alta, PR.',
   areaServed: [
     { '@type': 'City', name: 'San Juan' },
     { '@type': 'City', name: 'Vega Alta' },
@@ -240,8 +240,8 @@ const serviceSchema = (type === 'service' || isHomePage) ? {
   name: BRAND,
   url: SITE,
   description: lang === 'es'
-    ? 'Agencia de Diseño Web en Puerto Rico. Sitios rápidos con Astro, video 4K con drone, SEO local y marketing digital para contratistas y profesionales.'
-    : 'Web Design Agency in Puerto Rico. Fast Astro-powered websites, 4K drone video, local SEO & digital marketing for contractors and professionals.',
+    ? 'Agencia de Diseño Web en Puerto Rico. Sitios rápidos con Astro, video profesional, SEO local y marketing digital para contratistas y profesionales.'
+    : 'Web Design Agency in Puerto Rico. Fast Astro-powered websites, professional video, local SEO & digital marketing for contractors and professionals.',
   priceRange: '$$$',
   image: OG_IMAGE_URL,
   logo: { '@id': `${SITE}/#logo` },
@@ -325,8 +325,8 @@ const serviceSchema = (type === 'service' || isHomePage) ? {
           '@type': 'Service',
           name: lang === 'es' ? 'Producción Cinematográfica' : 'Cinematic Media Production',
           description: lang === 'es'
-            ? 'Video 4K con drone, edición profesional y contenido para redes sociales.'
-            : '4K drone video, professional editing & social media content.',
+            ? 'Video profesional, edición cinematográfica y contenido para redes sociales.'
+            : 'Professional video, cinematic editing & social media content.',
         },
       },
       {
@@ -378,8 +378,8 @@ const videoSchema = isHomePage ? {
     ? 'Producción Cinematográfica — Lyrix Digital Puerto Rico'
     : 'Cinematic Media Production — Lyrix Digital Puerto Rico',
   description: lang === 'es'
-    ? 'Video 4K con drone, edición profesional y contenido visual para negocios en Puerto Rico. Filmado con cámaras de cine y drones con licencia FAA.'
-    : '4K drone video, professional editing & visual content for businesses in Puerto Rico. Filmed with cinema cameras and FAA-licensed drones.',
+    ? 'Video profesional, edición cinematográfica y contenido visual para negocios en Puerto Rico. Filmado con cámaras de cine.'
+    : 'Professional video, cinematic editing & visual content for businesses in Puerto Rico. Filmed with cinema cameras.',
   thumbnailUrl: `${SITE}/og-image.png`,
   uploadDate: '2026-02-01T09:00:00-04:00',
   contentUrl: SITE,

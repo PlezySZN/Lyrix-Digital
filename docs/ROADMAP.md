@@ -393,7 +393,6 @@ IF the client is a small startup or personal brand
 IF they need video production
   → Add $1,500-$5,000+ depending on:
     • Half-day shoot vs full-day
-    • Drone footage (requires your FAA Part 107 license)
     • Number of deliverables (hero, social cuts, reels)
     • Editing complexity
 ```
@@ -558,7 +557,6 @@ AFTER 90 DAYS:
 | **Merchant Registration Certificate** (Certificado de Registro de Comerciante) | SURI / Hacienda | Free | Required to collect IVU (sales tax). Apply through SURI. |
 | **Municipal Business License** (Patente Municipal) | Your municipality (Vega Alta) | Varies (~$50-$300+/year) | Contact Vega Alta municipal office. Due annually. |
 | **IVU Collection** | SURI | — | You must charge 11.5% IVU (4% State + 7.5% Municipal) on services rendered IN Puerto Rico. Digital services to PR-based clients are taxable. |
-| **FAA Part 107** (Drone License) | FAA | ~$175 exam fee | REQUIRED if you offer drone video services commercially. Study + exam at a PSI testing center. [faa.gov/uas](https://www.faa.gov/uas/commercial_operators) |
 
 ### 6.3 — Contracts & Legal Documents You Need
 
@@ -578,7 +576,6 @@ AFTER 90 DAYS:
 |------|----------------|-----------------|
 | **General Liability Insurance** | Protects if a client claims your work caused them financial harm | ~$300-$600/year |
 | **Professional Liability (E&O)** | Covers errors and omissions — if your site has a bug that loses them clients | ~$500-$1,200/year |
-| **Drone Insurance** | REQUIRED if flying commercially. Covers property damage, injuries | ~$500-$1,000/year |
 
 Consider **Hiscox**, **Next Insurance**, or **The Hartford** for small business policies.
 
@@ -640,7 +637,6 @@ Puerto Rico offers **Act 60** (formerly Act 20/22) tax incentives:
 ✓ Computer and equipment (MacBook, monitors, peripherals)
 ✓ Software subscriptions (Figma, Adobe, Resend, Cloudflare, hosting)
 ✓ Camera and video equipment
-✓ Drone and FAA licensing
 ✓ Internet and phone (business use %)
 ✓ Home office (dedicated space — square footage %)
 ✓ Domain registrations
@@ -1321,7 +1317,6 @@ WEEK 4: REFINE & PERSIST
    │  • Camera operation (exposure triangle, composition)     │
    │  • DaVinci Resolve or Premiere Pro editing               │
    │  • Color grading (LOG profiles, LUTs)                    │
-   │  • Drone piloting + FAA Part 107 exam                    │
    │  • Social media exports (aspect ratios, codecs)          │
    │                                                          │
    │  20. Copywriting for the Web                             │

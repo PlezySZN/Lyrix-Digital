@@ -91,7 +91,6 @@ const TIERS: PricingTier[] = [
       'pricing.t3.f1',
       'pricing.t3.f2',
       'pricing.t3.f3',
-      'pricing.t3.f4',
       'pricing.t3.f5',
       'pricing.t3.f6',
       'pricing.t3.f7',

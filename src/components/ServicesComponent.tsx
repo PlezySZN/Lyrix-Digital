@@ -29,7 +29,6 @@ export default function Services({ lang = 'en' }: { lang?: Lang }) {
       specs: [
         { label: 'CAMERA', value: t('specs.module2.quality') },
         { label: 'FORMAT', value: t('specs.module2.format') },
-        { label: 'DRONE', value: t('specs.module2.drone') },
         { label: 'GRADING', value: t('specs.module2.grading') },
         { label: 'EDITING', value: t('specs.module2.editing') },
         { label: 'SOCIAL', value: t('specs.module2.social') },
