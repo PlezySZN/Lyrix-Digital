@@ -897,6 +897,537 @@ WEEK 4: REFINE & PERSIST
 
 ---
 
+## 11. Technology Learning Roadmap
+
+> Learn these in order, top to bottom. Each level builds on the previous one.
+> Don't skip ahead — every layer assumes you know the one before it.
+> Estimated total time: **6-9 months** if you study 2-3 hours daily.
+
+```
+══════════════════════════════════════════════════════════════════════
+                    LYRIX DIGITAL — TECH LEARNING PATH
+              From zero to building production websites in PR
+══════════════════════════════════════════════════════════════════════
+
+
+ ┌─────────────────────────────────────────────────────────────────┐
+ │  PHASE 0: THE FOUNDATION (Weeks 1-3)                           │
+ │  "You can't build a house without knowing how bricks work"     │
+ └─────────────────────────────────────────────────────────────────┘
+
+   ┌──────────────────────────────────────────────────────────┐
+   │  1. HTML                                        ~1 week  │
+   │  ─────────────────────────────────────────────────────── │
+   │  • Semantic elements (<header>, <main>, <section>, etc.) │
+   │  • Forms and inputs (you build forms for a living)       │
+   │  • Accessibility (aria-labels, roles, alt text)          │
+   │  • Meta tags and <head> structure                        │
+   │  • Links, images, lists, tables                          │
+   │                                                          │
+   │  RESOURCE: https://web.dev/learn/html                    │
+   │  PROJECT:  Build your personal resume as pure HTML       │
+   └──────────────────────────────────────────────────────────┘
+                           │
+                           ▼
+   ┌──────────────────────────────────────────────────────────┐
+   │  2. CSS                                         ~2 weeks │
+   │  ─────────────────────────────────────────────────────── │
+   │  • Box model (margin, padding, border — burn this in)    │
+   │  • Flexbox (used EVERYWHERE in modern layouts)           │
+   │  • CSS Grid (for page-level layouts)                     │
+   │  • Responsive design (media queries, mobile-first)       │
+   │  • Positioning (relative, absolute, fixed, sticky)       │
+   │  • CSS custom properties (--variables)                   │
+   │  • Transitions and animations (@keyframes)               │
+   │  • Pseudo-elements (::before, ::after)                   │
+   │                                                          │
+   │  SKIP FOR NOW: Sass, Less, CSS modules                   │
+   │  RESOURCE: https://web.dev/learn/css                     │
+   │  PROJECT:  Rebuild your resume with real styling          │
+   └──────────────────────────────────────────────────────────┘
+                           │
+                           ▼
+
+ ┌─────────────────────────────────────────────────────────────────┐
+ │  PHASE 1: PROGRAMMING LANGUAGE (Weeks 3-7)                     │
+ │  "JavaScript is the language of the web. No shortcuts."        │
+ └─────────────────────────────────────────────────────────────────┘
+
+   ┌──────────────────────────────────────────────────────────┐
+   │  3. JavaScript (Core)                           ~3 weeks │
+   │  ─────────────────────────────────────────────────────── │
+   │  • Variables (let, const — never var)                    │
+   │  • Data types (strings, numbers, booleans, null, undef)  │
+   │  • Functions (declarations, arrows, callbacks)           │
+   │  • Arrays and array methods (.map, .filter, .find,       │
+   │    .forEach, .reduce)                                    │
+   │  • Objects and destructuring                             │
+   │  • Template literals (`Hello ${name}`)                   │
+   │  • Conditional logic (if/else, ternary, switch)          │
+   │  • Loops (for, for...of, while)                          │
+   │  • DOM manipulation (querySelector, addEventListener)    │
+   │  • Async: Promises, async/await, fetch()                 │
+   │  • ES modules (import/export)                            │
+   │  • Error handling (try/catch)                             │
+   │  • Spread/rest operators (...args)                       │
+   │  • Optional chaining (?.) and nullish coalescing (??)    │
+   │                                                          │
+   │  SKIP FOR NOW: Classes, Proxies, Generators, WeakMaps    │
+   │  RESOURCE: https://javascript.info (free, the best)      │
+   │  PROJECT:  Build a to-do app with local storage           │
+   └──────────────────────────────────────────────────────────┘
+                           │
+                           ▼
+   ┌──────────────────────────────────────────────────────────┐
+   │  4. TypeScript (Basics)                         ~1 week  │
+   │  ─────────────────────────────────────────────────────── │
+   │  • Type annotations (string, number, boolean)            │
+   │  • Interfaces and type aliases                           │
+   │  • Union types (string | number)                         │
+   │  • Generics (Array<T> — just reading, not writing)       │
+   │  • Type narrowing and typeof guards                      │
+   │  • Optional properties (name?: string)                   │
+   │  • tsconfig.json basics                                  │
+   │                                                          │
+   │  WHY: Every file in Lyrix is .ts or .tsx. TypeScript     │
+   │  catches bugs BEFORE you run the code. Non-negotiable.   │
+   │                                                          │
+   │  DON'T GO DEEP: You don't need advanced generics,        │
+   │  conditional types, or mapped types. Just the basics.    │
+   │                                                          │
+   │  RESOURCE: https://typescriptlang.org/docs/handbook      │
+   │  PROJECT:  Convert your to-do app to TypeScript           │
+   └──────────────────────────────────────────────────────────┘
+                           │
+                           ▼
+
+ ┌─────────────────────────────────────────────────────────────────┐
+ │  PHASE 2: TOOLING & WORKFLOW (Weeks 7-9)                       │
+ │  "A carpenter who can't use a hammer is useless"               │
+ └─────────────────────────────────────────────────────────────────┘
+
+   ┌──────────────────────────────────────────────────────────┐
+   │  5. Terminal / Command Line                     ~3 days  │
+   │  ─────────────────────────────────────────────────────── │
+   │  • Navigate directories (cd, ls/dir, pwd)                │
+   │  • Create/delete files and folders                       │
+   │  • Run scripts (node, npm/pnpm commands)                 │
+   │  • Environment variables (.env files)                    │
+   │  • Basic PowerShell or bash scripting                    │
+   │                                                          │
+   │  YOU USE THIS: Every day. pnpm dev, pnpm build,          │
+   │  git push, wrangler deploy.                              │
+   └──────────────────────────────────────────────────────────┘
+                           │
+                           ▼
+   ┌──────────────────────────────────────────────────────────┐
+   │  6. Git & GitHub                                ~4 days  │
+   │  ─────────────────────────────────────────────────────── │
+   │  • init, add, commit, push, pull                         │
+   │  • Branching (create branch, switch, merge)              │
+   │  • .gitignore                                            │
+   │  • GitHub: repos, pull requests, Issues                  │
+   │  • How to deliver code to clients via private repos      │
+   │                                                          │
+   │  YOU USE THIS: Version control for every project.        │
+   │  Client delivery = private GitHub repo access.           │
+   │                                                          │
+   │  RESOURCE: https://learngitbranching.js.org              │
+   └──────────────────────────────────────────────────────────┘
+                           │
+                           ▼
+   ┌──────────────────────────────────────────────────────────┐
+   │  7. Package Managers & Node.js                  ~2 days  │
+   │  ─────────────────────────────────────────────────────── │
+   │  • What Node.js is (JS runtime outside the browser)      │
+   │  • npm vs pnpm (we use pnpm — faster, disk-efficient)    │
+   │  • package.json (scripts, dependencies, devDependencies) │
+   │  • pnpm install, pnpm add, pnpm remove                  │
+   │  • Lock files (pnpm-lock.yaml — never delete this)       │
+   │  • node_modules (always .gitignore'd)                    │
+   │                                                          │
+   │  YOU USE THIS: Every project starts with pnpm install.   │
+   └──────────────────────────────────────────────────────────┘
+                           │
+                           ▼
+   ┌──────────────────────────────────────────────────────────┐
+   │  8. VS Code Mastery                             ~2 days  │
+   │  ─────────────────────────────────────────────────────── │
+   │  • Multi-cursor editing (Alt+Click, Ctrl+D)              │
+   │  • Integrated terminal                                   │
+   │  • Extensions: Tailwind IntelliSense, Astro, ESLint,     │
+   │    Prettier, GitLens                                     │
+   │  • Keyboard shortcuts (Ctrl+P, Ctrl+Shift+F, Ctrl+`)    │
+   │  • Settings sync across machines                         │
+   │  • Emmet abbreviations for HTML                          │
+   │                                                          │
+   │  THIS IS YOUR WEAPON. Know it cold.                      │
+   └──────────────────────────────────────────────────────────┘
+                           │
+                           ▼
+
+ ┌─────────────────────────────────────────────────────────────────┐
+ │  PHASE 3: UI FRAMEWORK (Weeks 9-13)                            │
+ │  "React is the engine inside every interactive island"         │
+ └─────────────────────────────────────────────────────────────────┘
+
+   ┌──────────────────────────────────────────────────────────┐
+   │  9. React (Core Concepts)                       ~3 weeks │
+   │  ─────────────────────────────────────────────────────── │
+   │  • JSX syntax (HTML inside JavaScript)                   │
+   │  • Components (function components — never class)        │
+   │  • Props (passing data to components)                    │
+   │  • useState (local state)                                │
+   │  • useEffect (side effects, API calls)                   │
+   │  • useRef (DOM references, Turnstile container)          │
+   │  • Conditional rendering (&&, ternary)                   │
+   │  • Lists and keys (.map + unique key prop)               │
+   │  • Event handling (onClick, onChange, onSubmit)           │
+   │  • Controlled forms (value + onChange pattern)            │
+   │  • Children pattern                                      │
+   │                                                          │
+   │  SKIP FOR NOW: useReducer, useContext, useMemo,          │
+   │  React Server Components, Suspense, React Router         │
+   │  (Astro handles routing, not React)                      │
+   │                                                          │
+   │  WHY REACT: ContactModal, Navigation, Portfolio,         │
+   │  Pricing, FAQ, Reviews — all interactive islands.        │
+   │                                                          │
+   │  RESOURCE: https://react.dev/learn (official, excellent) │
+   │  PROJECT:  Build a multi-step form with validation        │
+   └──────────────────────────────────────────────────────────┘
+                           │
+                           ▼
+   ┌──────────────────────────────────────────────────────────┐
+   │  10. Framer Motion (Basics)                     ~3 days  │
+   │  ─────────────────────────────────────────────────────── │
+   │  • <motion.div> wrapper                                  │
+   │  • initial / animate / exit props                        │
+   │  • transition (duration, ease, spring)                   │
+   │  • useInView hook (scroll-triggered animations)          │
+   │  • AnimatePresence (enter/exit animations)               │
+   │  • whileHover, whileTap                                  │
+   │  • Stagger children (delay per index)                    │
+   │                                                          │
+   │  YOU USE THIS: Every section in Lyrix uses useInView     │
+   │  to fade in on scroll. Every button uses whileTap.       │
+   │                                                          │
+   │  RESOURCE: https://motion.dev/docs                       │
+   └──────────────────────────────────────────────────────────┘
+                           │
+                           ▼
+
+ ┌─────────────────────────────────────────────────────────────────┐
+ │  PHASE 4: STYLING SYSTEM (Weeks 13-15)                         │
+ │  "Tailwind replaces writing CSS files. Learn the mental model" │
+ └─────────────────────────────────────────────────────────────────┘
+
+   ┌──────────────────────────────────────────────────────────┐
+   │  11. Tailwind CSS                               ~2 weeks │
+   │  ─────────────────────────────────────────────────────── │
+   │  • Utility-first philosophy (classes, not stylesheets)   │
+   │  • Spacing scale (p-4 = 1rem, p-8 = 2rem, etc.)         │
+   │  • Responsive prefixes (sm:, md:, lg:, xl:)              │
+   │  • State variants (hover:, focus:, active:, group-hover:)│
+   │  • Flexbox utilities (flex, items-center, justify-between│
+   │  • Grid utilities (grid, grid-cols-3, gap-4)             │
+   │  • Typography (text-sm, font-bold, tracking-wide)        │
+   │  • Colors (text-white/50 = 50% opacity, bg-[#0a0a0a])   │
+   │  • Arbitrary values (w-[347px], text-[13px])             │
+   │  • Dark mode / custom themes                             │
+   │  • @theme config in CSS (Tailwind v4 CSS-first config)   │
+   │                                                          │
+   │  CRITICAL: Mobile-first = write mobile classes first,    │
+   │  then add md: and lg: breakpoints. Never the reverse.    │
+   │                                                          │
+   │  RESOURCE: https://tailwindcss.com/docs                  │
+   │  TIP: Install "Tailwind CSS IntelliSense" in VS Code     │
+   │  PROJECT:  Rebuild your resume page using only Tailwind   │
+   └──────────────────────────────────────────────────────────┘
+                           │
+                           ▼
+
+ ┌─────────────────────────────────────────────────────────────────┐
+ │  PHASE 5: THE META-FRAMEWORK (Weeks 15-19)                     │
+ │  "Astro ties everything together — this is where it clicks"    │
+ └─────────────────────────────────────────────────────────────────┘
+
+   ┌──────────────────────────────────────────────────────────┐
+   │  12. Astro                                      ~3 weeks │
+   │  ─────────────────────────────────────────────────────── │
+   │  WEEK 1 — Core Concepts:                                 │
+   │  • .astro file syntax (frontmatter + template)           │
+   │  • File-based routing (pages/ directory)                 │
+   │  • Layouts and slots                                     │
+   │  • Components (Astro components vs React islands)        │
+   │  • Props and Astro.props                                 │
+   │  • Static vs dynamic routes ([slug].astro)               │
+   │  • astro.config.mjs (integrations, output, site)         │
+   │                                                          │
+   │  WEEK 2 — Islands Architecture:                          │
+   │  • client:idle vs client:visible vs client:load          │
+   │  • When to use React vs pure Astro (interactive = React) │
+   │  • Passing props from Astro to React islands             │
+   │  • Content Collections (src/content/ + config.ts)        │
+   │  • Markdown/MDX blog posts with frontmatter validation   │
+   │  • getCollection() and getEntry() queries                │
+   │                                                          │
+   │  WEEK 3 — Production Features:                           │
+   │  • i18n routing (multi-language support)                  │
+   │  • SSG output (static pre-rendering)                     │
+   │  • API routes (src/pages/api/*.ts)                       │
+   │  • Integrations: @astrojs/react, @astrojs/sitemap        │
+   │  • Image optimization (astro:assets)                     │
+   │  • Build & deploy to Cloudflare Pages                    │
+   │  • Environment variables in Astro                        │
+   │                                                          │
+   │  THIS IS THE CORE OF EVERYTHING. Lyrix Digital is built  │
+   │  on Astro. Every single page, every layout, every build  │
+   │  pipeline flows through this framework.                  │
+   │                                                          │
+   │  RESOURCE: https://docs.astro.build                      │
+   │  PROJECT:  Build a portfolio site with blog using Astro   │
+   └──────────────────────────────────────────────────────────┘
+                           │
+                           ▼
+
+ ┌─────────────────────────────────────────────────────────────────┐
+ │  PHASE 6: PRODUCTION SKILLS (Weeks 19-23)                      │
+ │  "The difference between a toy project and a real product"     │
+ └─────────────────────────────────────────────────────────────────┘
+
+   ┌──────────────────────────────────────────────────────────┐
+   │  13. SEO & Structured Data                      ~1 week  │
+   │  ─────────────────────────────────────────────────────── │
+   │  • Meta tags (title, description, robots)                │
+   │  • Open Graph and Twitter Card tags                      │
+   │  • Canonical URLs and hreflang for multilingual          │
+   │  • JSON-LD structured data (Organization, LocalBusiness, │
+   │    WebSite, FAQ, BreadcrumbList, AggregateRating)        │
+   │  • Sitemap generation and robots.txt                     │
+   │  • Google Search Console (submit, monitor, fix)          │
+   │  • Core Web Vitals (LCP, CLS, INP)                      │
+   │  • Lighthouse audits (how to read and fix scores)        │
+   │                                                          │
+   │  YOU USE THIS: SEO.astro generates ALL structured data.  │
+   │  Every client expects Google visibility.                 │
+   │                                                          │
+   │  RESOURCE: https://web.dev/learn/performance             │
+   │  RESOURCE: https://developers.google.com/search/docs     │
+   └──────────────────────────────────────────────────────────┘
+                           │
+                           ▼
+   ┌──────────────────────────────────────────────────────────┐
+   │  14. Form Handling & Validation                 ~4 days  │
+   │  ─────────────────────────────────────────────────────── │
+   │  • Zod schemas (define shape, validate, get errors)      │
+   │  • Client-side validation (instant feedback in UI)       │
+   │  • Server-side validation (trust nothing from the client)│
+   │  • API routes in Astro (POST handlers)                   │
+   │  • Resend API integration (sending emails)               │
+   │  • Cloudflare Turnstile setup (bot protection)           │
+   │  • Honeypot fields (invisible bot traps)                 │
+   │  • HTML escaping (preventing XSS in email output)        │
+   │                                                          │
+   │  YOU USE THIS: ContactModal.tsx + /api/send.ts +         │
+   │  contact.ts schema. The full pipeline.                   │
+   │                                                          │
+   │  RESOURCE: https://zod.dev                               │
+   │  RESOURCE: https://resend.com/docs                       │
+   └──────────────────────────────────────────────────────────┘
+                           │
+                           ▼
+   ┌──────────────────────────────────────────────────────────┐
+   │  15. State Management (nanostores)              ~2 days  │
+   │  ─────────────────────────────────────────────────────── │
+   │  • Why nanostores (tiny, framework-agnostic, fast)       │
+   │  • atom() for single values                              │
+   │  • useStore() hook in React                              │
+   │  • Sharing state between React islands                   │
+   │  • Hydration safety (never read localStorage at import)  │
+   │                                                          │
+   │  WHY NOT Redux/Zustand: Overkill. nanostores is <1KB     │
+   │  and works perfectly with Astro's island architecture.   │
+   │                                                          │
+   │  RESOURCE: https://github.com/nanostores/nanostores      │
+   └──────────────────────────────────────────────────────────┘
+                           │
+                           ▼
+   ┌──────────────────────────────────────────────────────────┐
+   │  16. Deployment & Cloudflare                    ~3 days  │
+   │  ─────────────────────────────────────────────────────── │
+   │  • Cloudflare Pages (Git integration, build settings)    │
+   │  • Cloudflare Workers / Functions (API routes)           │
+   │  • DNS management and custom domains                     │
+   │  • SSL/TLS certificates (automatic)                      │
+   │  • Wrangler CLI for manual deploys                       │
+   │  • Environment variables in Cloudflare dashboard         │
+   │  • Caching and CDN behavior                              │
+   │  • Turnstile setup in Cloudflare dashboard               │
+   │  • Rate limiting rules (WAF → Security)                  │
+   │                                                          │
+   │  YOU USE THIS: Every site you build deploys here.        │
+   │                                                          │
+   │  RESOURCE: https://developers.cloudflare.com/pages       │
+   └──────────────────────────────────────────────────────────┘
+                           │
+                           ▼
+
+ ┌─────────────────────────────────────────────────────────────────┐
+ │  PHASE 7: ANALYTICS & GROWTH (Weeks 23-25)                     │
+ │  "If you can't measure it, you can't improve it"               │
+ └─────────────────────────────────────────────────────────────────┘
+
+   ┌──────────────────────────────────────────────────────────┐
+   │  17. Google Tag Manager + Analytics             ~4 days  │
+   │  ─────────────────────────────────────────────────────── │
+   │  • GTM container setup                                   │
+   │  • dataLayer.push() for custom events                    │
+   │  • Partytown (off-main-thread GTM for performance)       │
+   │  • GA4 event tracking (cta_click, generate_lead, etc.)   │
+   │  • Conversion goals in GA4                               │
+   │  • UTM parameters for campaign tracking                  │
+   │  • Reading GA4 reports (traffic sources, behavior flow)  │
+   │                                                          │
+   │  YOU USE THIS: analytics.ts + GTM config in astro.config │
+   │                                                          │
+   │  RESOURCE: https://tagmanager.google.com → Learn section │
+   └──────────────────────────────────────────────────────────┘
+                           │
+                           ▼
+   ┌──────────────────────────────────────────────────────────┐
+   │  18. Google Business Profile + Local SEO        ~3 days  │
+   │  ─────────────────────────────────────────────────────── │
+   │  • Create / claim a GBP listing                          │
+   │  • Categories, services, photos, posts                   │
+   │  • Review generation strategy                            │
+   │  • Local citations (Yelp, BBB, PR directories)           │
+   │  • "Near me" keyword targeting (bilingual)               │
+   │  • Google Maps pack ranking factors                      │
+   │                                                          │
+   │  YOU USE THIS: You sell this as a service. Must know it.  │
+   └──────────────────────────────────────────────────────────┘
+                           │
+                           ▼
+
+ ┌─────────────────────────────────────────────────────────────────┐
+ │  PHASE 8: BONUS SKILLS (Ongoing — learn as needed)             │
+ │  "These make you dangerous. Pick them up over time."           │
+ └─────────────────────────────────────────────────────────────────┘
+
+   ┌──────────────────────────────────────────────── OPTIONAL ┐
+   │                                                          │
+   │  19. Video Production & Editing                          │
+   │  • Camera operation (exposure triangle, composition)     │
+   │  • DaVinci Resolve or Premiere Pro editing               │
+   │  • Color grading (LOG profiles, LUTs)                    │
+   │  • Drone piloting + FAA Part 107 exam                    │
+   │  • Social media exports (aspect ratios, codecs)          │
+   │                                                          │
+   │  20. Copywriting for the Web                             │
+   │  • Headlines that convert (benefit-first, not feature)   │
+   │  • CTA writing (action verbs, urgency, specificity)      │
+   │  • SEO copywriting (keywords without stuffing)           │
+   │  • Objection handling in FAQ sections                    │
+   │  • Email sequences (follow-up, nurture)                  │
+   │                                                          │
+   │  21. UI/UX Design Basics                                 │
+   │  • Figma fundamentals (frames, auto-layout, components)  │
+   │  • Color theory and contrast (WCAG AA compliance)        │
+   │  • Typography pairing and hierarchy                      │
+   │  • Whitespace and visual rhythm                          │
+   │  • Mobile-first wireframing                              │
+   │                                                          │
+   │  22. Google Ads (PPC)                                    │
+   │  • Campaign types (Search, Display, Local)               │
+   │  • Keyword research (Google Keyword Planner)             │
+   │  • Ad copywriting (headlines, descriptions)              │
+   │  • Bidding strategies (manual CPC, target CPA)           │
+   │  • Conversion tracking setup                             │
+   │  • Budget management and ROI reporting                   │
+   │                                                          │
+   │  23. Accessibility (WCAG 2.1 AA)                         │
+   │  • Screen reader testing (NVDA, VoiceOver)               │
+   │  • Keyboard navigation                                   │
+   │  • Color contrast ratios (4.5:1 for text)                │
+   │  • ARIA attributes (when and when NOT to use them)       │
+   │  • Focus management in modals and menus                  │
+   │                                                          │
+   │  24. Testing                                             │
+   │  • Vitest (unit tests for utilities and schemas)         │
+   │  • Testing Library (component tests)                     │
+   │  • Lighthouse CI (automated performance checks)          │
+   │  • Cross-browser testing (Chrome, Safari, Firefox)       │
+   │                                                          │
+   └──────────────────────────────────────────────────────────┘
+
+
+══════════════════════════════════════════════════════════════════════
+                      LEARNING ORDER SUMMARY
+══════════════════════════════════════════════════════════════════════
+
+  PHASE 0 ─→ HTML → CSS
+                │
+  PHASE 1 ─→ JavaScript ──→ TypeScript (basics)
+                │
+  PHASE 2 ─→ Terminal → Git → Package Managers → VS Code
+                │
+  PHASE 3 ─→ React ──→ Framer Motion
+                │
+  PHASE 4 ─→ Tailwind CSS
+                │
+  PHASE 5 ─→ Astro (THE BIG ONE — everything connects here)
+                │
+  PHASE 6 ─→ SEO → Zod/Forms → nanostores → Cloudflare
+                │
+  PHASE 7 ─→ GTM/Analytics → Google Business Profile
+                │
+  PHASE 8 ─→ Video │ Copywriting │ Design │ Ads │ A11y │ Testing
+
+
+══════════════════════════════════════════════════════════════════════
+                     WHERE TO LEARN (FREE)
+══════════════════════════════════════════════════════════════════════
+
+  HTML/CSS ........... https://web.dev/learn
+  JavaScript ......... https://javascript.info
+  TypeScript ......... https://typescriptlang.org/docs/handbook
+  React .............. https://react.dev/learn
+  Tailwind CSS ....... https://tailwindcss.com/docs
+  Astro .............. https://docs.astro.build
+  Framer Motion ...... https://motion.dev/docs
+  Git ................ https://learngitbranching.js.org
+  Zod ................ https://zod.dev
+  Cloudflare Pages ... https://developers.cloudflare.com/pages
+  SEO ................ https://developers.google.com/search/docs
+  Web Performance .... https://web.dev/learn/performance
+  Accessibility ...... https://web.dev/learn/accessibility
+
+══════════════════════════════════════════════════════════════════════
+```
+
+### 11.1 — How This Maps to the Lyrix Codebase
+
+| Skill | Where You'll Use It in Lyrix |
+|-------|------------------------------|
+| HTML | Every `.astro` file template section |
+| CSS | `src/styles/global.css`, `@theme` config |
+| JavaScript | Logic in every `.ts` and `.tsx` file |
+| TypeScript | Type definitions in `types/index.ts`, `schemas/contact.ts`, component props |
+| Terminal | `pnpm dev`, `pnpm build`, git operations, Wrangler deploys |
+| Git | Version control, client delivery, CI/CD pipeline |
+| React | Every interactive component: `ContactModal.tsx`, `Navigation.tsx`, `FAQ.tsx`, `Pricing.tsx`, etc. |
+| Framer Motion | `useInView` scroll triggers, `AnimatePresence` modals, `whileHover`/`whileTap` buttons |
+| Tailwind | Every single className in every component (100% of styling) |
+| Astro | `pages/`, `layouts/`, `sections/`, `content/`, `astro.config.mjs` — the framework itself |
+| SEO | `SEO.astro` (JSON-LD, meta tags, hreflang, OG), `sitemap`, `robots.txt` |
+| Zod | `schemas/contact.ts` (shared client+server validation) |
+| nanostores | `stores/modalStore.ts`, `windowStore.ts`, `sidebarHintStore.ts` |
+| Cloudflare | Deployment, DNS, Turnstile, Workers (`/api/send`), edge caching |
+| GTM/Analytics | `lib/analytics.ts`, Partytown integration in `astro.config.mjs` |
+
+---
+
 *Last updated: February 11, 2026*
-*Version: 1.0*
+*Version: 1.1*
 *Author: Lyrix Digital*
