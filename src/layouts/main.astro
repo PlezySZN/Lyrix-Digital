@@ -176,16 +176,32 @@ const safeDescription = resolvedDescription.length <= MAX_DESC_LENGTH
 			body { background-color: #050505; color: #ffffff; min-height: 100vh; }
 		</style>
 
-		<!-- ═══ GA4 — Lightweight direct integration ═══ -->
-		<!-- No GTM/Partytown overhead. GA4 gtag.js (~28KB gzipped) handles
-		     page_view, engagement, and custom events directly. -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=G-9S6JHDLHVB"></script>
+		<!-- ═══ GA4 — Deferred loading (3s after page idle) ═══ -->
+		<!-- Lazy-loads gtag.js to keep it off the critical path.
+		     Eliminates ~150KB from FCP/LCP and avoids deprecated API warnings
+		     (SharedStorage, Fledge) from blocking initial render. -->
 		<script is:inline>
 			window.dataLayer = window.dataLayer || [];
 			function gtag(){dataLayer.push(arguments);}
 			window.gtag = gtag;
+			// Queue the config immediately so events before load are buffered
 			gtag('js', new Date());
 			gtag('config', 'G-9S6JHDLHVB', { send_page_view: true });
+			// Lazy-load the gtag.js library after 3s idle
+			(function(){
+				function loadGA(){
+					if(document.querySelector('script[src*="gtag/js"]'))return;
+					var s=document.createElement('script');
+					s.src='https://www.googletagmanager.com/gtag/js?id=G-9S6JHDLHVB';
+					s.async=true;
+					document.head.appendChild(s);
+				}
+				if(typeof requestIdleCallback==='function'){
+					setTimeout(function(){requestIdleCallback(loadGA);},3000);
+				}else{
+					setTimeout(loadGA,3500);
+				}
+			})();
 		</script>
 
 		<!-- ═══ Extra head content from child pages ═══ -->

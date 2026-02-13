@@ -162,5 +162,5 @@ const ctaMeta = t(lang, 'hero.cta.meta');
   `position: fixed` descendants. These need viewport-level positioning.
 -->
 <StatusBar translations={statusBarT} {lang} client:idle />
-<ContactModal {lang} client:idle />
-<ProjectModal {lang} client:idle />
+<ContactModal {lang} client:only="react" />
+<ProjectModal {lang} client:only="react" />
