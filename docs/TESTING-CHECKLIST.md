@@ -210,21 +210,20 @@ After 1-2 weeks:
 
 ### 4.1 — Verify the Beacon Is Active
 
-Your beacon token is `ec198f120e38473498deaf5f6feae437`.
+Cloudflare Pages injects the analytics beacon automatically.
 
 **Step 1: Check in the HTML source**
 1. Open your site → View Page Source (`Ctrl+U`)
 2. Search for `cloudflareinsights`
-3. You should see near the end of `<body>`:
-   ```html
-   <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
-           data-cf-beacon='{"token": "ec198f120e38473498deaf5f6feae437"}'></script>
-   ```
+3. You should see a single `beacon.min.js` script with `data-cf-beacon`.
+4. Do not add a second manual beacon snippet in app code.
 
 **Step 2: Check in DevTools Network**
 1. Open DevTools → Network tab
-2. Filter by `beacon`
-3. You should see a request to `cloudflareinsights.com/beacon.min.js` (200 OK)
+2. Filter by `cdn-cgi/rum`
+3. You should see:
+   - `OPTIONS` request → `200`
+   - `POST` request → `204`
 
 **Step 3: Check the Cloudflare Dashboard**
 1. Go to [dash.cloudflare.com](https://dash.cloudflare.com)
