@@ -162,6 +162,15 @@ const safeDescription = resolvedDescription.length <= MAX_DESC_LENGTH
 				will-change: opacity, transform;
 			}
 
+			/* Particle trail fade — replaces Framer Motion AnimatePresence */
+			@keyframes particle-fade {
+				from { opacity: 0.8; transform: scale(1); }
+				to   { opacity: 0;   transform: scale(0.2); }
+			}
+			.animate-particle-fade {
+				animation: particle-fade 0.6s ease-out forwards;
+			}
+
 			/* Critical above-the-fold background — prevents white flash */
 			html { background-color: #050505; }
 			body { background-color: #050505; color: #ffffff; min-height: 100vh; }

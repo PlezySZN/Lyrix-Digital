@@ -25,7 +25,6 @@
  */
 
 import { useState, useRef, useEffect, useCallback, type MouseEvent } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { FolderOpen, ArrowRight } from 'lucide-react';
 import { openContactModal } from '../stores/modalStore';
 import type { HeroTranslations } from '../i18n/translations';
@@ -62,6 +61,11 @@ export default function HeroContent({ translations: t }: HeroContentProps) {
   const [particles, setParticles] = useState<Particle[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const particleIdRef = useRef(0);
+
+  // Signal to Hero.astro that React is ready — triggers SSR→React swap
+  useEffect(() => {
+    document.dispatchEvent(new Event('hero:ready'));
+  }, []);
 
   // ─── PER-CHARACTER HOVER COLOR ───
   const [hoveredChar, setHoveredChar] = useState<number | null>(null);
@@ -134,26 +138,20 @@ export default function HeroContent({ translations: t }: HeroContentProps) {
           }}
         />
 
-        {/* ─── PARTICLE TRAIL ─── */}
+        {/* ─── PARTICLE TRAIL (CSS-animated, no Framer Motion) ─── */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <AnimatePresence>
-            {particles.map((particle) => (
-              <motion.div
-                key={particle.id}
-                initial={{ opacity: 0.8, scale: 1 }}
-                animate={{ opacity: 0, scale: 0.2 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.6, ease: 'easeOut' }}
-                className="absolute w-3 h-3 rounded-full bg-white"
-                style={{
-                  left: particle.x - 6,
-                  top: particle.y - 6,
-                  boxShadow: '0 0 12px 4px rgba(255, 255, 255, 0.5)',
-                  mixBlendMode: 'difference',
-                }}
-              />
-            ))}
-          </AnimatePresence>
+          {particles.map((particle) => (
+            <div
+              key={particle.id}
+              className="absolute w-3 h-3 rounded-full bg-white animate-particle-fade"
+              style={{
+                left: particle.x - 6,
+                top: particle.y - 6,
+                boxShadow: '0 0 12px 4px rgba(255, 255, 255, 0.5)',
+                mixBlendMode: 'difference' as const,
+              }}
+            />
+          ))}
         </div>
 
         {/* ─── CONTENT CONTAINER — Split layout: text left, CTA right ─── */}
@@ -203,27 +201,17 @@ export default function HeroContent({ translations: t }: HeroContentProps) {
             </div>
 
             {/* ─── SUBTITLE ─── */}
-            <motion.p
-              initial={{ opacity: 1 }}
-              animate={{ opacity: 1 }}
-              className="text-center lg:text-left text-sm sm:text-base md:text-lg text-white/50 max-w-xl leading-relaxed px-4 lg:px-0"
-            >
+            <p className="text-center lg:text-left text-sm sm:text-base md:text-lg text-white/50 max-w-xl leading-relaxed px-4 lg:px-0">
               {t['hero.subtitle']}
-            </motion.p>
+            </p>
           </div>
 
           {/* ─── RIGHT COLUMN: CTA Folder (Bigger) ─── */}
           <div className="shrink-0 flex items-center justify-center">
-            <motion.div
-              initial={{ opacity: 1 }}
-              animate={{ opacity: 1 }}
-            >
-              <motion.button
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.97 }}
-                transition={{ duration: 0.15, ease: 'easeOut' }}
+            <div>
+              <button
                 onClick={() => openContactModal('', 'hero')}
-                className="group relative cursor-pointer"
+                className="group relative cursor-pointer transition-transform duration-150 ease-out hover:scale-[1.04] active:scale-[0.97]"
               >
                 {/* Breathing neon glow — compositor-optimized (transform + opacity only) */}
                 <div className="absolute -inset-4 rounded-3xl bg-[#CCFF00]/10 blur-2xl animate-pulse-perf group-hover:opacity-100 transition-opacity duration-500" />
@@ -271,8 +259,8 @@ export default function HeroContent({ translations: t }: HeroContentProps) {
                     </span>
                   </div>
                 </div>
-              </motion.button>
-            </motion.div>
+              </button>
+            </div>
           </div>
         </div>
       </div>
