@@ -125,7 +125,7 @@ export default function ConsentBanner({ lang = 'en' }: { lang?: Lang }) {
                     <div className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" />
                     <div className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
                   </div>
-                  <span className="text-[10px] font-mono text-white/60 tracking-wider ml-1.5">
+                  <span className="text-[10px] font-mono text-white/75 tracking-wider ml-1.5">
                     {t('consent.titlebar' as any)}
                   </span>
                 </div>
@@ -134,7 +134,7 @@ export default function ConsentBanner({ lang = 'en' }: { lang?: Lang }) {
                   className="p-1 rounded-md hover:bg-white/5 transition-colors cursor-pointer"
                   aria-label="Close"
                 >
-                  <X className="w-3.5 h-3.5 text-white/60" />
+                  <X className="w-3.5 h-3.5 text-white/75" />
                 </button>
               </div>
 
@@ -165,7 +165,7 @@ export default function ConsentBanner({ lang = 'en' }: { lang?: Lang }) {
                   <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-white/2 border border-white/5">
                     <Users className="w-4 h-4 text-[#FF5F57] shrink-0" />
                     <div>
-                      <span className="block text-[10px] font-mono text-white/60 uppercase tracking-wider">
+                      <span className="block text-[10px] font-mono text-white/75 uppercase tracking-wider">
                         {t('consent.slots.label' as any)}
                       </span>
                       <span className="text-sm font-mono text-white font-bold">
@@ -178,7 +178,7 @@ export default function ConsentBanner({ lang = 'en' }: { lang?: Lang }) {
                   <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-white/2 border border-white/5">
                     <Clock className="w-4 h-4 text-[#FEBC2E] shrink-0" />
                     <div>
-                      <span className="block text-[10px] font-mono text-white/60 uppercase tracking-wider">
+                      <span className="block text-[10px] font-mono text-white/75 uppercase tracking-wider">
                         {t('consent.timer.label' as any)}
                       </span>
                       <span className="text-sm font-mono text-white font-bold">
@@ -191,7 +191,7 @@ export default function ConsentBanner({ lang = 'en' }: { lang?: Lang }) {
                   <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-white/2 border border-white/5">
                     <Shield className="w-4 h-4 text-[#28C840] shrink-0" />
                     <div>
-                      <span className="block text-[10px] font-mono text-white/60 uppercase tracking-wider">
+                      <span className="block text-[10px] font-mono text-white/75 uppercase tracking-wider">
                         {t('consent.proof.label' as any)}
                       </span>
                       <span className="text-sm font-mono text-white font-bold">
@@ -215,20 +215,20 @@ export default function ConsentBanner({ lang = 'en' }: { lang?: Lang }) {
                 {/* ── Skip link ── */}
                 <button
                   onClick={handleAccept}
-                  className="block w-full text-center text-xs font-mono text-white/60 hover:text-white/80 transition-colors cursor-pointer"
+                  className="block w-full text-center text-xs font-mono text-white/75 hover:text-white/90 transition-colors cursor-pointer"
                 >
                   {t('consent.skip' as any)}
                 </button>
 
                 {/* ═══ LEGAL: Privacy + Terms consent ═══ */}
                 <div className="pt-3 border-t border-white/5">
-                  <p className="text-[11px] text-white/60 leading-relaxed text-center">
+                  <p className="text-[11px] text-white/75 leading-relaxed text-center">
                     {t('consent.legal.prefix' as any)}{' '}
-                    <a href={privacyUrl} className="underline text-white/70 hover:text-white/90 transition-colors">
+                    <a href={privacyUrl} className="underline text-white/80 hover:text-white transition-colors">
                       {t('consent.legal.privacy' as any)}
                     </a>{' '}
                     {t('consent.legal.and' as any)}{' '}
-                    <a href={termsUrl} className="underline text-white/70 hover:text-white/90 transition-colors">
+                    <a href={termsUrl} className="underline text-white/80 hover:text-white transition-colors">
                       {t('consent.legal.terms' as any)}
                     </a>
                     {t('consent.legal.suffix' as any)}
@@ -238,10 +238,10 @@ export default function ConsentBanner({ lang = 'en' }: { lang?: Lang }) {
 
               {/* ═══ BOTTOM STATUS BAR ═══ */}
               <div className="flex items-center justify-between px-4 py-2 border-t border-white/5 bg-white/1">
-                <span className="text-[10px] font-mono text-white/60">
+                <span className="text-[10px] font-mono text-white/75">
                   {t('consent.footer.encrypted' as any)}
                 </span>
-                <span className="flex items-center gap-1.5 text-[10px] font-mono text-white/60">
+                <span className="flex items-center gap-1.5 text-[10px] font-mono text-white/75">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#28C840] animate-pulse" />
                   {t('consent.footer.secure' as any)}
                 </span>

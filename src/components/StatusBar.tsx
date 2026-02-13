@@ -131,7 +131,7 @@ function DockItem({ id, state }: { id: WindowId; state: WindowState }) {
       />
 
       {/* Tooltip */}
-      <div className="absolute bottom-full mb-2 px-2 py-1 rounded bg-lyrix-steel border border-white/10 text-[10px] font-mono text-white/60 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+      <div className="absolute bottom-full mb-2 px-2 py-1 rounded bg-lyrix-steel border border-white/10 text-[10px] font-mono text-white/75 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
         {meta.title}
       </div>
     </motion.button>
@@ -187,14 +187,14 @@ export default function StatusBar({ translations: t, lang = 'en' }: StatusBarPro
       <div className="relative flex items-center justify-between px-4 md:px-6 py-3.5">
         {/* ─── LEFT: System Info ─── */}
         <div className="flex items-center gap-3 min-w-0 shrink-0">
-          <span className="text-xs font-mono text-white/60 hidden md:inline">
+          <span className="text-xs font-mono text-white/75 hidden md:inline">
             Lyrix OS v1.2
           </span>
-          <span className="text-xs font-mono text-white/60 hidden">
+          <span className="text-xs font-mono text-white/75 hidden">
             LX 1.2
           </span>
           <div className="h-3 w-px bg-white/10 hidden md:block" />
-          <span className="text-xs text-white/60 hidden md:inline">
+          <span className="text-xs text-white/75 hidden md:inline">
             {t['statusbar.ready']}
           </span>
         </div>
@@ -209,12 +209,12 @@ export default function StatusBar({ translations: t, lang = 'en' }: StatusBarPro
         {/* ─── RIGHT: System Tray ─── */}
         <div className="flex items-center gap-2 md:gap-3 shrink-0">
           {/* Signal indicator */}
-          <div className="hidden md:flex items-center gap-1 text-white/60" aria-hidden="true">
+          <div className="hidden md:flex items-center gap-1 text-white/75" aria-hidden="true">
             <Wifi className="w-3.5 h-3.5" />
           </div>
 
           {/* Battery indicator */}
-          <div className="hidden md:flex items-center gap-1 text-white/60">
+          <div className="hidden md:flex items-center gap-1 text-white/75">
             <Battery className="w-3.5 h-3.5" />
             <span className="text-xs font-mono">100%</span>
           </div>
@@ -234,9 +234,9 @@ export default function StatusBar({ translations: t, lang = 'en' }: StatusBarPro
               {lang === 'es' ? 'Cambiar a Ingles' : 'Switch to Espanol'}
             </span>
             <span className="text-xs font-mono" aria-hidden="true">
-              <span className={lang === 'es' ? 'text-[#CCFF00]' : 'text-white/60'}>ES</span>
+              <span className={lang === 'es' ? 'text-[#CCFF00]' : 'text-white/75'}>ES</span>
               <span className="text-white/40 mx-0.5">/</span>
-              <span className={lang === 'en' ? 'text-[#CCFF00]' : 'text-white/60'}>EN</span>
+              <span className={lang === 'en' ? 'text-[#CCFF00]' : 'text-white/75'}>EN</span>
             </span>
           </motion.button>
 
@@ -247,8 +247,8 @@ export default function StatusBar({ translations: t, lang = 'en' }: StatusBarPro
             onClick={() => openContactModal('', 'statusbar')}
             className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-200"
           >
-            <MessageCircle className="w-3.5 h-3.5 text-white/60" />
-            <span className="text-xs text-white/60">{t['statusbar.contact']}</span>
+            <MessageCircle className="w-3.5 h-3.5 text-white/75" />
+            <span className="text-xs text-white/75">{t['statusbar.contact']}</span>
           </motion.button>
 
           {/* Call button — always visible, replaces contact on mobile */}
