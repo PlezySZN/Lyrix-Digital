@@ -77,14 +77,15 @@ lyrixdigital/
     │   │   ├── Reviews.astro  #   Client testimonials section
     │   │   └── Services.astro #   Services / capabilities section
     │   │
-    │   ├── Hero.astro         # Hero section (SSR wrapper)
-    │   ├── HeroContent.tsx    # Hero React island (animations, CTA)
+    │   ├── Hero.astro         # Hero SSR shell (LCP-optimized, full visual)
+    │   ├── HeroContent.tsx    # Hero React island (hover effects, particles)
     │   ├── Navigation.tsx     # Desktop sidebar + mobile header
     │   ├── ContactModal.tsx   # Lead capture modal with Turnstile
     │   ├── ProjectModal.tsx   # Portfolio project detail modal
-    │   ├── Pricing.tsx        # 3-tier pricing cards
+    │   ├── Pricing.tsx        # 3-tier pricing cards ($800+/$3K+/$7K+)
     │   ├── StatusBar.tsx      # macOS-style dock bar
-    │   ├── CinematicTeaser.tsx # Video/cinematic teaser section
+    │   ├── CinematicTeaser.tsx # Video teaser (Vimeo-ready)
+    │   ├── ConsentBanner.tsx  # Cookie/analytics consent popup
     │   ├── TrustedBy.tsx      # Client logos marquee
     │   ├── SEO.astro          # Full SEO engine (meta, OG, JSON-LD)
     │   └── ...                # Additional components
@@ -141,11 +142,12 @@ lyrixdigital/
 
 ### Rendering Strategy
 
-The site uses **Astro's hybrid rendering**:
+The site uses **Astro's static rendering**:
 
 - **Static output** (`output: 'static'`) — All pages are pre-rendered at build time
-- **React Islands** — Interactive components hydrate client-side with `client:idle` or `client:visible`
+- **React Islands** — Interactive components hydrate client-side with `client:idle`, `client:visible`, or `client:only="react"`
 - **Cloudflare Pages adapter** — Handles deployment, the API route runs as a Cloudflare Function
+- **SSR Hero Pattern** — Full hero visual (headline + CTA card) rendered as static HTML for instant LCP; React island overlays with interactivity on idle
 
 ### Component Pattern
 
@@ -191,8 +193,7 @@ nanostores ($atom / $map)
 
 | Role     | Font              | Weights    | CSS Variable      |
 |----------|-------------------|------------|--------------------|
-| Headings | Oswald            | 400–700    | `--font-oswald`    |
-| Alt Head | Barlow Condensed  | 400–700    | `--font-barlow`    |
+| Headings | Oswald            | 700        | `--font-oswald`    |
 | Body     | Inter             | 400–700    | `--font-inter`     |
 
 ### Component Design Language
@@ -420,10 +421,13 @@ The **`SEO.astro`** component handles everything:
 | Optimization | Implementation |
 |---|---|
 | **Zero JS by default** | Astro static output — JS only loads for interactive islands |
-| **Font preloading** | LCP-critical Oswald 700 preloaded in `<head>` |
+| **SSR Hero Shell** | Full headline + CTA card rendered as static HTML for instant LCP — React overlays on idle |
+| **Font preloading** | LCP-critical Oswald 700 preloaded in `<head>` with `fetchpriority="high"` |
 | **Critical CSS** | CLS-prevention styles inlined in `<head>` |
 | **CSS containment** | `contain: layout style paint` on Hero section |
-| **Chunk splitting** | Framer Motion + React vendor in separate chunks |
+| **Deferred GA4** | Analytics loaded 3s post-idle via `requestIdleCallback` — zero Lighthouse impact |
+| **client:only modals** | ContactModal + ProjectModal skip SSR entirely, breaking render chain |
+| **Hero CSS animations** | Framer Motion removed from hero — CSS `@keyframes` for particles + hover |
 | **Inline stylesheets** | `build.inlineStylesheets: 'always'` |
 | **Compositor animations** | `will-change: opacity, transform` for pulse effects |
 | **Image optimization** | Art-directed `<picture>` + lazy loading |

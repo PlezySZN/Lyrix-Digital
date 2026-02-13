@@ -3,7 +3,7 @@
 > **Brand:** Lyrix Digital  
 > **Base:** Vega Alta, PR 00692  
 > **Goal:** Dominate organic search for web development + digital services across all 78 municipalities  
-> **Last Updated:** 2026-02-12
+> **Last Updated:** 2026-02-13
 
 ---
 
@@ -462,14 +462,14 @@ Each keyword = one blog post idea for topical authority.
 
 | Priority | Keyword / Topic | Target URL |
 |----------|----------------|------------|
-| 🔴 | How Much Does a Website Cost in Puerto Rico (2026) | /en/blog/website-cost-puerto-rico |
+| 🔴 | How Much Does a Website Cost in Puerto Rico (2026) | /en/blog/website-cost-puerto-rico | ✅ PUBLISHED |
 | 🔴 | Best Web Developer in Puerto Rico: What to Look For | /en/blog/best-web-developer-puerto-rico |
-| 🔴 | Why Contractors in Puerto Rico Need a Website | /en/blog/why-contractors-need-websites |
-| 🔴 | What is a Lighthouse Score and Why It Matters | /en/blog/what-is-lighthouse-score |
+| 🔴 | Why Contractors in Puerto Rico Need a Website | /en/blog/why-contractors-need-websites | ✅ PUBLISHED |
+| 🔴 | What is a Lighthouse Score and Why It Matters | /en/blog/what-is-lighthouse-score | ✅ PUBLISHED |
 | 🔴 | Google Business Profile Guide for Puerto Rico Businesses | /en/blog/google-business-profile-guide |
 | 🟡 | Local SEO Guide for Businesses in Puerto Rico | /en/blog/local-seo-guide-puerto-rico |
 | 🟡 | WordPress vs Astro: Which Is Better for PR Businesses | /en/blog/wordpress-vs-astro |
-| 🟡 | 5 Google Business Profile Mistakes Killing Your Ranking | /en/blog/google-business-profile-mistakes |
+| 🟡 | 5 Google Business Profile Mistakes Killing Your Ranking | /en/blog/google-business-profile-mistakes | ✅ PUBLISHED |
 
 ### Supporting Content
 

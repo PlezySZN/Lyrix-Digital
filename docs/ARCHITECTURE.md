@@ -28,12 +28,15 @@
 | **Framework** | Astro | 5.x | Static site generation, Islands architecture |
 | **UI Library** | React | 19 | Interactive islands (forms, animations) |
 | **Styling** | Tailwind CSS | 4.x | Utility-first CSS (CSS-first config, no JS config file) |
-| **Animation** | Framer Motion | 12.x | Physics-based animations, AnimatePresence |
+| **Animation** | Framer Motion | 12.x | Physics-based animations, AnimatePresence (below-fold sections) |
+| **Animation** | CSS @keyframes | — | LCP-critical hero animations (particle-fade, pulse) |
 | **Icons** | lucide-react | 0.56x | Consistent icon set across components |
 | **State** | nanostores | 1.x | Cross-island reactive state management |
 | **Email** | Resend | 6.x | Transactional email sending |
 | **Validation** | Zod | 4.x | Runtime schema validation (forms, content) |
 | **Fonts** | astro-font | 1.x | Optimized font loading with fallback metrics |
+| **Analytics** | Google Analytics 4 | — | Deferred 3s post-idle via requestIdleCallback (no GTM) |
+| **Analytics** | Cloudflare Web Analytics | — | Privacy-first beacon analytics |
 | **Hosting** | Cloudflare Pages | — | Edge deployment with Functions support |
 | **Security** | Cloudflare Turnstile | — | Bot protection for contact form |
 
@@ -109,16 +112,15 @@ Every major section uses a two-layer approach:
 main.astro (HTML shell)
   └── [lang]/index.astro (page)
         ├── Navigation.tsx          client:idle
-        ├── Hero.astro
-        │     ├── <h1> (SSR, sr-only for SEO)
-        │     ├── HeroContent.tsx   client:idle
+        ├── Hero.astro (SSR visual shell — LCP renders without JS)
+        │     ├── #hero-ssr (title bar, headline, CTA card — static HTML)
+        │     ├── HeroContent.tsx   client:idle (overlays SSR on mount)
         │     ├── StatusBar.tsx     client:idle
-        │     ├── ContactModal.tsx  client:idle
-        │     └── ProjectModal.tsx  client:idle
+        │     ├── ContactModal.tsx  client:only="react"
+        │     └── ProjectModal.tsx  client:only="react"
         ├── TrustedBy.tsx           client:visible
         ├── sections/Portfolio.astro
         │     └── Portfolio.tsx     client:visible
-        │           └── FolderCard.tsx
         ├── sections/Services.astro
         │     └── ServicesComponent.tsx  client:visible
         │           └── ServiceCard.tsx
@@ -132,7 +134,9 @@ main.astro (HTML shell)
         ├── sections/FAQ.astro
         │     └── FAQ.tsx           client:visible
         └── sections/CTA.astro
-              └── CTA.tsx           client:visible
+        │     └── CTA.tsx           client:visible
+        ├── ConsentBanner.tsx       client:only="react"
+        └── OnboardingHints.tsx     client:only="react"
 ```
 
 ### Navigation Architecture
@@ -211,8 +215,9 @@ useEffect(() => {
 
 | Directive | When JS Loads | Used For |
 |-----------|---------------|----------|
-| `client:idle` | After page idle (requestIdleCallback) | Navigation, Hero, StatusBar, Modals |
-| `client:visible` | When entering viewport (IntersectionObserver) | Below-fold sections, Pricing |
+| `client:idle` | After page idle (requestIdleCallback) | Navigation, HeroContent, StatusBar |
+| `client:visible` | When entering viewport (IntersectionObserver) | Below-fold sections, Pricing, CinematicTeaser |
+| `client:only="react"` | Client-side only (no SSR) | ContactModal, ProjectModal, ConsentBanner, OnboardingHints |
 | (none) | Never — server HTML only | Blog.astro, pure Astro components |
 
 **Rule of thumb:**
@@ -349,21 +354,21 @@ These become usable as `bg-lyrix-dark`, `text-lyrix-steel`, etc.
 
 1. `astro-font` generates `@font-face` declarations with `font-display: swap`
 2. Size-adjust fallback metrics prevent CLS
-3. LCP-critical font (Oswald 700) is `<link rel="preload">` in `<head>`
-4. Google Fonts CSS loaded async (non-render-blocking)
+3. LCP-critical font (Oswald 700) is `<link rel="preload">` in `<head>` with `fetchpriority="high"`
+4. Inter loaded via `astro-font` with `font-display: swap`
 
 ---
 
 ## Performance Budget
 
-Target: **Lighthouse 100/100/100/100**
+Target: **Lighthouse 90+ mobile / 100 desktop**
 
 | Metric | Target | How |
 |--------|--------|-----|
-| LCP | < 1.5s | Font preload + inlined critical CSS + no JS blocking |
+| LCP | < 2.0s | SSR hero shell paints headline at FCP — no JS required |
 | FID/INP | < 100ms | Deferred hydration, compositor-only animations |
 | CLS | 0 | Explicit `min-height` reservations, `font-display: swap` |
-| TBT | < 100ms | Chunked JS (React vendor, Framer Motion separate) |
+| TBT | < 150ms | GA4 deferred 3s, modals client:only, Framer Motion removed from hero |
 
 ---
 
@@ -384,11 +389,13 @@ Target: **Lighthouse 100/100/100/100**
 
 | File | Hydration | Section |
 |------|-----------|---------|
-| `HeroContent.tsx` | `client:idle` | Hero with per-char hover, hint arrow |
+| `HeroContent.tsx` | `client:idle` | Hero with per-char hover, CSS particle trail |
 | `Navigation.tsx` | `client:idle` | Desktop sidebar + mobile header |
 | `StatusBar.tsx` | `client:idle` | macOS dock with window state |
-| `ContactModal.tsx` | `client:idle` | Form modal + Turnstile |
-| `ProjectModal.tsx` | `client:idle` | Portfolio detail modal |
+| `ContactModal.tsx` | `client:only="react"` | Form modal + Turnstile |
+| `ProjectModal.tsx` | `client:only="react"` | Portfolio detail modal |
+| `ConsentBanner.tsx` | `client:only="react"` | Cookie/analytics consent popup |
+| `OnboardingHints.tsx` | `client:only="react"` | First-visit sidebar hints |
 | `Portfolio.tsx` | `client:visible` | Project cards grid |
 | `ServicesComponent.tsx` | `client:visible` | Service cards with animations |
 | `Reviews.tsx` | `client:visible` | Testimonial carousel |
@@ -403,7 +410,7 @@ Target: **Lighthouse 100/100/100/100**
 
 | File | Purpose |
 |------|---------|
-| `Hero.astro` | Hero wrapper (SSR h1, translations) |
+| `Hero.astro` | Hero SSR shell (full visual + React overlay pattern) |
 | `SEO.astro` | Full SEO engine |
 | `sections/Blog.astro` | Blog preview (latest 3 posts) |
 | `sections/Services.astro` | Services wrapper |

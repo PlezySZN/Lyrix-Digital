@@ -36,7 +36,8 @@
 | Form Validation | **Zod 4** | Schema validation that runs on BOTH client (instant feedback) and server (security enforcement). |
 | Bot Protection | **Cloudflare Turnstile** | Invisible CAPTCHA — blocks bots without making humans solve puzzles. |
 | Hosting | **Cloudflare Pages** | Edge deployment — your site is served from the CDN node closest to the visitor. Free tier covers most needs. |
-| Analytics | **Google Tag Manager** via **Partytown** | GTM runs in a web worker (off-main-thread) so it doesn't slow down the site. |
+| Analytics | **Google Analytics 4** (direct) | GA4 deferred 3s post-idle via `requestIdleCallback`. No GTM, no Partytown — minimal overhead. |
+| Analytics | **Cloudflare Web Analytics** | Privacy-first server-side analytics beacon. Zero performance cost. |
 | Fonts | **astro-font** | Optimized loading with `font-display: swap`, size-adjust fallback metrics (prevents layout shift). |
 
 ### 1.2 — Website Sections (Top to Bottom)
@@ -45,18 +46,18 @@
 |---|---------|-----------|--------------|
 | 1 | **Skip to Content** | `main.astro` | Accessibility link — hidden until focused. Required for WCAG compliance. |
 | 2 | **Navigation** | `Navigation.tsx` | Desktop: Finder-style sidebar (collapsed arrow → expands on click). Mobile: hamburger overlay. |
-| 3 | **Hero** | `Hero.astro` + `HeroContent.tsx` + `SpotlightHero.tsx` | Massive headline with mouse-tracking spotlight gradient. No images — text IS the visual. Per-character hover animation on headline. |
+| 3 | **Hero** | `Hero.astro` + `HeroContent.tsx` | SSR-rendered hero shell (title bar, headline, CTA card) paints at FCP. React island overlays with per-character hover color cycling + CSS particle trail. Two-column layout: headline left, CTA card right on desktop. |
 | 4 | **Status Bar** | `StatusBar.tsx` | macOS-style dock at bottom of hero. Shows contact info, call button, language toggle. |
 | 5 | **Trusted By** | `TrustedBy.tsx` | Infinite-scroll marquee of client monogram logos. Social proof. |
-| 6 | **Portfolio** | `Portfolio.tsx` + `FolderCard.tsx` + `ProjectModal.tsx` | OS-style folder cards that expand into project detail modals with screenshots. |
+| 6 | **Portfolio** | `Portfolio.tsx` + `ProjectModal.tsx` | OS-style cards that expand into project detail modals with screenshots. |
 | 7 | **Services** | `ServicesComponent.tsx` + `ServiceCard.tsx` | Three service modules (Web, Video, SEO) displayed as "system specs." Terminal-style UI. |
-| 8 | **Reviews** | `Reviews.tsx` | Client testimonials as "telemetry signals" — auto-scrolling carousel with pause-on-touch. |
-| 9 | **Cinematic Teaser** | `CinematicTeaser.tsx` | Placeholder for the upcoming commercial video. Shows "IN PRODUCTION" status. |
+| 8 | **Reviews** | `Reviews.tsx` | 2 real client testimonials + 2 "Be the Next" placeholder CTA cards. Infinite marquee animation. Placeholder cards open ContactModal. |
+| 9 | **Cinematic Teaser** | `CinematicTeaser.tsx` | Vimeo-ready video section. Accepts optional `vimeoId` prop — when provided renders Vimeo embed, when absent shows animated "COMING SOON" placeholder. |
 | 10 | **Process** | `Process.tsx` | 3-phase timeline (Discovery → Development → Launch). Shows 2-4 week timeline. |
-| 11 | **Pricing** | `Pricing.tsx` | 3-tier pricing cards ($1K+ / $3K+ / $7K+). Middle tier highlighted as "Most Popular." |
+| 11 | **Pricing** | `Pricing.tsx` | 3-tier pricing cards ($800+ / $3K+ / $7K+). Middle tier highlighted as "Most Popular." |
 | 12 | **Blog** | `Blog.astro` | Latest 3 articles from the content collection. Server-rendered (zero JS). |
-| 13 | **FAQ** | `FAQ.tsx` | 8-question accordion. Handles objections: ownership, pricing, WordPress vs Astro, maintenance, etc. |
-| 14 | **CTA** | `CTA.tsx` + `SystemExecution.tsx` | Terminal-style final call-to-action with trust signals (no contracts, source code included, 90-day support). |
+| 13 | **FAQ** | `FAQ.tsx` | 9-question accordion. Handles objections: ownership, pricing, WordPress vs Astro, maintenance, trust signals, etc. |
+| 14 | **CTA** | `CTA.tsx` | Terminal-style final call-to-action with trust signals (no contracts, source code included, 90-day support). |
 | 15 | **Footer** | `Footer.astro` | 4-column footer: brand info, navigation, legal links, social links. Copyright + "Built with Astro" credit. |
 | 16 | **Contact Modal** | `ContactModal.tsx` | Glassmorphic overlay form. Fields: name, email, phone, sector, maintenance mode, budget range, cinematic addon, message. Honeypot + Turnstile anti-spam. |
 
@@ -189,10 +190,10 @@ npx wrangler pages deploy dist --project-name=lyrixdigital
 
 | Service | Setup Steps |
 |---------|-------------|
-| **Google Tag Manager** | Create GTM container → get `GTM-XXXXXXX` ID → add to Partytown config in `astro.config.mjs` |
+| **Google Analytics 4** | Create GA4 property → get Measurement ID (`G-XXXXXXXXXX`) → already integrated directly in `main.astro` (deferred 3s post-idle). No GTM needed. |
 | **Google Search Console** | Verify domain ownership → submit sitemap URL (`https://lyrixdigital.com/sitemap-index.xml`) |
 | **Google Business Profile** | Create/claim your business → add website URL → upload photos → collect reviews |
-| **Google Analytics 4** | Create property → connect via GTM → configure conversions for `generate_lead` event |
+| **Cloudflare Web Analytics** | Already active. Dashboard: Cloudflare → your domain → Web Analytics. |
 | **Bing Webmaster Tools** | Import from Google Search Console (one-click) or verify separately |
 
 ---
@@ -347,7 +348,7 @@ A contractor who gets 2 extra jobs per month worth $5K each from your website is
 
 | Tier | Starting Price | Who It's For | Your Actual Cost (Time) |
 |------|---------------|-------------|------------------------|
-| **Landing Page** | $1,000+ | Small businesses that need one page fast | ~15-20 hours of work |
+| **Landing Page** | $800+ | Small businesses that need one page fast | ~15-20 hours of work |
 | **Authority System** | $3,000+ | Businesses that want full SEO + lead capture | ~40-60 hours of work |
 | **Full Growth System** | $7,000+ | Businesses that want web + video + marketing | ~80-120 hours (inc. production) |
 
@@ -463,7 +464,7 @@ This is where the real money is. One-time projects are sprints. Monthly maintena
 □ Build each section (hero, services, portfolio, etc.)
 □ Implement contact form with their email
 □ Set up SEO (meta tags, schema, sitemap, robots.txt)
-□ Add analytics (GTM, GA4, GSC)
+□ Add analytics (GA4 deferred, Cloudflare Web Analytics)
 □ Set up Google Business Profile (if they don't have one)
 □ Mobile optimization and cross-browser testing
 □ Run Lighthouse audits — target 90+ on all four metrics
@@ -850,7 +851,7 @@ The Lyrix Digital website you built is also your **starter template** for client
 - Working contact form with Zod validation + Turnstile
 - SEO engine with JSON-LD schema
 - Bilingual infrastructure
-- GTM analytics integration
+- GA4 analytics (deferred, performance-safe)
 - Cloudflare Pages deployment pipeline
 - Mobile-first responsive design system
 
@@ -873,7 +874,7 @@ WEEK 2: DIGITAL INFRASTRUCTURE
   □ Set up Google Business Profile
   □ Submit sitemap to Google Search Console
   □ Create @lyrixdigital Instagram
-  □ Set up Google Analytics 4 via GTM
+  □ Set up Google Analytics 4 (direct integration, deferred)
   □ Set up Calendly for discovery calls
 
 WEEK 3: FIRST OUTREACH
@@ -1275,19 +1276,20 @@ WEEK 4: REFINE & PERSIST
  └─────────────────────────────────────────────────────────────────┘
 
    ┌──────────────────────────────────────────────────────────┐
-   │  17. Google Tag Manager + Analytics             ~4 days  │
+   │  17. Google Analytics 4 (GA4)                   ~4 days  │
    │  ─────────────────────────────────────────────────────── │
-   │  • GTM container setup                                   │
-   │  • dataLayer.push() for custom events                    │
-   │  • Partytown (off-main-thread GTM for performance)       │
+   │  • GA4 property setup (Measurement ID)                   │
+   │  • gtag() custom event tracking                          │
+   │  • Deferred loading (requestIdleCallback pattern)        │
    │  • GA4 event tracking (cta_click, generate_lead, etc.)   │
    │  • Conversion goals in GA4                               │
+   │  • DebugView for real-time event testing                 │
    │  • UTM parameters for campaign tracking                  │
    │  • Reading GA4 reports (traffic sources, behavior flow)  │
    │                                                          │
-   │  YOU USE THIS: analytics.ts + GTM config in astro.config │
+   │  YOU USE THIS: analytics.ts + deferred gtag in main.astro│
    │                                                          │
-   │  RESOURCE: https://tagmanager.google.com → Learn section │
+   │  RESOURCE: https://analytics.google.com → Learn section  │
    └──────────────────────────────────────────────────────────┘
                            │
                            ▼
@@ -1375,7 +1377,7 @@ WEEK 4: REFINE & PERSIST
                 │
   PHASE 6 ─→ SEO → Zod/Forms → nanostores → Cloudflare
                 │
-  PHASE 7 ─→ GTM/Analytics → Google Business Profile
+  PHASE 7 ─→ GA4 Analytics → Google Business Profile
                 │
   PHASE 8 ─→ Video │ Copywriting │ Design │ Ads │ A11y │ Testing
 
@@ -1419,10 +1421,10 @@ WEEK 4: REFINE & PERSIST
 | Zod | `schemas/contact.ts` (shared client+server validation) |
 | nanostores | `stores/modalStore.ts`, `windowStore.ts`, `sidebarHintStore.ts` |
 | Cloudflare | Deployment, DNS, Turnstile, Workers (`/api/send`), edge caching |
-| GTM/Analytics | `lib/analytics.ts`, Partytown integration in `astro.config.mjs` |
+| GTM/Analytics | `lib/analytics.ts`, deferred GA4 in `main.astro` |
 
 ---
 
-*Last updated: February 11, 2026*
-*Version: 1.1*
+*Last updated: February 13, 2026*
+*Version: 2.0*
 *Author: Lyrix Digital*
