@@ -23,6 +23,7 @@ import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import WindowFrame from './WindowFrame';
 import { useTranslations } from '../i18n/utils';
+import { openContactModal } from '../stores/modalStore';
 import type { Lang } from '../i18n/ui';
 
 // ─── DATA ───
@@ -165,7 +166,7 @@ function PlaceholderPacket({ t, onClick }: { t: (key: string) => string; onClick
         <span className="text-base font-semibold text-[#CCFF00]/70 group-hover:text-[#CCFF00] transition-colors uppercase tracking-wider font-mono">
           {t('telemetry.placeholder.headline')}
         </span>
-        <span className="text-xs text-white/40 mt-2 text-center max-w-[220px]">
+        <span className="text-xs text-white/40 mt-2 text-center max-w-55">
           {t('telemetry.placeholder.sub')}
         </span>
       </div>

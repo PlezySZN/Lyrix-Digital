@@ -43,6 +43,10 @@
 /*.svg
   Cache-Control: public, max-age=2592000
 
-# HTML pages - short cache for dynamic content
+# HTML pages - short cache with revalidation for fast repeat visits
 /*.html
-  Cache-Control: public, max-age=0, must-revalidate
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# Root path (serves index.html)
+/
+  Cache-Control: public, max-age=3600, must-revalidate

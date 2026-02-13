@@ -156,121 +156,124 @@ export default function HeroContent({ translations: t }: HeroContentProps) {
           </AnimatePresence>
         </div>
 
-        {/* ─── CONTENT CONTAINER ─── */}
-        <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-8rem)] px-6 py-20">
+        {/* ─── CONTENT CONTAINER — Split layout: text left, CTA right ─── */}
+        <div className="relative z-10 flex flex-col lg:flex-row items-center lg:items-center justify-center lg:justify-between gap-10 lg:gap-16 min-h-[calc(100vh-8rem)] px-6 lg:px-16 xl:px-24 py-20">
 
-          {/* ─── HEADLINE (Hover-Color) ─── */}
-          {/* CLS fix: explicit min-h per breakpoint locks the box before fonts load */}
-          <div
-            className="hero-headline-container text-center mb-6 min-h-[72px] sm:min-h-[84px] md:min-h-[110px] lg:min-h-[84px] flex items-center justify-center"
-          >
+          {/* ─── LEFT COLUMN: Headline + Subtitle ─── */}
+          <div className="flex-1 flex flex-col items-center lg:items-start justify-center">
+            {/* ─── HEADLINE (Hover-Color) ─── */}
+            {/* CLS fix: explicit min-h per breakpoint locks the box before fonts load */}
             <div
-              role="presentation"
-              aria-hidden="true"
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1] cursor-default select-none"
-              style={{ fontFamily: 'var(--font-oswald, var(--font-barlow, sans-serif))' }}
-              onMouseLeave={() => setHoveredChar(null)}
+              className="hero-headline-container text-center lg:text-left mb-6 min-h-18 sm:min-h-21 md:min-h-27.5 lg:min-h-auto flex items-center justify-center lg:justify-start"
             >
-              {(() => {
-                let charIndex = 0;
-                return t['hero.headline'].split(' ').map((word, wi) => (
-                  <span key={wi} className="inline-block whitespace-nowrap">
-                    {word.split('').map((char) => {
-                      const i = charIndex++;
-                      return (
-                        <span
-                          key={i}
-                          onMouseEnter={() => handleCharHover(i)}
-                          className="inline-block transition-colors duration-[50ms]"
-                          style={{
-                            color: hoveredChar === i ? charColor : undefined,
-                            textShadow: hoveredChar === i ? `0 0 20px ${charColor}, 0 0 40px ${charColor}40` : 'none',
-                          }}
-                        >
-                          {char}
-                        </span>
-                      );
-                    })}
-                    {wi < t['hero.headline'].split(' ').length - 1 && (
-                      <span className="inline-block" style={{ minWidth: '0.25em' }}>&nbsp;</span>
-                    )}
-                  </span>
-                ));
-              })()}
+              <div
+                role="presentation"
+                aria-hidden="true"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-white leading-[1.1] cursor-default select-none"
+                style={{ fontFamily: 'var(--font-oswald, sans-serif)' }}
+                onMouseLeave={() => setHoveredChar(null)}
+              >
+                {(() => {
+                  let charIndex = 0;
+                  return t['hero.headline'].split(' ').map((word, wi) => (
+                    <span key={wi} className="inline-block whitespace-nowrap">
+                      {word.split('').map((char) => {
+                        const i = charIndex++;
+                        return (
+                          <span
+                            key={i}
+                            onMouseEnter={() => handleCharHover(i)}
+                            className="inline-block transition-colors duration-50"
+                            style={{
+                              color: hoveredChar === i ? charColor : undefined,
+                              textShadow: hoveredChar === i ? `0 0 20px ${charColor}, 0 0 40px ${charColor}40` : 'none',
+                            }}
+                          >
+                            {char}
+                          </span>
+                        );
+                      })}
+                      {wi < t['hero.headline'].split(' ').length - 1 && (
+                        <span className="inline-block" style={{ minWidth: '0.25em' }}>&nbsp;</span>
+                      )}
+                    </span>
+                  ));
+                })()}
+              </div>
             </div>
+
+            {/* ─── SUBTITLE ─── */}
+            <motion.p
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 1 }}
+              className="text-center lg:text-left text-sm sm:text-base md:text-lg text-white/50 max-w-xl leading-relaxed px-4 lg:px-0"
+            >
+              {t['hero.subtitle']}
+            </motion.p>
           </div>
 
-          {/* ─── SUBTITLE ─── */}
-          {/* CLS FIX: No initial animation - content visible immediately */}
-          <motion.p
-            initial={{ opacity: 1 }}
-            animate={{ opacity: 1 }}
-            className="text-center text-sm sm:text-base md:text-lg text-white/50 max-w-2xl leading-relaxed mb-14 md:mb-20 px-4"
-          >
-            {t['hero.subtitle']}
-          </motion.p>
-
-          {/* ─── MASTER NODE — Single CTA Folder ─── */}
-          {/* CLS FIX: No initial animation - prevent layout shifts */}
-          <motion.div
-            initial={{ opacity: 1 }}
-            animate={{ opacity: 1 }}
-          >
-            <motion.button
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ duration: 0.15, ease: 'easeOut' }}
-              onClick={() => openContactModal('', 'hero')}
-              className="group relative cursor-pointer"
+          {/* ─── RIGHT COLUMN: CTA Folder (Bigger) ─── */}
+          <div className="shrink-0 flex items-center justify-center">
+            <motion.div
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 1 }}
             >
-              {/* Breathing neon glow — compositor-optimized (transform + opacity only) */}
-              <div className="absolute -inset-3 rounded-3xl bg-[#CCFF00]/10 blur-2xl animate-pulse-perf group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="absolute -inset-1 rounded-2xl bg-linear-to-b from-[#CCFF00]/20 to-transparent opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500" />
+              <motion.button
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ duration: 0.15, ease: 'easeOut' }}
+                onClick={() => openContactModal('', 'hero')}
+                className="group relative cursor-pointer"
+              >
+                {/* Breathing neon glow — compositor-optimized (transform + opacity only) */}
+                <div className="absolute -inset-4 rounded-3xl bg-[#CCFF00]/10 blur-2xl animate-pulse-perf group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute -inset-2 rounded-2xl bg-linear-to-b from-[#CCFF00]/20 to-transparent opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500" />
 
-              {/* Card body — macOS folder style */}
-              <div className="relative w-72 sm:w-80 md:w-96 rounded-2xl border border-white/10 bg-white/3 backdrop-blur-md overflow-hidden transition-all duration-300 group-hover:border-[#CCFF00]/30 group-hover:bg-white/6">
+                {/* Card body — macOS folder style (BIGGER) */}
+                <div className="relative w-80 sm:w-96 lg:w-[26rem] xl:w-[28rem] rounded-2xl border border-white/10 bg-white/3 backdrop-blur-md overflow-hidden transition-all duration-300 group-hover:border-[#CCFF00]/30 group-hover:bg-white/6">
 
-                {/* Folder tab */}
-                <div className="flex items-center gap-2 px-5 pt-4 pb-2">
-                  <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-[#CCFF00]/10 border border-[#CCFF00]/20 group-hover:bg-[#CCFF00]/20 group-hover:border-[#CCFF00]/40 transition-all duration-300">
-                    <FolderOpen className="w-5 h-5 text-[#CCFF00]" />
+                  {/* Folder tab */}
+                  <div className="flex items-center gap-3 px-6 pt-5 pb-3">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-[#CCFF00]/10 border border-[#CCFF00]/20 group-hover:bg-[#CCFF00]/20 group-hover:border-[#CCFF00]/40 transition-all duration-300">
+                      <FolderOpen className="w-6 h-6 text-[#CCFF00]" />
+                    </div>
+                    <div className="flex-1 text-left">
+                      <span className="text-sm font-mono text-[#CCFF00]/60 uppercase tracking-widest">
+                        Lyrix Digital
+                      </span>
+                    </div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#CCFF00] animate-pulse-perf" />
                   </div>
-                  <div className="flex-1 text-left">
-                    <span className="text-xs font-mono text-[#CCFF00]/60 uppercase tracking-widest">
-                      Lyrix Digital
+
+                  {/* Divider */}
+                  <div className="mx-6 border-t border-white/5" />
+
+                  {/* CTA label */}
+                  <div className="px-6 py-6">
+                    <div className="flex items-center justify-between gap-4">
+                      <span className="flex-1 font-mono text-lg md:text-xl lg:text-2xl font-bold text-white tracking-wide group-hover:text-[#CCFF00] transition-colors duration-300">
+                        {t['hero.cta']}
+                      </span>
+                      <ArrowRight className="w-6 h-6 shrink-0 text-white/40 group-hover:text-[#CCFF00] group-hover:translate-x-1 transition-all duration-300" />
+                    </div>
+                    <p className="text-sm text-white/30 font-mono mt-3">
+                      {t['hero.cta.hint']}
+                    </p>
+                  </div>
+
+                  {/* Footer bar */}
+                  <div className="flex items-center justify-between px-6 py-4 bg-white/2 border-t border-white/5">
+                    <span className="text-xs text-white/25 font-mono">
+                      {t['hero.cta.meta']}
+                    </span>
+                    <span className="text-xs text-white/25 font-mono">
+                      Type: Project
                     </span>
                   </div>
-                  <div className="w-2 h-2 rounded-full bg-[#CCFF00] animate-pulse-perf" />
                 </div>
-
-                {/* Divider */}
-                <div className="mx-5 border-t border-white/5" />
-
-                {/* CTA label */}
-                <div className="px-5 py-5">
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="flex-1 font-mono text-base md:text-lg font-bold text-white tracking-wide group-hover:text-[#CCFF00] transition-colors duration-300">
-                      {t['hero.cta']}
-                    </span>
-                    <ArrowRight className="w-5 h-5 flex-shrink-0 text-white/40 group-hover:text-[#CCFF00] group-hover:translate-x-1 transition-all duration-300" />
-                  </div>
-                  <p className="text-xs text-white/30 font-mono mt-2">
-                    {t['hero.cta.hint']}
-                  </p>
-                </div>
-
-                {/* Footer bar */}
-                <div className="flex items-center justify-between px-5 py-3 bg-white/2 border-t border-white/5">
-                  <span className="text-[11px] text-white/25 font-mono">
-                    {t['hero.cta.meta']}
-                  </span>
-                  <span className="text-[11px] text-white/25 font-mono">
-                    Type: Project
-                  </span>
-                </div>
-              </div>
-            </motion.button>
-          </motion.div>
+              </motion.button>
+            </motion.div>
+          </div>
         </div>
       </div>
     </div>

@@ -92,11 +92,9 @@ const safeDescription = resolvedDescription.length <= MAX_DESC_LENGTH
 		<meta name="google" content="notranslate" />
 		<title>{resolvedTitle}</title>
 
-		<!-- ═══ CRITICAL PRECONNECTS — fonts, GTM, analytics ═══ -->
+		<!-- ═══ CRITICAL PRECONNECTS — fonts + analytics ═══ -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link rel="preconnect" href="https://www.googletagmanager.com" />
-		<link rel="dns-prefetch" href="https://www.google-analytics.com" />
 
 		<!-- ═══ FONT ENGINE (astro-font: auto @font-face + swap + size-adjust fallbacks) ═══ -->
 		<!-- preload:false globally — we hand-pick the 2 LCP-critical files below -->
@@ -105,20 +103,11 @@ const safeDescription = resolvedDescription.length <= MAX_DESC_LENGTH
 				{
 					name: 'Oswald',
 					src: [],
-					googleFontsURL: 'https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap',
+					googleFontsURL: 'https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap',
 					preload: false,
 					display: 'swap',
 					fallback: 'sans-serif',
 					cssVariable: 'font-oswald',
-				},
-				{
-					name: 'Barlow Condensed',
-					src: [],
-					googleFontsURL: 'https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&display=swap',
-					preload: false,
-					display: 'swap',
-					fallback: 'sans-serif',
-					cssVariable: 'font-barlow',
 				},
 				{
 					name: 'Inter',
@@ -178,9 +167,9 @@ const safeDescription = resolvedDescription.length <= MAX_DESC_LENGTH
 			body { background-color: #050505; color: #ffffff; min-height: 100vh; }
 		</style>
 
-		<!-- ═══ GA4 — Main-thread (engagement tracking needs DOM events) ═══ -->
-		<!-- Partytown can't forward visibilitychange/pagehide to the worker,
-		     so GA4 must run on the main thread for accurate bounce/engagement. -->
+		<!-- ═══ GA4 — Lightweight direct integration ═══ -->
+		<!-- No GTM/Partytown overhead. GA4 gtag.js (~28KB gzipped) handles
+		     page_view, engagement, and custom events directly. -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-9S6JHDLHVB"></script>
 		<script is:inline>
 			window.dataLayer = window.dataLayer || [];
@@ -190,27 +179,14 @@ const safeDescription = resolvedDescription.length <= MAX_DESC_LENGTH
 			gtag('config', 'G-9S6JHDLHVB', { send_page_view: true });
 		</script>
 
-		<!-- ═══ GTM via Partytown (off main-thread) — custom tags & triggers ═══ -->
-		<script type="text/partytown">
-			(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-			new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-			j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-			'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-			})(window,document,'script','dataLayer','GTM-WTFWPT52');
-		</script>
-
 		<!-- ═══ Extra head content from child pages ═══ -->
 		<slot name="head" />
 	</head>
 	<body class="antialiased">
-		<!-- GTM noscript fallback (no JS impact) -->
-		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WTFWPT52"
-		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-
 		<!-- ═══ Skip-to-content (WCAG 2.1 AA) ═══ -->
 		<a
 			href="#main-content"
-			class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-[#CCFF00] focus:text-[#0a0a0a] focus:font-bold focus:text-sm focus:rounded focus:outline-none focus:ring-2 focus:ring-[#CCFF00]/50"
+			class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-9999 focus:px-4 focus:py-2 focus:bg-[#CCFF00] focus:text-[#0a0a0a] focus:font-bold focus:text-sm focus:rounded focus:outline-none focus:ring-2 focus:ring-[#CCFF00]/50"
 		>
 			{lang === 'es' ? 'Saltar al contenido' : 'Skip to content'}
 		</a>

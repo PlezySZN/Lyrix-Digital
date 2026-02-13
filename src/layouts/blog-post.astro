@@ -124,7 +124,7 @@ const readMoreLabel = lang === 'es' ? 'LEER →' : 'READ →';
           ))}
         </div>
 
-        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight mb-4 font-[family-name:var(--font-oswald)] uppercase">
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight mb-4 font-(family-name:--font-oswald) uppercase">
           {frontmatter.title}
         </h1>
 
@@ -154,10 +154,10 @@ const readMoreLabel = lang === 'es' ? 'LEER →' : 'READ →';
       </div>
 
       {/* ═══ AUTHOR BIO — E-E-A-T Signal ═══ */}
-      <aside class="mt-12 p-6 rounded-xl border border-white/5 bg-white/[0.02]" aria-label={lang === 'es' ? 'Sobre el autor' : 'About the author'}>
+      <aside class="mt-12 p-6 rounded-xl border border-white/5 bg-white/2" aria-label={lang === 'es' ? 'Sobre el autor' : 'About the author'}>
         <div class="flex items-start gap-4">
-          <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-[#CCFF00]/10 border border-[#CCFF00]/20 flex items-center justify-center">
-            <span class="text-lg font-bold text-[#CCFF00] font-[family-name:var(--font-oswald)]">
+          <div class="shrink-0 w-12 h-12 rounded-xl bg-[#CCFF00]/10 border border-[#CCFF00]/20 flex items-center justify-center">
+            <span class="text-lg font-bold text-[#CCFF00] font-(family-name:--font-oswald)">
               {authorData.name.charAt(0)}
             </span>
           </div>
@@ -182,13 +182,13 @@ const readMoreLabel = lang === 'es' ? 'LEER →' : 'READ →';
               return (
                 <a
                   href={`/${lang}/blog/${post.slug}/`}
-                  class="group flex items-center justify-between p-4 rounded-lg border border-white/5 bg-white/[0.02] hover:border-[#CCFF00]/20 hover:bg-[#CCFF00]/[0.02] transition-all duration-200"
+                  class="group flex items-center justify-between p-4 rounded-lg border border-white/5 bg-white/2 hover:border-[#CCFF00]/20 hover:bg-[#CCFF00]/2 transition-all duration-200"
                 >
                   <div class="min-w-0 flex-1">
                     <p class="text-sm font-semibold text-white group-hover:text-[#CCFF00] transition-colors truncate">{post.data.title}</p>
                     <p class="text-xs font-mono text-white/30 mt-1">{postDate}</p>
                   </div>
-                  <span class="flex-shrink-0 text-xs font-mono text-white/20 group-hover:text-[#CCFF00]/60 ml-4 transition-colors">{readMoreLabel}</span>
+                  <span class="shrink-0 text-xs font-mono text-white/20 group-hover:text-[#CCFF00]/60 ml-4 transition-colors">{readMoreLabel}</span>
                 </a>
               );
             })}

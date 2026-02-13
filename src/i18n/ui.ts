@@ -132,7 +132,9 @@ export const ui = {
     'teaser.title': 'Lyrix_Commercial_2026.mov',
     'teaser.format': '6K / Cinema',
     'teaser.status': 'EN PRODUCCIÓN',
+    'teaser.statusLive': 'EN VIVO',
     'teaser.caption': '// Un comercial cinematográfico está en camino. Filmado con cámaras de cine 6K.',
+    'teaser.captionLive': '// Filmado con cámaras de cine 6K. Producido por Lyrix Films.',
 
     // ─── PRICING ───
     'pricing.label': 'INVERSIÓN',
@@ -465,7 +467,9 @@ export const ui = {
     'teaser.title': 'Lyrix_Commercial_2026.mov',
     'teaser.format': '6K / Cinema',
     'teaser.status': 'IN PRODUCTION',
+    'teaser.statusLive': 'LIVE',
     'teaser.caption': '// A cinematic commercial is in the works. Shot on 6K cinema cameras.',
+    'teaser.captionLive': '// Shot on 6K cinema cameras. Produced by Lyrix Films.',
 
     // ─── PRICING ───
     'pricing.label': 'INVESTMENT',

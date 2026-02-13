@@ -57,6 +57,6 @@ const keywords = lang === 'es'
 		<FAQ lang={lang}/>
 		<CTA lang={lang}/>
 	</main>
-	<OnboardingHints lang={lang} client:idle />
-	<ConsentBanner lang={lang} client:idle />
+	<OnboardingHints lang={lang} client:only="react" />
+	<ConsentBanner lang={lang} client:only="react" />
 </Layout>

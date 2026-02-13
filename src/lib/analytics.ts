@@ -1,22 +1,21 @@
 /**
  * ═══════════════════════════════════════════════════════════
- * ANALYTICS — GTM DataLayer Event Utility
+ * ANALYTICS — GA4 Event Utility
  *
- * Centralized event tracking that pushes custom events to the
- * GTM dataLayer. Since GTM runs via Partytown (off main-thread),
- * we push to window.dataLayer which Partytown forwards.
+ * Lightweight event tracking via gtag.js (main thread).
+ * No GTM/Partytown overhead.
  *
  * Usage:
  *   trackEvent('generate_lead', { sector: 'Industry', budget: '$5K-$10K' })
  *
- * GTM Event Names (GA4-aligned):
- * ─ cta_click       → Any CTA button pressed (source: hero|cta|pricing|statusbar|spotlight)
- * ─ generate_lead   → Contact form submitted successfully
+ * GA4 Event Names:
+ * ─ cta_click       → Any CTA button pressed
+ * ─ generate_lead   → Contact form submitted
  * ─ modal_open      → Contact modal opened
  * ─ modal_close     → Contact modal closed
  * ─ contact_call    → Phone number link clicked
  * ─ contact_email   → Email link clicked
- * ─ social_click    → Social media link clicked (platform: instagram)
+ * ─ social_click    → Social media link clicked
  * ═══════════════════════════════════════════════════════════
  */
 
@@ -28,8 +27,8 @@ declare global {
 }
 
 /**
- * Push a custom event to the GTM dataLayer.
- * No-ops silently if dataLayer isn't available (SSR / blocked).
+ * Push an event to GA4 via gtag.
+ * No-ops silently if gtag isn't available (SSR / blocked).
  */
 export function trackEvent(
   event: string,
@@ -37,15 +36,6 @@ export function trackEvent(
 ) {
   if (typeof window === 'undefined') return;
 
-  // GTM dataLayer (forwarded by Partytown)
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({
-    event,
-    ...params,
-  });
-
-  // Direct GA4 gtag call (reliable fallback when Partytown
-  // doesn't forward dataLayer pushes fast enough)
   if (typeof window.gtag === 'function') {
     window.gtag('event', event, params);
   }

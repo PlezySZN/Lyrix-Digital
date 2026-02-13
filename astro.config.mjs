@@ -19,7 +19,6 @@
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
 import cloudflare from '@astrojs/cloudflare';
-import partytown from '@astrojs/partytown';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 
@@ -113,11 +112,6 @@ export default defineConfig({
           item.changefreq = 'monthly';
         }
         return item;
-      },
-    }),
-    partytown({
-      config: {
-        forward: ['dataLayer.push', 'gtag'],
       },
     }),
   ],

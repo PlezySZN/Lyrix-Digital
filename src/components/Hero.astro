@@ -91,7 +91,7 @@ const resolvedHeadline = headline ?? t(lang, 'hero.headline');
 
   <!-- React Island: Hero with Finder Navigation -->
   <!-- Translations passed as props (resolved at build time) -->
-  <HeroContent translations={heroT} client:idle />
+  <HeroContent translations={heroT} client:load />
 </header>
 
 <!--
