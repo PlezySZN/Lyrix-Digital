@@ -458,7 +458,6 @@ Set these in Cloudflare Pages dashboard (or `.env` locally):
 | Variable | Purpose |
 |----------|---------|
 | `RESEND_API_KEY` | Resend email API key |
-| `PUBLIC_CF_BEACON_TOKEN` | Cloudflare Web Analytics beacon token |
 | `PUBLIC_TURNSTILE_SITE_KEY` | Cloudflare Turnstile (client-side) |
 | `TURNSTILE_SECRET_KEY` | Cloudflare Turnstile (server-side) |
 
