@@ -24,7 +24,5 @@ pnpm-debug.log*
 .idea/
 
 # docs
-docs/ARCHITECTURE.md
-docs/ROADMAP.md
-docs/SEO-KEYWORDS-PUERTO-RICO.md
-docs/TESTING-CHECKLIST.md
+.docs/ARCHITECTURE.md
+docs/
