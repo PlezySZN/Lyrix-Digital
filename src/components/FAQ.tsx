@@ -15,7 +15,7 @@ import type { KnowledgeEntry } from '../types';
 
 // ─── DATA ───
 
-const knowledgeIds = ['Q001', 'Q002', 'Q003', 'Q004', 'Q005', 'Q006', 'Q007', 'Q008'] as const;
+const knowledgeIds = ['Q001', 'Q002', 'Q003', 'Q004', 'Q005', 'Q006', 'Q007', 'Q008', 'Q009'] as const;
 
 // ─── ACCORDION ITEM COMPONENT ───
 

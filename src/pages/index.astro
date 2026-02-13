@@ -23,6 +23,7 @@ import CinematicTeaser from '../components/CinematicTeaser';
 import Pricing from '../components/Pricing';
 import Blog from '../components/sections/Blog.astro';
 import OnboardingHints from '../components/OnboardingHints';
+import ConsentBanner from '../components/ConsentBanner';
 
 const lang: Lang = 'en';
 const keywords = 'web design puerto rico, web development PR, digital agency puerto rico, website creation, web design san juan, video production PR, SEO puerto rico, digital marketing PR';
@@ -45,5 +46,6 @@ const keywords = 'web design puerto rico, web development PR, digital agency pue
 		<CTA lang={lang} />
 	</main>
 	<OnboardingHints lang={lang} client:idle />
+	<ConsentBanner lang={lang} client:idle />
 </Layout>
 

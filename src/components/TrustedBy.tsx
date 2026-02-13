@@ -35,19 +35,9 @@ function UnidineLogo() {
   );
 }
 
-function JuanPlumbingLogo() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <rect width="32" height="32" rx="6" fill="#111111" stroke="#CCFF00" strokeWidth="0.5" strokeOpacity="0.3" />
-      <text x="16" y="21" textAnchor="middle" fontFamily="'Oswald', sans-serif" fontWeight="700" fontSize="16" fill="#CCFF00" opacity="0.8">JP</text>
-    </svg>
-  );
-}
-
 const CLIENTS = [
   { name: 'Sweet Vacations', type: 'APARTMENTS', Logo: SweetVacationsLogo },
   { name: 'Unidine Co.', type: 'RESTAURANT', Logo: UnidineLogo },
-  { name: 'Juan Plumbing Co.', type: 'CONTRACTOR', Logo: JuanPlumbingLogo },
 ];
 
 export default function TrustedBy({ lang = 'en' }: { lang?: Lang }) {

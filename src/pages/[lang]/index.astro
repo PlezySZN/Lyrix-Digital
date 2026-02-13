@@ -23,6 +23,7 @@ import CinematicTeaser from '../../components/CinematicTeaser';
 import Pricing from '../../components/Pricing';
 import Blog from '../../components/sections/Blog.astro';
 import OnboardingHints from '../../components/OnboardingHints';
+import ConsentBanner from '../../components/ConsentBanner';
 
 export function getStaticPaths() {
   // Only Spanish gets a /es/ prefix route.
@@ -57,4 +58,5 @@ const keywords = lang === 'es'
 		<CTA lang={lang}/>
 	</main>
 	<OnboardingHints lang={lang} client:idle />
+	<ConsentBanner lang={lang} client:idle />
 </Layout>

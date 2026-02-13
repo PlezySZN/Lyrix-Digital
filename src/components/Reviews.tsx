@@ -38,73 +38,45 @@ interface ReviewData {
   clientType: string;
 }
 
-const packets: ReviewData[] = [
+interface PlaceholderData {
+  id: string;
+  placeholder: true;
+}
+
+type CardData = ReviewData | PlaceholderData;
+
+function isPlaceholder(card: CardData): card is PlaceholderData {
+  return 'placeholder' in card;
+}
+
+const cards: CardData[] = [
   {
     id: 'PKT_001',
-    source: 'San Juan, PR',
+    source: 'Levittown, PR',
     signal: 100,
     latency: '12ms',
     payloadKey: 'telemetry.r1',
-    user: 'Carlos R.',
-    role: 'CEO',
-    clientType: 'CONTRACTOR',
+    user: 'Sweet Vacations',
+    role: 'Propiedad',
+    clientType: 'APARTMENTS',
   },
+  { id: 'PKT_NEXT_1', placeholder: true },
   {
     id: 'PKT_002',
-    source: 'Bayamón, PR',
-    signal: 98,
-    latency: '8ms',
-    payloadKey: 'telemetry.r2',
-    user: 'Maria S.',
-    role: 'Creative Director',
-    clientType: 'ARTIST',
-  },
-  {
-    id: 'PKT_003',
-    source: 'Ponce, PR',
-    signal: 95,
-    latency: '15ms',
-    payloadKey: 'telemetry.r3',
-    user: 'José M.',
-    role: 'Owner',
-    clientType: 'RETAIL',
-  },
-  {
-    id: 'PKT_004',
-    source: 'Carolina, PR',
-    signal: 100,
-    latency: '9ms',
-    payloadKey: 'telemetry.r4',
-    user: 'Ana L.',
-    role: 'Marketing Lead',
-    clientType: 'CONTRACTOR',
-  },
-  {
-    id: 'PKT_005',
     source: 'Caguas, PR',
     signal: 97,
     latency: '11ms',
-    payloadKey: 'telemetry.r5',
-    user: 'David P.',
-    role: 'Founder',
-    clientType: 'HOSPITALITY',
+    payloadKey: 'telemetry.r2',
+    user: 'Unidine Co.',
+    role: 'Restaurante',
+    clientType: 'RESTAURANT',
   },
-  {
-    id: 'PKT_006',
-    source: 'Arecibo, PR',
-    signal: 100,
-    latency: '7ms',
-    payloadKey: 'telemetry.r6',
-    user: 'Roberto C.',
-    role: 'Director',
-    clientType: 'CONTRACTOR',
-  },
+  { id: 'PKT_NEXT_2', placeholder: true },
 ];
 
 // ─── PACKET COMPONENT ───
 
 function DataPacket({ packet, t }: { packet: ReviewData; t: (key: string) => string }) {
-  // Calculate stars from signal (signal/100 * 5)
   const stars = ((packet.signal / 100) * 5).toFixed(1);
 
   return (
@@ -167,6 +139,47 @@ function DataPacket({ packet, t }: { packet: ReviewData; t: (key: string) => str
   );
 }
 
+// ─── PLACEHOLDER "BE THE NEXT" CARD ───
+
+function PlaceholderPacket({ t, onClick }: { t: (key: string) => string; onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className="relative shrink-0 w-80 md:w-96 p-5 rounded-xl border border-dashed border-[#CCFF00]/20 bg-[#CCFF00]/3 hover:bg-[#CCFF00]/6 hover:border-[#CCFF00]/40 transition-all duration-300 cursor-pointer group text-left"
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#CCFF00]/10">
+        <span className="text-xs font-mono text-[#CCFF00]/40">
+          PKT_????
+        </span>
+        <span className="text-xs font-mono text-[#CCFF00]/40">
+          {t('telemetry.placeholder.waiting')}
+        </span>
+      </div>
+
+      {/* Center CTA */}
+      <div className="flex flex-col items-center justify-center py-6">
+        <div className="w-14 h-14 rounded-full border-2 border-dashed border-[#CCFF00]/30 flex items-center justify-center mb-4 group-hover:border-[#CCFF00]/60 transition-colors">
+          <span className="text-2xl text-[#CCFF00]/50 group-hover:text-[#CCFF00]/80 transition-colors font-bold">+</span>
+        </div>
+        <span className="text-base font-semibold text-[#CCFF00]/70 group-hover:text-[#CCFF00] transition-colors uppercase tracking-wider font-mono">
+          {t('telemetry.placeholder.headline')}
+        </span>
+        <span className="text-xs text-white/40 mt-2 text-center max-w-[220px]">
+          {t('telemetry.placeholder.sub')}
+        </span>
+      </div>
+
+      {/* Footer */}
+      <div className="flex items-center justify-center pt-2 border-t border-[#CCFF00]/10">
+        <span className="text-xs font-mono text-[#CCFF00]/50 group-hover:text-[#CCFF00]/80 transition-colors">
+          {'>'} {t('telemetry.placeholder.cta')}
+        </span>
+      </div>
+    </button>
+  );
+}
+
 // ─── MAIN COMPONENT ───
 
 export default function Reviews({ lang = 'en' }: { lang?: Lang }) {
@@ -174,8 +187,8 @@ export default function Reviews({ lang = 'en' }: { lang?: Lang }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: '-80px' });
 
-  // Duplicate packets for seamless loop
-  const duplicatedPackets = [...packets, ...packets];
+  // Duplicate cards for seamless loop
+  const duplicatedCards = [...cards, ...cards];
 
   return (
     <WindowFrame id="telemetry" className="relative w-full bg-lyrix-dark px-4 md:px-8 pb-8">
@@ -225,19 +238,17 @@ export default function Reviews({ lang = 'en' }: { lang?: Lang }) {
             <div className="absolute left-0 top-0 bottom-0 w-8 bg-linear-to-r from-[#0a0a0a]/80 to-transparent z-10 pointer-events-none" />
             <div className="absolute right-0 top-0 bottom-0 w-8 bg-linear-to-l from-[#0a0a0a]/80 to-transparent z-10 pointer-events-none" />
 
-            {/* Scrolling packets */}
+            {/* Scrolling cards */}
             <div
               className="flex gap-4 animate-marquee"
               style={{
-                width: `${(duplicatedPackets.length * (384 + 16))}px`, // 384px = w-96, 16px = gap-4
+                width: `${(duplicatedCards.length * (384 + 16))}px`,
               }}
             >
-              {duplicatedPackets.map((packet, index) => (
-                <DataPacket 
-                  key={`${packet.id}-${index}`}
-                  packet={packet}
-                  t={t}
-                />
+              {duplicatedCards.map((card, index) => (
+                isPlaceholder(card)
+                  ? <PlaceholderPacket key={`${card.id}-${index}`} t={t} onClick={() => openContactModal()} />
+                  : <DataPacket key={`${card.id}-${index}`} packet={card} t={t} />
               ))}
             </div>
           </motion.div>
@@ -254,7 +265,7 @@ export default function Reviews({ lang = 'en' }: { lang?: Lang }) {
             transition={{ duration: 0.5, delay: 0.5 }}
             className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-white/30"
           >
-            <span>{t('telemetry.footer.connections').replace('{count}', String(packets.length))}</span>
+            <span>{t('telemetry.footer.connections').replace('{count}', String(cards.filter(c => !isPlaceholder(c)).length))}</span>
             <span className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[#CCFF00] animate-pulse" />
               <span>{t('telemetry.footer.stream')}</span>

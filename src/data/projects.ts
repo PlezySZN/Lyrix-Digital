@@ -67,20 +67,7 @@ export const projectStructure: ProjectStructure[] = [
       '/Unidine_cta.png',
     ],
   },
-  {
-    id: '#003',
-    client: 'Juan Plumbing Co.',
-    typeColor: 'text-pink-400',
-    year: '2025',
-    previewGradient: ['#1a0a1a', '#2b0f2b'],
-    previewGradients: [
-      ['#1a0a1a', '#2b0f2b'],
-      ['#0a1a1a', '#0f2b2b'],
-      ['#1a1a0a', '#2b2b0f'],
-    ],
-    comingSoon: true,
-    images: [],
-  },
+
 ];
 
 // ─── RESOLVER ───
