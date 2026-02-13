@@ -318,7 +318,7 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
               <button
                 onClick={closeContactModal}
                 aria-label={lang === 'es' ? 'Cerrar' : 'Close'}
-                className="text-white/30 hover:text-white/60 transition-colors"
+                className="text-white/60 hover:text-white/80 transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -337,7 +337,7 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
                 <h3 className="text-xl font-semibold text-white mb-2">
                   {t('contact.submitted.title')}
                 </h3>
-                <p className="text-sm text-white/50 font-mono">
+                <p className="text-sm text-white/60 font-mono">
                   {t('contact.submitted.eta')}
                 </p>
               </motion.div>
@@ -380,7 +380,7 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder={t('contact.name.placeholder')}
-                    className={`w-full px-4 py-3 rounded-lg bg-white/3 border text-sm text-white placeholder:text-white/20 font-mono focus:outline-none transition-all ${
+                    className={`w-full px-4 py-3 rounded-lg bg-white/3 border text-sm text-white placeholder:text-white/50 font-mono focus:outline-none transition-all ${
                       fieldErrors.name
                         ? 'border-red-500/50 focus:border-red-400/60 focus:ring-1 focus:ring-red-400/20'
                         : 'border-white/10 focus:border-[#CCFF00]/40 focus:ring-1 focus:ring-[#CCFF00]/20'
@@ -406,7 +406,7 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder={t('contact.email.placeholder')}
-                    className={`w-full px-4 py-3 rounded-lg bg-white/3 border text-sm text-white placeholder:text-white/20 font-mono focus:outline-none transition-all ${
+                    className={`w-full px-4 py-3 rounded-lg bg-white/3 border text-sm text-white placeholder:text-white/50 font-mono focus:outline-none transition-all ${
                       fieldErrors.email
                         ? 'border-red-500/50 focus:border-red-400/60 focus:ring-1 focus:ring-red-400/20'
                         : 'border-white/10 focus:border-[#CCFF00]/40 focus:ring-1 focus:ring-[#CCFF00]/20'
@@ -431,7 +431,7 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder={t('contact.phone.placeholder')}
-                    className={`w-full px-4 py-3 rounded-lg bg-white/3 border text-sm text-white placeholder:text-white/20 font-mono focus:outline-none transition-all ${
+                    className={`w-full px-4 py-3 rounded-lg bg-white/3 border text-sm text-white placeholder:text-white/50 font-mono focus:outline-none transition-all ${
                       fieldErrors.phone
                         ? 'border-red-500/50 focus:border-red-400/60 focus:ring-1 focus:ring-red-400/20'
                         : 'border-white/10 focus:border-[#CCFF00]/40 focus:ring-1 focus:ring-[#CCFF00]/20'
@@ -478,7 +478,7 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
                         <span className={`block text-xs font-mono font-semibold mb-0.5 ${maintenance === mode.value ? 'text-[#CCFF00]' : 'text-white/60'}`}>
                           {mode.label}
                         </span>
-                        <span className="block text-[10px] text-white/30">
+                        <span className="block text-[10px] text-white/60">
                           {mode.desc}
                         </span>
                       </button>
@@ -502,7 +502,7 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
                           px-4 py-2 rounded-lg border text-xs font-mono transition-all duration-200
                           ${budget === range
                             ? 'border-[#CCFF00]/40 bg-[#CCFF00]/5 text-[#CCFF00]'
-                            : 'border-white/5 bg-white/1 text-white/50 hover:border-white/10 hover:bg-white/2'
+                            : 'border-white/5 bg-white/1 text-white/60 hover:border-white/10 hover:bg-white/2'
                           }
                         `}
                       >
@@ -523,7 +523,7 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder={messagePlaceholder}
-                    className={`w-full px-4 py-3 rounded-lg bg-white/3 border text-sm text-white placeholder:text-white/20 font-mono focus:outline-none transition-all resize-none ${
+                    className={`w-full px-4 py-3 rounded-lg bg-white/3 border text-sm text-white placeholder:text-white/50 font-mono focus:outline-none transition-all resize-none ${
                       fieldErrors.message
                         ? 'border-red-500/50 focus:border-red-400/60 focus:ring-1 focus:ring-red-400/20'
                         : 'border-white/10 focus:border-[#CCFF00]/40 focus:ring-1 focus:ring-[#CCFF00]/20'
@@ -562,13 +562,13 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
                         : 'bg-white/3 border border-white/10'
                       }
                     `}>
-                      <Film className={`w-5 h-5 transition-colors duration-300 ${cinematic ? 'text-[#CCFF00]' : 'text-white/40'}`} />
+                      <Film className={`w-5 h-5 transition-colors duration-300 ${cinematic ? 'text-[#CCFF00]' : 'text-white/60'}`} />
                     </div>
                     <div className="flex-1 text-left">
-                      <span className={`block text-xs font-mono font-semibold tracking-wider transition-colors duration-300 ${cinematic ? 'text-[#CCFF00]' : 'text-white/40'}`}>
+                      <span className={`block text-xs font-mono font-semibold tracking-wider transition-colors duration-300 ${cinematic ? 'text-[#CCFF00]' : 'text-white/60'}`}>
                         {t('contact.cinematic.toggle')}
                       </span>
-                      <span className="block text-[10px] text-white/30 mt-0.5">
+                      <span className="block text-[10px] text-white/60 mt-0.5">
                         {t('contact.cinematic.desc')}
                       </span>
                     </div>
@@ -598,31 +598,31 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
                     className="rounded-lg border border-white/5 bg-white/2 overflow-hidden"
                   >
                     <div className="px-4 py-2.5 border-b border-white/5 bg-white/2">
-                      <span className="text-[10px] font-mono text-white/30 uppercase tracking-widest">
+                      <span className="text-[10px] font-mono text-white/60 uppercase tracking-widest">
                         {t('contact.manifest')}
                       </span>
                     </div>
                     <div className="px-4 py-3 space-y-1.5 font-mono text-xs">
                       <div className="flex gap-2">
                         <span className="text-[#CCFF00]/60">&gt;</span>
-                        <span className="text-white/30">{t('contact.manifest.target')}:</span>
+                        <span className="text-white/60">{t('contact.manifest.target')}:</span>
                         <span className="text-white/70">{sectors.find(s => s.value === sector)?.label || '—'}</span>
                       </div>
                       <div className="flex gap-2">
                         <span className="text-[#CCFF00]/60">&gt;</span>
-                        <span className="text-white/30">{t('contact.manifest.budget' as any)}:</span>
+                        <span className="text-white/60">{t('contact.manifest.budget' as any)}:</span>
                         <span className="text-white/70">{budget || t('contact.manifest.budget.pending' as any)}</span>
                       </div>
                       <div className="flex gap-2">
                         <span className="text-[#CCFF00]/60">&gt;</span>
-                        <span className="text-white/30">{t('contact.manifest.protocol')}:</span>
+                        <span className="text-white/60">{t('contact.manifest.protocol')}:</span>
                         <span className="text-white/70">
                           {maintenanceModes.find(m => m.value === maintenance)?.label || '—'}
                         </span>
                       </div>
                       <div className="flex gap-2">
                         <span className="text-[#CCFF00]/60">&gt;</span>
-                        <span className="text-white/30">{t('contact.manifest.modules')}:</span>
+                        <span className="text-white/60">{t('contact.manifest.modules')}:</span>
                         <span className="text-white/70">
                           {t('contact.manifest.module.web')}{cinematic ? ` ${t('contact.manifest.module.video')}` : ''}
                         </span>
@@ -663,7 +663,7 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
                 </motion.button>
 
                 {/* Footer note */}
-                <p className="text-center text-xs font-mono text-white/20">
+                <p className="text-center text-xs font-mono text-white/60">
                   {t('contact.footer')}
                 </p>
               </form>

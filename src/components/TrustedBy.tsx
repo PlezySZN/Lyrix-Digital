@@ -58,7 +58,7 @@ export default function TrustedBy({ lang = 'en' }: { lang?: Lang }) {
           <div className="h-px flex-1 max-w-20 bg-white/10" />
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-3.5 h-3.5 text-[#CCFF00]/60" />
-            <span className="text-[10px] font-mono text-white/40 uppercase tracking-[0.2em]">
+            <span className="text-[10px] font-mono text-white/60 uppercase tracking-[0.2em]">
               {t('trusted.label')}
             </span>
           </div>
@@ -80,7 +80,7 @@ export default function TrustedBy({ lang = 'en' }: { lang?: Lang }) {
                 <span className="text-sm font-mono font-medium text-white/70 tracking-wide">
                   {client.name}
                 </span>
-                <span className="text-[10px] font-mono text-white/30 ml-2 hidden sm:inline">
+                <span className="text-[10px] font-mono text-white/60 ml-2 hidden sm:inline">
                   [{client.type}]
                 </span>
               </div>

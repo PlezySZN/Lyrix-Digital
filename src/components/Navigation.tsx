@@ -112,7 +112,7 @@ function SidebarItem({
         transition-all duration-200 cursor-pointer
         ${isActive
           ? 'bg-white/10 text-white'
-          : 'text-white/50 hover:bg-white/5 hover:text-white/80'
+          : 'text-white/60 hover:bg-white/5 hover:text-white/80'
         }
       `}
     >
@@ -182,7 +182,7 @@ function DesktopSidebar({ lang }: { lang: Lang }) {
                        transition-all duration-200 cursor-pointer"
             aria-label={lang === 'es' ? 'Abrir navegación' : 'Open navigation'}
           >
-            <ChevronRight className="w-4 h-4 text-white/40 group-hover:text-[#CCFF00] transition-colors duration-200" />
+            <ChevronRight className="w-4 h-4 text-white/60 group-hover:text-[#CCFF00] transition-colors duration-200" />
           </motion.button>
         ) : (
           /* ─── EXPANDED: Finder sidebar ─── */
@@ -202,12 +202,12 @@ function DesktopSidebar({ lang }: { lang: Lang }) {
                   <div className="w-2 h-2 rounded-full bg-[#FEBC2E]" />
                   <div className="w-2 h-2 rounded-full bg-[#28C840]" />
                 </div>
-                <span className="text-[10px] font-mono text-white/40 tracking-wider ml-1">FINDER</span>
+                <span className="text-[10px] font-mono text-white/60 tracking-wider ml-1">FINDER</span>
               </div>
 
               {/* Favorites label */}
               <div className="px-3 pt-3 pb-1">
-                <span className="text-[10px] font-mono text-white/30 uppercase tracking-widest">
+                <span className="text-[10px] font-mono text-white/60 uppercase tracking-widest">
                   {lang === 'es' ? 'Favoritos' : 'Favorites'}
                 </span>
               </div>

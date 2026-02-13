@@ -64,13 +64,13 @@ function ProcessNode({
         `}
       >
         <Icon
-          className={`w-7 h-7 transition-colors duration-500 ${isActive ? 'text-[#CCFF00]' : 'text-white/40'}`}
+          className={`w-7 h-7 transition-colors duration-500 ${isActive ? 'text-[#CCFF00]' : 'text-white/60'}`}
         />
       </div>
 
       {/* Step Number + Label */}
       <span
-        className={`text-xs font-mono tracking-widest mb-1.5 transition-colors duration-500 ${isActive ? 'text-[#CCFF00]/80' : 'text-white/30'}`}
+        className={`text-xs font-mono tracking-widest mb-1.5 transition-colors duration-500 ${isActive ? 'text-[#CCFF00]/80' : 'text-white/60'}`}
       >
         NODE {step.id}
       </span>
@@ -320,14 +320,14 @@ export default function Process({ lang = 'en' }: { lang?: Lang }) {
                       `}
                     >
                       <Icon
-                        className={`w-5 h-5 transition-colors duration-500 ${isActive ? 'text-[#CCFF00]' : 'text-white/40'}`}
+                        className={`w-5 h-5 transition-colors duration-500 ${isActive ? 'text-[#CCFF00]' : 'text-white/60'}`}
                       />
                     </div>
 
                     {/* Content */}
                     <div className="ml-4">
                       <span
-                        className={`text-xs font-mono tracking-widest transition-colors duration-500 ${isActive ? 'text-[#CCFF00]/80' : 'text-white/30'}`}
+                        className={`text-xs font-mono tracking-widest transition-colors duration-500 ${isActive ? 'text-[#CCFF00]/80' : 'text-white/60'}`}
                       >
                         NODE {step.id}
                       </span>
@@ -351,7 +351,7 @@ export default function Process({ lang = 'en' }: { lang?: Lang }) {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.5, delay: 0.8 }}
-            className="mt-10 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-white/30"
+            className="mt-10 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-white/60"
           >
             <span>{t('deploy.footer.protocol')}</span>
             <span className="flex items-center gap-1.5">

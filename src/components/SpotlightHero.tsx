@@ -197,7 +197,7 @@ export default function SpotlightHero({ lang = 'en' }: { lang?: Lang }) {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.8, delay: 0.9 }}
-            className="text-center text-sm sm:text-base md:text-lg text-white/50 max-w-2xl leading-relaxed mb-14 md:mb-20 px-4"
+            className="text-center text-sm sm:text-base md:text-lg text-white/60 max-w-2xl leading-relaxed mb-14 md:mb-20 px-4"
           >
             {t('hero.subtitle')}
           </motion.p>
@@ -243,19 +243,19 @@ export default function SpotlightHero({ lang = 'en' }: { lang?: Lang }) {
                     <span className="font-mono text-base md:text-lg font-bold text-white tracking-wide group-hover:text-[#CCFF00] transition-colors duration-300">
                       {t('hero.cta')}
                     </span>
-                    <ArrowRight className="w-5 h-5 text-white/40 group-hover:text-[#CCFF00] group-hover:translate-x-1 transition-all duration-300" />
+                    <ArrowRight className="w-5 h-5 text-white/60 group-hover:text-[#CCFF00] group-hover:translate-x-1 transition-all duration-300" />
                   </div>
-                  <p className="text-xs text-white/30 font-mono mt-2">
+                  <p className="text-xs text-white/60 font-mono mt-2">
                     {t('hero.cta.hint')}
                   </p>
                 </div>
 
                 {/* Footer bar */}
                 <div className="flex items-center justify-between px-5 py-3 bg-white/2 border-t border-white/5">
-                  <span className="text-[11px] text-white/25 font-mono">
+                  <span className="text-[11px] text-white/60 font-mono">
                     {t('hero.cta.meta')}
                   </span>
-                  <span className="text-[11px] text-white/25 font-mono">
+                  <span className="text-[11px] text-white/60 font-mono">
                     Type: Project
                   </span>
                 </div>

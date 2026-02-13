@@ -101,10 +101,10 @@ function DockItem({ id, state }: { id: WindowId; state: WindowState }) {
           relative w-8 h-8 rounded-lg flex items-center justify-center
           transition-all duration-200
           ${isDocked
-            ? 'bg-white/5 border border-white/10 text-white/30'
+            ? 'bg-white/5 border border-white/10 text-white/60'
             : isActive
               ? 'bg-white/10 border border-white/15 text-white/70'
-              : 'bg-white/5 border border-white/10 text-white/40'
+              : 'bg-white/5 border border-white/10 text-white/60'
           }
           hover:bg-white/15 hover:text-white/80
         `}
@@ -235,7 +235,7 @@ export default function StatusBar({ translations: t, lang = 'en' }: StatusBarPro
             </span>
             <span className="text-xs font-mono" aria-hidden="true">
               <span className={lang === 'es' ? 'text-[#CCFF00]' : 'text-white/75'}>ES</span>
-              <span className="text-white/40 mx-0.5">/</span>
+              <span className="text-white/60 mx-0.5">/</span>
               <span className={lang === 'en' ? 'text-[#CCFF00]' : 'text-white/75'}>EN</span>
             </span>
           </motion.button>

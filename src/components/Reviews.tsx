@@ -109,7 +109,7 @@ function DataPacket({ packet, t }: { packet: ReviewData; t: (key: string) => str
             </span>
             <span className="text-2xl text-[#CCFF00]">★</span>
           </div>
-          <span className="text-sm font-mono text-white/50">
+          <span className="text-sm font-mono text-white/60">
             {packet.signal}% {t('telemetry.satisfaction')}
           </span>
         </div>
@@ -166,7 +166,7 @@ function PlaceholderPacket({ t, onClick }: { t: (key: string) => string; onClick
         <span className="text-base font-semibold text-[#CCFF00]/70 group-hover:text-[#CCFF00] transition-colors uppercase tracking-wider font-mono">
           {t('telemetry.placeholder.headline')}
         </span>
-        <span className="text-xs text-white/40 mt-2 text-center max-w-55">
+        <span className="text-xs text-white/60 mt-2 text-center max-w-55">
           {t('telemetry.placeholder.sub')}
         </span>
       </div>
@@ -255,7 +255,7 @@ export default function Reviews({ lang = 'en' }: { lang?: Lang }) {
           </motion.div>
 
           {/* ─── TOUCH HINT (mobile only) ─── */}
-          <p className="mt-4 text-center text-xs font-mono text-white/40 sm:hidden">
+          <p className="mt-4 text-center text-xs font-mono text-white/60 sm:hidden">
             {t('telemetry.footer.touchHint')}
           </p>
 
@@ -264,7 +264,7 @@ export default function Reviews({ lang = 'en' }: { lang?: Lang }) {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.5, delay: 0.5 }}
-            className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-white/30"
+            className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-white/60"
           >
             <span>{t('telemetry.footer.connections').replace('{count}', String(cards.filter(c => !isPlaceholder(c)).length))}</span>
             <span className="flex items-center gap-1.5">

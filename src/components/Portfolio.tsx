@@ -93,7 +93,7 @@ function FloatingPreview({
           <h4 className="text-sm font-semibold text-white mb-1.5">
             {project.client}
           </h4>
-          <p className="text-xs text-white/50 leading-relaxed line-clamp-2">
+          <p className="text-xs text-white/60 leading-relaxed line-clamp-2">
             {project.description}
           </p>
         </div>
@@ -167,7 +167,7 @@ export default function ProjectLogs({ lang = 'en' }: { lang?: Lang }) {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.4, delay: 0.25 }}
-            className="hidden md:grid grid-cols-[60px_1fr_140px_120px_80px_40px] gap-4 px-4 py-2 border-b border-white/5 text-xs font-mono text-white/30 uppercase tracking-wider"
+            className="hidden md:grid grid-cols-[60px_1fr_140px_120px_80px_40px] gap-4 px-4 py-2 border-b border-white/5 text-xs font-mono text-white/60 uppercase tracking-wider"
           >
             <span>{t('logs.table.id')}</span>
             <span>{t('logs.table.client')}</span>
@@ -203,7 +203,7 @@ export default function ProjectLogs({ lang = 'en' }: { lang?: Lang }) {
                   `}
                 >
                   {/* ID */}
-                  <span className="text-sm font-mono text-white/30">{project.id}</span>
+                  <span className="text-sm font-mono text-white/60">{project.id}</span>
 
                   {/* Client */}
                   <span className="text-sm font-medium text-white/80 group-hover:text-white transition-colors duration-200">
@@ -227,7 +227,7 @@ export default function ProjectLogs({ lang = 'en' }: { lang?: Lang }) {
                   <span className="text-xs font-mono text-white/60">{project.year}</span>
 
                   {/* Arrow */}
-                  <ChevronRight className="w-4 h-4 text-white/20 group-hover:text-white/50 group-hover:translate-x-0.5 transition-all duration-200" />
+                  <ChevronRight className="w-4 h-4 text-white/60 group-hover:text-white/80 group-hover:translate-x-0.5 transition-all duration-200" />
                 </div>
 
                 {/* Mobile Card — single tap opens project */}
@@ -243,7 +243,7 @@ export default function ProjectLogs({ lang = 'en' }: { lang?: Lang }) {
                   `}
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-mono text-white/30">{project.id}</span>
+                    <span className="text-sm font-mono text-white/60">{project.id}</span>
                     <span className={`text-xs font-mono px-2 py-1 rounded bg-white/5 border border-white/5 ${project.typeColor}`}>
                       [{project.type}]
                     </span>
@@ -266,7 +266,7 @@ export default function ProjectLogs({ lang = 'en' }: { lang?: Lang }) {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.5, delay: 0.8 }}
-            className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-white/30"
+            className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-white/60"
           >
             <span>{t('logs.footer.showing').replace('{count}', String(projects.length)).replace('{total}', String(projects.length))}</span>
             <span>{t('logs.footer.updated')}</span>

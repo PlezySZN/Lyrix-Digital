@@ -132,7 +132,7 @@ export default function Services({ lang = 'en' }: { lang?: Lang }) {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.5, delay: 0.8 }}
-            className="mt-8 pt-4 border-t border-white/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-4 text-xs font-mono text-white/30"
+            className="mt-8 pt-4 border-t border-white/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-4 text-xs font-mono text-white/60"
           >
             <span>{t('specs.footer.modules')}</span>
             <span>{t('specs.footer.revenue')}</span>

@@ -155,7 +155,7 @@ describe('Process Component', () => {
     render(<Process lang="en" />);
 
     // When activeNodes = 0, no node label should have the active color class.
-    // Active labels get text-[#CCFF00]/80, inactive get text-white/30.
+    // Active labels get text-[#CCFF00]/80, inactive get text-white/60.
     const nodeLabels = screen.getAllByText(/NODE 0[1-3]/);
     nodeLabels.forEach((label) => {
       // None should have the active accent color in their class

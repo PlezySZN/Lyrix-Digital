@@ -51,7 +51,7 @@ const backLabel = lang === 'es' ? '← Volver al Inicio' : '← Back to Home';
       {/* Back link */}
       <a
         href={lang === 'en' ? '/' : `/${lang}/`}
-        class="inline-flex items-center gap-2 mb-8 text-sm font-mono text-white/40 hover:text-[#CCFF00] transition-colors duration-200"
+        class="inline-flex items-center gap-2 mb-8 text-sm font-mono text-white/60 hover:text-[#CCFF00] transition-colors duration-200"
       >
         {backLabel}
       </a>
@@ -64,14 +64,14 @@ const backLabel = lang === 'es' ? '← Volver al Inicio' : '← Back to Home';
         <h1 class="text-3xl md:text-4xl font-bold text-white tracking-tight mb-2 font-(family-name:--font-oswald) uppercase">
           {heading}
         </h1>
-        <p class="text-sm text-white/50 max-w-xl">
+        <p class="text-sm text-white/60 max-w-xl">
           {subtitle}
         </p>
       </header>
 
       {/* Posts Grid */}
       {posts.length === 0 ? (
-        <p class="text-white/40 font-mono text-sm">{noPosts}</p>
+        <p class="text-white/60 font-mono text-sm">{noPosts}</p>
       ) : (
         <div class="flex flex-col gap-4">
           {posts.map((post) => {
@@ -91,7 +91,7 @@ const backLabel = lang === 'es' ? '← Volver al Inicio' : '← Back to Home';
                 {/* Tags */}
                 <div class="flex flex-wrap gap-2 mb-3">
                   {post.data.tags.slice(0, 3).map((tag: string) => (
-                    <span class="px-2 py-0.5 rounded bg-white/5 text-[10px] font-mono text-white/40 uppercase tracking-wider">
+                    <span class="px-2 py-0.5 rounded bg-white/5 text-[10px] font-mono text-white/60 uppercase tracking-wider">
                       {tag}
                     </span>
                   ))}
@@ -103,13 +103,13 @@ const backLabel = lang === 'es' ? '← Volver al Inicio' : '← Back to Home';
                 </h2>
 
                 {/* Description */}
-                <p class="text-sm text-white/50 leading-relaxed mb-4 line-clamp-2">
+                <p class="text-sm text-white/60 leading-relaxed mb-4 line-clamp-2">
                   {post.data.description}
                 </p>
 
                 {/* Meta row */}
                 <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-4 text-xs font-mono text-white/30">
+                  <div class="flex items-center gap-4 text-xs font-mono text-white/60">
                     <span class="flex items-center gap-1">{formattedDate}</span>
                     <span>{readingTime} {readLabel}</span>
                   </div>
@@ -124,7 +124,7 @@ const backLabel = lang === 'es' ? '← Volver al Inicio' : '← Back to Home';
       )}
 
       {/* Entry count */}
-      <div class="mt-8 pt-4 border-t border-white/5 text-xs font-mono text-white/20">
+      <div class="mt-8 pt-4 border-t border-white/5 text-xs font-mono text-white/60">
         {posts.length} {lang === 'es' ? 'entradas encontradas' : 'entries found'}
       </div>
     </div>

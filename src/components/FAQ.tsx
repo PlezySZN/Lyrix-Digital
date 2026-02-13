@@ -51,17 +51,17 @@ function KnowledgeItem({
           {isOpen ? (
             <ChevronDown className="w-4 h-4 text-[#CCFF00] transition-transform duration-200" />
           ) : (
-            <ChevronRight className="w-4 h-4 text-white/40 group-hover:text-white/60 transition-colors duration-200" />
+            <ChevronRight className="w-4 h-4 text-white/60 group-hover:text-white/80 transition-colors duration-200" />
           )}
         </div>
 
         {/* Question */}
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs font-mono text-white/30">
+            <span className="text-xs font-mono text-white/60">
               {entry.id}
             </span>
-            <span className="text-xs font-mono px-1.5 py-0.5 rounded bg-white/5 text-white/30">
+            <span className="text-xs font-mono px-1.5 py-0.5 rounded bg-white/5 text-white/60">
               [{entry.category}]
             </span>
           </div>
@@ -206,7 +206,7 @@ export default function FAQ({ lang = 'en' }: { lang?: Lang }) {
                 onClick={() => setShowAll(true)}
                 className="group flex items-center gap-2 px-5 py-2.5 rounded-lg border border-white/10 bg-white/2 hover:bg-white/4 hover:border-white/15 transition-all duration-200"
               >
-                <span className="text-xs font-mono text-white/50 group-hover:text-white/70 transition-colors">
+                <span className="text-xs font-mono text-white/60 group-hover:text-white/70 transition-colors">
                   {t('kb.expand').replace('{count}', String(knowledgeEntries.length - 4))}
                 </span>
               </button>
@@ -225,7 +225,7 @@ export default function FAQ({ lang = 'en' }: { lang?: Lang }) {
                 onClick={() => setShowAll(false)}
                 className="group flex items-center gap-2 px-5 py-2.5 rounded-lg border border-white/10 bg-white/2 hover:bg-white/4 hover:border-white/15 transition-all duration-200"
               >
-                <span className="text-xs font-mono text-white/50 group-hover:text-white/70 transition-colors">
+                <span className="text-xs font-mono text-white/60 group-hover:text-white/70 transition-colors">
                   {t('kb.collapse')}
                 </span>
               </button>
@@ -237,7 +237,7 @@ export default function FAQ({ lang = 'en' }: { lang?: Lang }) {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.5, delay: 0.8 }}
-            className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-white/30"
+            className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-white/60"
           >
             <span>{t('kb.footer.protocols').replace('{count}', String(knowledgeEntries.length))}</span>
             <span className="flex items-center gap-1.5">

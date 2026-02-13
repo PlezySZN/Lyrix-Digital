@@ -77,11 +77,11 @@ export default function NoSignalPlaceholder({
           animate={{ opacity: [0.4, 0.8, 0.4] }}
           transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
         >
-          <MonitorOff className="w-8 h-8 text-white/25" />
+          <MonitorOff className="w-8 h-8 text-white/60" />
         </motion.div>
 
         <div className="flex flex-col items-center gap-1">
-          <span className="text-[10px] font-mono text-white/30 uppercase tracking-[0.25em]">
+          <span className="text-[10px] font-mono text-white/60 uppercase tracking-[0.25em]">
             {label}
           </span>
           <motion.div
@@ -89,7 +89,7 @@ export default function NoSignalPlaceholder({
             animate={{ scaleX: [0.4, 1, 0.4] }}
             transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
           />
-          <span className="text-[9px] font-mono text-white/15 uppercase tracking-wider">
+          <span className="text-[9px] font-mono text-white/60 uppercase tracking-wider">
             awaiting_asset.upload
           </span>
         </div>

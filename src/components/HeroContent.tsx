@@ -201,7 +201,7 @@ export default function HeroContent({ translations: t }: HeroContentProps) {
             </div>
 
             {/* ─── SUBTITLE ─── */}
-            <p className="text-center lg:text-left text-sm sm:text-base md:text-lg text-white/50 max-w-xl leading-relaxed px-4 lg:px-0">
+            <p className="text-center lg:text-left text-sm sm:text-base md:text-lg text-white/60 max-w-xl leading-relaxed px-4 lg:px-0">
               {t['hero.subtitle']}
             </p>
           </div>
@@ -242,19 +242,19 @@ export default function HeroContent({ translations: t }: HeroContentProps) {
                       <span className="flex-1 font-mono text-lg md:text-xl lg:text-2xl font-bold text-white tracking-wide group-hover:text-[#CCFF00] transition-colors duration-300">
                         {t['hero.cta']}
                       </span>
-                      <ArrowRight className="w-6 h-6 shrink-0 text-white/40 group-hover:text-[#CCFF00] group-hover:translate-x-1 transition-all duration-300" />
+                      <ArrowRight className="w-6 h-6 shrink-0 text-white/60 group-hover:text-[#CCFF00] group-hover:translate-x-1 transition-all duration-300" />
                     </div>
-                    <p className="text-sm text-white/30 font-mono mt-3">
+                    <p className="text-sm text-white/60 font-mono mt-3">
                       {t['hero.cta.hint']}
                     </p>
                   </div>
 
                   {/* Footer bar */}
                   <div className="flex items-center justify-between px-6 py-4 bg-white/2 border-t border-white/5">
-                    <span className="text-xs text-white/25 font-mono">
+                    <span className="text-xs text-white/60 font-mono">
                       {t['hero.cta.meta']}
                     </span>
-                    <span className="text-xs text-white/25 font-mono">
+                    <span className="text-xs text-white/60 font-mono">
                       Type: Project
                     </span>
                   </div>

@@ -123,7 +123,7 @@ export default function ProjectModal({ lang = 'en' }: { lang?: Lang }) {
               <button
                 onClick={closeProjectModal}
                 aria-label={lang === 'es' ? 'Cerrar' : 'Close'}
-                className="text-white/30 hover:text-white/60 transition-colors"
+                className="text-white/60 hover:text-white/80 transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -204,7 +204,7 @@ export default function ProjectModal({ lang = 'en' }: { lang?: Lang }) {
               {/* Project Header */}
               <div className="mb-6">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xs font-mono text-white/30">{project.id}</span>
+                  <span className="text-xs font-mono text-white/60">{project.id}</span>
                   <span className="flex items-center gap-1.5">
                     <span className={`w-1.5 h-1.5 rounded-full ${project.comingSoon ? 'bg-yellow-500' : 'bg-green-500'}`} />
                     <span className={`text-xs font-mono ${project.comingSoon ? 'text-yellow-400/80' : 'text-green-400/80'}`}>{project.status}</span>
@@ -225,8 +225,8 @@ export default function ProjectModal({ lang = 'en' }: { lang?: Lang }) {
                       className="p-3 rounded-lg bg-white/2 border border-white/5"
                     >
                       <div className="flex items-center gap-1.5 mb-1">
-                        <FieldIcon className="w-3 h-3 text-white/30" />
-                        <span className="text-[10px] font-mono text-white/30 uppercase tracking-wider">
+                        <FieldIcon className="w-3 h-3 text-white/60" />
+                        <span className="text-[10px] font-mono text-white/60 uppercase tracking-wider">
                           {field.label}
                         </span>
                       </div>

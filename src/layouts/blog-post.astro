@@ -108,7 +108,7 @@ const readMoreLabel = lang === 'es' ? 'LEER →' : 'READ →';
       {/* Back link */}
       <a
         href={backHref}
-        class="inline-flex items-center gap-2 mb-8 text-sm font-mono text-white/40 hover:text-[#CCFF00] transition-colors duration-200"
+        class="inline-flex items-center gap-2 mb-8 text-sm font-mono text-white/60 hover:text-[#CCFF00] transition-colors duration-200"
       >
         {backLabel}
       </a>
@@ -118,7 +118,7 @@ const readMoreLabel = lang === 'es' ? 'LEER →' : 'READ →';
         {/* Tags */}
         <div class="flex flex-wrap gap-2 mb-4">
           {frontmatter.tags.map((tag: string) => (
-            <span class="px-2 py-1 rounded bg-white/5 border border-white/10 text-[10px] font-mono text-white/50 uppercase tracking-wider">
+            <span class="px-2 py-1 rounded bg-white/5 border border-white/10 text-[10px] font-mono text-white/60 uppercase tracking-wider">
               {tag}
             </span>
           ))}
@@ -128,12 +128,12 @@ const readMoreLabel = lang === 'es' ? 'LEER →' : 'READ →';
           {frontmatter.title}
         </h1>
 
-        <p class="text-base md:text-lg text-white/50 leading-relaxed mb-6">
+        <p class="text-base md:text-lg text-white/60 leading-relaxed mb-6">
           {frontmatter.description}
         </p>
 
         {/* Meta row */}
-        <div class="flex flex-wrap items-center gap-4 text-xs font-mono text-white/30">
+        <div class="flex flex-wrap items-center gap-4 text-xs font-mono text-white/60">
           <span>{frontmatter.author}</span>
           <span class="w-px h-3 bg-white/10" />
           <span>{formattedDate}</span>
@@ -164,7 +164,7 @@ const readMoreLabel = lang === 'es' ? 'LEER →' : 'READ →';
           <div class="flex-1 min-w-0">
             <p class="text-sm font-semibold text-white tracking-tight">{authorData.name}</p>
             <p class="text-xs font-mono text-[#CCFF00]/60 mt-0.5">{authorData.role[lang]}</p>
-            <p class="text-sm text-white/50 leading-relaxed mt-2">{authorData.bio[lang]}</p>
+            <p class="text-sm text-white/60 leading-relaxed mt-2">{authorData.bio[lang]}</p>
           </div>
         </div>
       </aside>
@@ -186,9 +186,9 @@ const readMoreLabel = lang === 'es' ? 'LEER →' : 'READ →';
                 >
                   <div class="min-w-0 flex-1">
                     <p class="text-sm font-semibold text-white group-hover:text-[#CCFF00] transition-colors truncate">{post.data.title}</p>
-                    <p class="text-xs font-mono text-white/30 mt-1">{postDate}</p>
+                    <p class="text-xs font-mono text-white/60 mt-1">{postDate}</p>
                   </div>
-                  <span class="shrink-0 text-xs font-mono text-white/20 group-hover:text-[#CCFF00]/60 ml-4 transition-colors">{readMoreLabel}</span>
+                  <span class="shrink-0 text-xs font-mono text-white/60 group-hover:text-[#CCFF00]/60 ml-4 transition-colors">{readMoreLabel}</span>
                 </a>
               );
             })}
@@ -200,7 +200,7 @@ const readMoreLabel = lang === 'es' ? 'LEER →' : 'READ →';
       <footer class="mt-16 pt-8 border-t border-white/5">
         <a
           href={backHref}
-          class="inline-flex items-center gap-2 text-sm font-mono text-white/40 hover:text-[#CCFF00] transition-colors duration-200"
+          class="inline-flex items-center gap-2 text-sm font-mono text-white/60 hover:text-[#CCFF00] transition-colors duration-200"
         >
           {backLabel}
         </a>

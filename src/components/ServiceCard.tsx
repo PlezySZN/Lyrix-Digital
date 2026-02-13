@@ -125,7 +125,7 @@ export default function ServiceCard({
         </div>
 
         {/* Description */}
-        <p className="text-sm text-white/50 leading-relaxed">
+        <p className="text-sm text-white/60 leading-relaxed">
           {description}
         </p>
 
@@ -143,7 +143,7 @@ function SpecLine({ spec, isActive, delay }: { spec: Spec; isActive: boolean; de
   return (
     <div className="flex items-start gap-2 py-1 text-white/60">
       <span className="text-[#CCFF00]/60 mt-0.5">✓</span>
-      <span className="text-white/50 min-w-20">{spec.label}:</span>
+      <span className="text-white/60 min-w-20">{spec.label}:</span>
       <span className="text-white/80 flex-1">{displayedValue}</span>
       {isActive && displayedValue.length < spec.value.length && (
         <span className="inline-block w-2 h-3.5 bg-white/60 animate-pulse mt-0.5" />

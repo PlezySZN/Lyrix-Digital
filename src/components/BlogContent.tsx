@@ -63,7 +63,7 @@ export default function BlogContent({ lang = 'en', posts }: BlogContentProps) {
               >
                 {t('blog.heading')}
               </h2>
-              <p className="text-sm text-white/50 max-w-xl">
+              <p className="text-sm text-white/60 max-w-xl">
                 {t('blog.subtitle')}
               </p>
             </motion.div>
@@ -94,7 +94,7 @@ export default function BlogContent({ lang = 'en', posts }: BlogContentProps) {
                         {post.tags.slice(0, 3).map((tag) => (
                           <span
                             key={tag}
-                            className="px-2 py-0.5 rounded bg-white/5 text-[10px] font-mono text-white/40 uppercase tracking-wider"
+                            className="px-2 py-0.5 rounded bg-white/5 text-[10px] font-mono text-white/60 uppercase tracking-wider"
                           >
                             {tag}
                           </span>
@@ -107,13 +107,13 @@ export default function BlogContent({ lang = 'en', posts }: BlogContentProps) {
                       </h3>
 
                       {/* Description */}
-                      <p className="text-sm text-white/50 leading-relaxed mb-4 line-clamp-2 flex-1">
+                      <p className="text-sm text-white/60 leading-relaxed mb-4 line-clamp-2 flex-1">
                         {post.description}
                       </p>
 
                       {/* Meta row */}
                       <div className="flex items-center justify-between mt-auto pt-3 border-t border-white/5">
-                        <div className="flex items-center gap-3 text-xs font-mono text-white/30">
+                        <div className="flex items-center gap-3 text-xs font-mono text-white/60">
                           <span>{formattedDate}</span>
                           <span>{readingTime} {t('blog.minRead')}</span>
                         </div>

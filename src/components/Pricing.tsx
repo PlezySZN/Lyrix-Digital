@@ -121,7 +121,7 @@ export default function Pricing({ lang = 'en' }: { lang?: Lang }) {
           <h2 className="text-2xl md:text-3xl font-semibold text-white tracking-tight mb-2">
             {t('pricing.title')}
           </h2>
-          <p className="text-sm text-white/50 max-w-xl mx-auto">
+          <p className="text-sm text-white/60 max-w-xl mx-auto">
             {t('pricing.description')}
           </p>
         </div>
@@ -166,7 +166,7 @@ export default function Pricing({ lang = 'en' }: { lang?: Lang }) {
                     <h3 className="text-sm font-semibold text-white uppercase tracking-wide">
                       {t(tier.titleKey as any)}
                     </h3>
-                    <span className="text-[10px] font-mono text-white/40">
+                    <span className="text-[10px] font-mono text-white/60">
                       {t(tier.codeNameKey as any)}
                     </span>
                   </div>
@@ -183,7 +183,7 @@ export default function Pricing({ lang = 'en' }: { lang?: Lang }) {
                 <ul className="space-y-2.5 mb-6 flex-1">
                   {tier.featuresKeys.map((key) => (
                     <li key={key} className="flex items-start gap-2 text-sm">
-                      <Check className={`w-4 h-4 mt-0.5 shrink-0 ${tier.highlighted ? 'text-[#CCFF00]/70' : 'text-white/40'}`} />
+                      <Check className={`w-4 h-4 mt-0.5 shrink-0 ${tier.highlighted ? 'text-[#CCFF00]/70' : 'text-white/60'}`} />
                       <span className="text-white/60">{t(key as any)}</span>
                     </li>
                   ))}
@@ -213,7 +213,7 @@ export default function Pricing({ lang = 'en' }: { lang?: Lang }) {
 
         {/* Variable note */}
         <div className="text-center">
-          <p className="text-xs font-mono text-white/30 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xs font-mono text-white/60 max-w-2xl mx-auto leading-relaxed">
             {t('pricing.note')}
           </p>
         </div>

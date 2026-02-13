@@ -225,7 +225,7 @@ export default function CTA({ lang = 'en' }: { lang?: Lang }) {
                   {t('cta.trust')}
                 </p>
                 
-                <div className="flex items-center justify-center gap-6 text-xs font-mono text-white/30">
+                <div className="flex items-center justify-center gap-6 text-xs font-mono text-white/60">
                   <span>{t('cta.delivery')}</span>
                   <span>{t('cta.source')}</span>
                   <span>{t('cta.support')}</span>
@@ -244,7 +244,7 @@ export default function CTA({ lang = 'en' }: { lang?: Lang }) {
           role="contentinfo"
         >
           {/* ─── BUSINESS TRUST BAR ─── */}
-          <div className="mb-4 flex flex-wrap items-center justify-center gap-2 text-xs font-mono text-white/30">
+          <div className="mb-4 flex flex-wrap items-center justify-center gap-2 text-xs font-mono text-white/60">
             <a href="tel:+17876644109" className="hover:text-[#CCFF00]/60 transition-colors">
               {t('cta.phone')}
             </a>
@@ -256,7 +256,7 @@ export default function CTA({ lang = 'en' }: { lang?: Lang }) {
             </a>
           </div>
           {/* ─── LEGAL ─── */}
-          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 text-xs font-mono text-white/20 pb-8">
+          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 text-xs font-mono text-white/60 pb-8">
             <span>{t('cta.copyright')}</span>
             <span className="hidden md:inline" aria-hidden="true">|</span>
             <a href={`/${lang}/privacy/`} className="hover:text-[#CCFF00]/60 transition-colors">{t('cta.privacy')}</a>
