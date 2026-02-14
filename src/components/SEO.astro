@@ -181,7 +181,7 @@ const organizationSchema = {
     caption: BRAND,
   },
   image: { '@id': `${SITE}/#logo` },
-  description: 'Web Design & Development Agency in Puerto Rico. We build fast Astro-powered websites, produce professional video, and run bilingual SEO campaigns for contractors and service businesses. Based in Vega Alta, PR.',
+  description: 'Web Design & Development Agency. We build fast Astro-powered websites, produce professional video, and run bilingual SEO campaigns for local businesses and professionals. Based in Vega Alta, PR.',      
   areaServed: [
     { '@type': 'City', name: 'San Juan' },
     { '@type': 'City', name: 'Vega Alta' },
@@ -240,8 +240,8 @@ const serviceSchema = (type === 'service' || isHomePage) ? {
   name: BRAND,
   url: SITE,
   description: lang === 'es'
-    ? 'Agencia de Diseño Web en Puerto Rico. Sitios rápidos con Astro, video profesional, SEO local y marketing digital para contratistas y profesionales.'
-    : 'Web Design Agency in Puerto Rico. Fast Astro-powered websites, professional video, local SEO & digital marketing for contractors and professionals.',
+    ? 'Agencia de Diseño Web en Puerto Rico. Sitios rápidos con Astro, video profesional, SEO local y marketing digital para negocios locales y profesionales.'
+    : 'Web Design Agency in Puerto Rico. Fast Astro-powered websites, professional video, local SEO & digital marketing for local businesses and professionals.',
   priceRange: '$$$',
   image: OG_IMAGE_URL,
   logo: { '@id': `${SITE}/#logo` },
@@ -315,8 +315,8 @@ const serviceSchema = (type === 'service' || isHomePage) ? {
           '@type': 'Service',
           name: lang === 'es' ? 'Diseño y Desarrollo Web con Astro' : 'Astro Web Design & Development',
           description: lang === 'es'
-            ? 'Sitios web rápidos construidos con Astro y desplegados en Cloudflare Edge para contratistas y profesionales en Puerto Rico. 95+ Google PageSpeed.'
-            : 'Fast websites built with Astro and deployed to Cloudflare Edge for contractors and professionals in Puerto Rico. 95+ Google PageSpeed.',
+            ? 'Sitios web rápidos construidos con Astro y desplegados en Cloudflare Edge para negocios locales y profesionales. 95+ Google PageSpeed.'
+            : 'Fast websites built with Astro and deployed to Cloudflare Edge for local businesses and professionals. 95+ Google PageSpeed.',
         },
       },
       {

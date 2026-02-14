@@ -46,7 +46,7 @@ export const CITIES: CityData[] = [
     nameEs: 'Bayamón',
     titleEn: 'Web Design Bayamón, Puerto Rico | Lyrix Digital',
     titleEs: 'Diseño Web Bayamón, Puerto Rico | Lyrix Digital',
-    descriptionEn: 'Professional web design and digital marketing in Bayamón, PR. Fast-loading websites, cinematic content, and SEO for Bayamón contractors and professionals.',
+    descriptionEn: 'Professional web design and digital marketing in Bayamón, PR. Fast-loading websites, cinematic content, and SEO for Bayamón businesses and professionals.',
     descriptionEs: 'Diseño web profesional y marketing digital en Bayamón, PR. Sitios rápidos, contenido cinematográfico y SEO para profesionales en Bayamón.',
     keywordsEn: 'web design bayamon, web developer bayamon PR, website bayamon puerto rico, SEO bayamon, digital agency bayamon',
     keywordsEs: 'diseño web bayamon, desarrollador web bayamon PR, pagina web bayamon puerto rico, SEO bayamon, agencia digital bayamon',
