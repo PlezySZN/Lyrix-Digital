@@ -194,6 +194,7 @@ const safeDescription = resolvedDescription.length <= MAX_DESC_LENGTH
 					var s=document.createElement('script');
 					s.src='https://www.googletagmanager.com/gtag/js?id=G-9S6JHDLHVB';
 					s.async=true;
+					s.fetchPriority='low';
 					document.head.appendChild(s);
 				}
 				if(typeof requestIdleCallback==='function'){

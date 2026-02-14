@@ -47,12 +47,16 @@ export default defineConfig({
       cssCodeSplit: true,
       rollupOptions: {
         output: {
-          /* Split heavy libraries into separate chunks for long-term
-             caching. Framer Motion (~45KB) and React (~40KB) rarely
-             change, so isolating them prevents cache busting. */
-          manualChunks: {
-            'framer': ['framer-motion'],
-            'react-vendor': ['react', 'react-dom'],
+          /* Split heavy libraries into separate cached chunks.
+             Framer Motion (~45KB), React (~40KB), and Lucide icons
+             rarely change — isolating them prevents cache busting.
+             Function form catches all sub-module imports (e.g.
+             lucide-react/dist/esm/icons/folder-open). */
+          manualChunks(id) {
+            if (id.includes('lucide-react')) return 'icons';
+            if (id.includes('framer-motion')) return 'framer';
+            if (id.includes('node_modules/react-dom')) return 'react-vendor';
+            if (id.includes('node_modules/react/')) return 'react-vendor';
           },
         },
       },
