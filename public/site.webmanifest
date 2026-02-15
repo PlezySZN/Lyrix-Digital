@@ -1,45 +1,21 @@
 {
   "name": "Lyrix Digital",
-  "short_name": "Lyrix",
-  "description": "Lyrix Digital — Web Design Agency in Puerto Rico",
-  "start_url": "/",
+  "short_name": "Lyrix Digital",
   "icons": [
     {
-      "src": "/web-app-manifest-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/web-app-manifest-192x192.png",
+      "src": "/public/web-app-manifest-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/web-app-manifest-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/web-app-manifest-512x512.png",
+      "src": "/public/web-app-manifest-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
-    },
-    {
-      "src": "/favicon-96x96.png",
-      "sizes": "96x96",
-      "type": "image/png"
-    },
-    {
-      "src": "/apple-touch-icon.png",
-      "sizes": "180x180",
-      "type": "image/png"
     }
   ],
-  "theme_color": "#050505",
-  "background_color": "#050505",
+  "theme_color": "#ffffff",
+  "background_color": "#030303",
   "display": "standalone"
 }
