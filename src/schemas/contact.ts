@@ -41,6 +41,11 @@ export const contactSchema = z.object({
   cinematic: z.boolean()
     .default(false),
 
+  promoCode: z.string()
+    .max(30, 'Promo code is too long')
+    .optional()
+    .or(z.literal('')),
+
   message: z.string()
     .max(2000, 'Message must be under 2,000 characters')
     .optional()

@@ -108,6 +108,7 @@ export const POST: APIRoute = async ({ request }) => {
       maintenance: body.maintenance,
       budget: body.budget ?? '',
       cinematic: body.cinematic,
+      promoCode: body.promoCode ?? '',
       message: body.message ?? '',
       lang: body.lang,
     };
@@ -116,12 +117,13 @@ export const POST: APIRoute = async ({ request }) => {
 
     const sectorTag = leadData.sector || 'General';
     const modules = leadData.cinematic ? 'Web + Video' : 'Web Only';
+    const promoTag = leadData.promoCode ? ` [PROMO: ${leadData.promoCode}]` : '';
 
     const { error } = await resend.emails.send({
       from: 'Lyrix Digital <notifications@lyrixdigital.com>',
       to: ['lyrixdigitals@gmail.com'],
       replyTo: body.email,
-      subject: `[LEAD] ${body.name} — ${sectorTag} — ${modules}`,
+      subject: `[LEAD] ${body.name} — ${sectorTag} — ${modules}${promoTag}`,
       html,
     });
 

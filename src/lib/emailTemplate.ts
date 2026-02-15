@@ -13,6 +13,7 @@ export interface LeadData {
   maintenance: string;
   budget: string;
   cinematic: boolean;
+  promoCode: string;
   message: string;
   lang: string;
 }
@@ -86,6 +87,7 @@ export function buildLeadEmail(data: LeadData): string {
                 ${dataRow('PROTOCOL', maintenanceLabel[data.maintenance] || data.maintenance)}
                 ${dataRow('BUDGET', data.budget || '—')}
                 ${dataRow('MODULES', modules)}
+                ${dataRow('PROMO CODE', data.promoCode || '—')}
                 ${dataRow('LANGUAGE', data.lang === 'es' ? 'Espanol' : 'English')}
               </table>
             </td>

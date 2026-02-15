@@ -18,16 +18,81 @@
  * ═══════════════════════════════════════════════════════════
  */
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Clock, Users, Zap, X, ChevronRight } from 'lucide-react';
-import { openContactModal } from '../stores/modalStore';
+import { Shield, Clock, Users, Zap, X, ChevronRight, Copy, Check } from 'lucide-react';
 import { trackEvent } from '../lib/analytics';
 import { useTranslations } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
 
 const STORAGE_KEY = 'lyrix_consent_v1';
-const SHOW_DELAY_MS = 3500; // appear after 3.5s (let hero load first)
+const MIN_DELAY_MS = 4000;       // minimum time on page before showing
+const SCROLL_THRESHOLD = 0.25;   // 25% of viewport height scrolled
+
+// ─── ENGAGEMENT HOOK ───
+
+/**
+ * Detects real user engagement before triggering the banner.
+ * Engagement = ANY of:
+ *   - Scroll past 25% of viewport height
+ *   - Click / tap anywhere on the page
+ *   - Keyboard interaction (Tab, Enter, etc.)
+ *
+ * Plus a minimum time delay so the hero finishes loading first.
+ * This prevents the banner from popping for passive/bounce visits
+ * and avoids inflated impression metrics.
+ */
+function useUserEngagement(): boolean {
+  const [engaged, setEngaged] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    let minTimePassed = false;
+    let hasEngaged = false;
+
+    function tryShow() {
+      if (minTimePassed && hasEngaged && !engaged) {
+        setEngaged(true);
+        cleanup();
+      }
+    }
+
+    function onScroll() {
+      if (window.scrollY > window.innerHeight * SCROLL_THRESHOLD) {
+        hasEngaged = true;
+        tryShow();
+      }
+    }
+
+    function onInteract() {
+      hasEngaged = true;
+      tryShow();
+    }
+
+    const timer = setTimeout(() => {
+      minTimePassed = true;
+      tryShow();
+    }, MIN_DELAY_MS);
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('click', onInteract, { once: true });
+    window.addEventListener('keydown', onInteract, { once: true });
+    window.addEventListener('touchstart', onInteract, { once: true });
+
+    function cleanup() {
+      clearTimeout(timer);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('click', onInteract);
+      window.removeEventListener('keydown', onInteract);
+      window.removeEventListener('touchstart', onInteract);
+    }
+
+    return cleanup;
+  }, [engaged]);
+
+  return engaged;
+}
 
 // ─── COUNTDOWN HOOK ───
 
@@ -59,6 +124,18 @@ export default function ConsentBanner({ lang = 'en' }: { lang?: Lang }) {
   const t = useTranslations(lang);
   const [visible, setVisible] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+  const [claimed, setClaimed] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const userEngaged = useUserEngagement();
+
+  const PROMO_CODE = 'LYRIX20';
+
+  const handleCopyCode = useCallback(() => {
+    navigator.clipboard.writeText(PROMO_CODE).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }, []);
   const { days, hours, mins } = useCountdown();
 
   // Current month name for the offer
@@ -67,15 +144,16 @@ export default function ConsentBanner({ lang = 'en' }: { lang?: Lang }) {
     return now.toLocaleDateString(lang === 'es' ? 'es-PR' : 'en-US', { month: 'long' });
   }, [lang]);
 
-  // Check localStorage + delay appearance
+  // Show only after user engagement + localStorage check
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) return; // already accepted
+    if (!userEngaged) return; // wait for real engagement
 
-    const timer = setTimeout(() => setVisible(true), SHOW_DELAY_MS);
-    return () => clearTimeout(timer);
-  }, []);
+    setVisible(true);
+    trackEvent('consent_banner_shown', { trigger: 'user_engagement' });
+  }, [userEngaged]);
 
   const handleAccept = () => {
     localStorage.setItem(STORAGE_KEY, Date.now().toString());
@@ -84,10 +162,13 @@ export default function ConsentBanner({ lang = 'en' }: { lang?: Lang }) {
   };
 
   const handleClaim = () => {
+    trackEvent('consent_claim_offer', { source: 'banner' });
+    setClaimed(true);
+  };
+
+  const handleDismissAfterClaim = () => {
     localStorage.setItem(STORAGE_KEY, Date.now().toString());
     setDismissed(true);
-    trackEvent('consent_claim_offer', { source: 'banner' });
-    openContactModal('', 'INDUSTRY');
   };
 
   const privacyUrl = `/${lang}/privacy/`;
@@ -140,6 +221,72 @@ export default function ConsentBanner({ lang = 'en' }: { lang?: Lang }) {
 
               {/* ═══ CONTENT ═══ */}
               <div className="px-5 py-5 md:px-6 md:py-6 space-y-5">
+
+                {/* ── PROMO CODE REVEAL (shown after claim) ── */}
+                {claimed ? (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="space-y-5"
+                  >
+                    {/* Success header */}
+                    <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-[#28C840]/10 border border-[#28C840]/20">
+                      <Check className="w-4 h-4 text-[#28C840] shrink-0" />
+                      <span className="text-xs font-mono font-bold text-[#28C840] uppercase tracking-widest">
+                        {t('consent.promo.unlocked' as any)}
+                      </span>
+                    </div>
+
+                    {/* Promo code display */}
+                    <div className="text-center space-y-3">
+                      <p className="text-sm text-white/70 font-mono">
+                        {t('consent.promo.instruction' as any)}
+                      </p>
+                      <div className="flex items-center justify-center gap-3">
+                        <div className="px-6 py-3 rounded-lg bg-[#CCFF00]/10 border-2 border-dashed border-[#CCFF00]/40">
+                          <span className="text-2xl font-mono font-black text-[#CCFF00] tracking-[0.3em] select-all">
+                            {PROMO_CODE}
+                          </span>
+                        </div>
+                        <button
+                          onClick={handleCopyCode}
+                          className="p-3 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-all cursor-pointer"
+                          aria-label="Copy code"
+                        >
+                          {copied
+                            ? <Check className="w-5 h-5 text-[#28C840]" />
+                            : <Copy className="w-5 h-5 text-white/60" />
+                          }
+                        </button>
+                      </div>
+                      {copied && (
+                        <motion.p
+                          initial={{ opacity: 0, y: -5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="text-[11px] font-mono text-[#28C840]"
+                        >
+                          {t('consent.promo.copied' as any)}
+                        </motion.p>
+                      )}
+                      <p className="text-xs text-white/50 font-mono">
+                        {t('consent.promo.hint' as any)}
+                      </p>
+                    </div>
+
+                    {/* Got it — dismiss */}
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.97 }}
+                      onClick={handleDismissAfterClaim}
+                      className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-[#CCFF00] text-black text-sm font-mono font-bold uppercase tracking-wider hover:bg-[#d4ff33] transition-all duration-200 cursor-pointer"
+                    >
+                      {t('consent.promo.gotit' as any)}
+                    </motion.button>
+                  </motion.div>
+                ) : (
+                  /* ── Original offer content ── */
+                  <>
 
                 {/* ── Urgency header: Limited offer ── */}
                 <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#CCFF00]/5 border border-[#CCFF00]/15">
@@ -219,6 +366,9 @@ export default function ConsentBanner({ lang = 'en' }: { lang?: Lang }) {
                 >
                   {t('consent.skip' as any)}
                 </button>
+
+                </>
+                )}
 
                 {/* ═══ LEGAL: Privacy + Terms consent ═══ */}
                 <div className="pt-3 border-t border-white/5">

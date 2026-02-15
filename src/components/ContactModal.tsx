@@ -8,7 +8,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useStore } from '@nanostores/react';
-import { X, Send, Film, Loader2, AlertTriangle } from 'lucide-react';
+import { X, Send, Film, Loader2, AlertTriangle, Tag } from 'lucide-react';
 import CustomSelect from './CustomSelect';
 import { trackEvent } from '../lib/analytics';
 import {
@@ -87,6 +87,8 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
   const [maintenance, setMaintenance] = useState('undecided');
   const [budget, setBudget] = useState('');
   const [cinematic, setCinematic] = useState(false);
+  const [promoCode, setPromoCode] = useState('');
+  const [promoStatus, setPromoStatus] = useState<'idle' | 'valid' | 'invalid'>('idle');
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
@@ -223,6 +225,7 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
       maintenance,
       budget,
       cinematic,
+      promoCode: promoStatus === 'valid' ? promoCode.trim().toUpperCase() : '',
       message: message.trim(),
       lang,
       _honeypot,
@@ -250,6 +253,7 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
         sector: sector || 'not_selected',
         budget: budget || 'not_selected',
         cinematic,
+        promoCode: promoStatus === 'valid' ? promoCode.trim().toUpperCase() : '',
         lang,
       });
 
@@ -263,6 +267,8 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
         setMaintenance('undecided');
         setBudget('');
         setCinematic(false);
+        setPromoCode('');
+        setPromoStatus('idle');
         setMessage('');
         setError('');
         setFieldErrors({});
@@ -588,6 +594,54 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
                   </button>
                 </div>
 
+                {/* ─── PROMO CODE ─── */}
+                <div>
+                  <label htmlFor="contact-promo" className="block text-xs font-mono text-white/60 mb-1.5 uppercase tracking-wider">
+                    {t('contact.promo' as any)}
+                  </label>
+                  <div className="flex gap-2">
+                    <div className="relative flex-1">
+                      <Tag className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
+                      <input
+                        id="contact-promo"
+                        type="text"
+                        value={promoCode}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setPromoCode(val);
+                          if (val.trim() === '') {
+                            setPromoStatus('idle');
+                          } else if (val.trim().toUpperCase() === 'LYRIX20') {
+                            setPromoStatus('valid');
+                          } else {
+                            setPromoStatus('invalid');
+                          }
+                        }}
+                        placeholder={t('contact.promo.placeholder' as any)}
+                        className={`w-full pl-10 pr-4 py-3 rounded-lg bg-white/3 border text-sm text-white placeholder:text-white/50 font-mono focus:outline-none transition-all uppercase tracking-wider ${
+                          promoStatus === 'valid'
+                            ? 'border-[#28C840]/50 focus:border-[#28C840]/60 focus:ring-1 focus:ring-[#28C840]/20'
+                            : promoStatus === 'invalid'
+                              ? 'border-red-500/50 focus:border-red-400/60 focus:ring-1 focus:ring-red-400/20'
+                              : 'border-white/10 focus:border-[#CCFF00]/40 focus:ring-1 focus:ring-[#CCFF00]/20'
+                        }`}
+                      />
+                    </div>
+                  </div>
+                  {promoStatus === 'valid' && (
+                    <p className="mt-1.5 flex items-center gap-1 text-[11px] font-mono text-[#28C840]">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#28C840] animate-pulse" />
+                      {t('contact.promo.valid' as any)}
+                    </p>
+                  )}
+                  {promoStatus === 'invalid' && (
+                    <p className="mt-1 flex items-center gap-1 text-[11px] font-mono text-red-400">
+                      <AlertTriangle className="w-3 h-3 shrink-0" />
+                      {t('contact.promo.invalid' as any)}
+                    </p>
+                  )}
+                </div>
+
                 {/* ─── LIVE MANIFEST SUMMARY ─── */}
                 {sector && (
                   <motion.div
@@ -627,6 +681,13 @@ export default function ContactModal({ lang = 'en' }: { lang?: Lang }) {
                           {t('contact.manifest.module.web')}{cinematic ? ` ${t('contact.manifest.module.video')}` : ''}
                         </span>
                       </div>
+                      {promoStatus === 'valid' && (
+                        <div className="flex gap-2">
+                          <span className="text-[#28C840]/60">&gt;</span>
+                          <span className="text-white/60">PROMO:</span>
+                          <span className="text-[#28C840] font-bold">{promoCode.toUpperCase()} (−20%)</span>
+                        </div>
+                      )}
                     </div>
                   </motion.div>
                 )}
